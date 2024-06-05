@@ -20,6 +20,7 @@ console.log("GHL ThemeBuilder Loaded!");
 
 // Jostens Custom Code
 window.addEventListener('load', function () {
+  alert("Window Loaded!");
   var group = document.body.classList;
   if (group.contains("jostens") === true) {
     var jostens = document.createElement('script');
