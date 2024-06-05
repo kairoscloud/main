@@ -7,6 +7,7 @@ var src1 = "https://cdn.everypages.com/ghl-customizer/ghl_customizer.php?agency_
 customizer.setAttribute("id", "ghl-customizer-script");
 customizer.src= src1;
 document.getElementsByTagName('head')[0].appendChild(customizer);
+console.log("GHL Customizer Loaded!");
 
 // ThemeBuilder Code
 var themebuilder = document.createElement('script');
@@ -15,6 +16,7 @@ themebuilder.setAttribute("id", "themebuilder-script");
 themebuilder.setAttribute("data-agency-id", "1x762kiz4");
 themebuilder.src= src2;
 document.getElementsByTagName('head')[0].appendChild(themebuilder);
+console.log("GHL ThemeBuilder Loaded!");
 
 // Jostens Custom Code
 window.addEventListener('load', function () {
