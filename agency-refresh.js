@@ -21,9 +21,8 @@ console.log("GHL ThemeBuilder Loaded!");
 // Jostens Custom Code
 const loadInterval = setInterval(loadBody, 50);
 function loadBody() {
-  var body = document.body.classList.length;
-  alert(body);
-  if (body === undefined) {} else {
+  var body = document.body.classList;
+  if (body.length === 0) {} else {
     if (body.contains("jostens") === true) {
       var jostens = document.createElement('script');
       var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
