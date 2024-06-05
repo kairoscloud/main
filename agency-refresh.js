@@ -21,9 +21,8 @@ console.log("GHL ThemeBuilder Loaded!");
 // Jostens Custom Code
 const loadInterval = setInterval(loadBody, 50);
 function loadBody() {
-  var location = window.location.href.split("/")[5];
-  var locationid = "_" + location;
-  var body = document.getElementsByClassName(locationid)[0];
+  var body = document.body.classList.split(/\s+/);
+  alert(body);
   if (body === undefined) {} else {
     if (body.contains("jostens") === true) {
       var jostens = document.createElement('script');
