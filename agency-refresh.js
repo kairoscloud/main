@@ -21,10 +21,10 @@ console.log("GHL ThemeBuilder Loaded!");
 // Jostens Custom Code
 const loadInterval = setInterval(loadBody, 50);
 function loadBody() {
-  var body = document.body.classList;
-  var x = body.contains("");
-  alert(x);
-  if (x === true) {} else {
+  var location = window.location.href.split("/")[5];
+  var locationid = "_" + location;
+  var body = document.getElementsByClassName(locationid)[0];
+  if (body === null || 'undefined' || "") {} else {
     if (body.contains("jostens") === true) {
       var jostens = document.createElement('script');
       var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
