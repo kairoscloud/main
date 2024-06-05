@@ -16,12 +16,15 @@ document.getElementsByTagName('head')[0].appendChild(themebuilder);
 // Jostens Custom Code
 window.addEventListener('load', function () {
   var group = document.body.classList;
-  alert(group);
   if (group.contains("jostens") === true) {
     var jostens = document.createElement('script');
-    var src3 = "https://kairoscloud.github.io/jostens/agency-content.js?";
+    var src3 = "https://kairoscloud.github.io/jostens/directory.js?";
     jostens.setAttribute("id", "jostens-custom-js");
     jostens.src= src3;
     document.getElementsByTagName('head')[0].appendChild(jostens);
   }
 })
+
+// Testing Custom Code
+var url = window.location.href.split("/")[3];
+alert(url);
