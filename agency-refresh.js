@@ -26,5 +26,7 @@ window.addEventListener('load', function () {
 })
 
 // Testing Custom Code
-var url = window.location.href.split("/")[3];
-alert(url);
+var url = window.location.href.split("/")[5];
+if (url === "owNEzpbrfBjp4weSARXD") {
+  alert("TRUE");
+}
