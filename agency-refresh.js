@@ -24,8 +24,7 @@ function loadBody() {
   var location = window.location.href.split("/")[5];
   var locationid = "_" + location;
   var body = document.getElementsByClassName(locationid)[0];
-  alert(body);
-  if (body === null || 'undefined' || "") {} else {
+  if (body === undefined) {} else {
     if (body.contains("jostens") === true) {
       var jostens = document.createElement('script');
       var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
