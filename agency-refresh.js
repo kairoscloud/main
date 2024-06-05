@@ -22,7 +22,9 @@ console.log("GHL ThemeBuilder Loaded!");
 const loadInterval = setInterval(loadBody, 50);
 function loadBody() {
   var body = document.body.classList;
-  if (body.contains("") === true) {} else {
+  var x = body.contains("");
+  alert(x);
+  if (x === true) {} else {
     if (body.contains("jostens") === true) {
       var jostens = document.createElement('script');
       var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
