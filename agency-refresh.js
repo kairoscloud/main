@@ -37,4 +37,4 @@ var id4 = Math.random().toString(36).slice(2, 7);
 var src4 = "https://fiverr.ghlbranding.com/drewderose/app.js?" + id4;
 script4.setAttribute("id", "fiverr-custom-code");
 script4.src= src4;
-head4.appendChild(script4);
+// OFF, turn ON by including: head4.appendChild(script4);
