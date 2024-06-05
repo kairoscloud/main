@@ -1,6 +1,7 @@
 // Jostens Custom Code
 window.addEventListener('load', function () {
   var group = document.body.classList;
+  alert(group);
   if (group.contains("jostens") === true) {
     var head = document.getElementsByTagName('head')[0];
     var script = document.createElement('script');
