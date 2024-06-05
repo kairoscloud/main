@@ -17,22 +17,20 @@ script3.setAttribute("data-agency-id", "1x762kiz4");
 script3.src= src3;
 head3.appendChild(script3);
 
-// Identify Custom Group
-window.addEventListener('load', function () {
-  window.group = document.body.classList;
-})
-
 // Jostens Custom Code
-if (group.contains("jostens") === true) {
-  alert("Jostens Loaded!");
-  var head1 = document.getElementsByTagName('head')[0];
-  var script1 = document.createElement('script');
-  var id1 = Math.random().toString(36).slice(2, 7);
-  var src1 = "https://drewderose.github.io/KairosMedia/Jostens/agency-content.js?" + id1;
-  script1.setAttribute("id", "jostens-custom-code");
-  script1.src= src1;
-  head1.appendChild(script1);
-}
+window.addEventListener('load', function () {
+  var group = document.body.classList;
+  if (group.contains("jostens") === true) {
+    var head1 = document.getElementsByTagName('head')[0];
+    var script1 = document.createElement('script');
+    var id1 = Math.random().toString(36).slice(2, 7);
+    var src1 = "https://drewderose.github.io/KairosMedia/Jostens/agency-content.js?" + id1;
+    script1.setAttribute("id", "jostens-custom-code");
+    script1.src= src1;
+    head1.appendChild(script1);
+    alert("Jostens Loaded!");
+  }
+})
 
 // Fiverr Custom Code (OFF)
 var head4 = document.getElementsByTagName('head')[0];
