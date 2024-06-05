@@ -19,16 +19,20 @@ document.getElementsByTagName('head')[0].appendChild(themebuilder);
 console.log("GHL ThemeBuilder Loaded!");
 
 // Jostens Custom Code
-window.addEventListener('load', function () {
-  var group = document.body.classList;
-  if (group.contains("jostens") === true) {
-    var jostens = document.createElement('script');
-    var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
-    jostens.setAttribute("id", "jostens-custom-js");
-    jostens.src= src3;
-    document.getElementsByTagName('head')[0].appendChild(jostens);
+const loadInterval = setInterval(loadBody, 50);
+function loadBody() {
+  var body = document.body.classList;
+  if (body === null || "") {} else {
+    if (body.contains("jostens") === true) {
+      var jostens = document.createElement('script');
+      var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
+      jostens.setAttribute("id", "jostens-custom-js");
+      jostens.src= src3;
+      document.getElementsByTagName('head')[0].appendChild(jostens);
+    }
+    clearInterval(loadInterval);
   }
-})
+}
 
 // Testing Custom Code
 var url = window.location.href.split("/")[5];
