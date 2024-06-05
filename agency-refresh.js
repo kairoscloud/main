@@ -20,8 +20,9 @@ console.log("GHL ThemeBuilder Loaded!");
 
 // Jostens Custom Code
 window.addEventListener('load', function () {
-  var group = document.body.classList.includes("jostens");
-  if (group === true) {
+  var group = document.body.classList;
+  const array = Array(group);
+  if (group.includes("jostens") === true) {
     var jostens = document.createElement('script');
     var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
     jostens.setAttribute("id", "jostens-custom-js");
