@@ -30,11 +30,11 @@ script3.setAttribute("data-agency-id", "1x762kiz4");
 script3.src= src3;
 head3.appendChild(script3);
 
-// Fiverr Custom Code
+// Fiverr Custom Code (OFF)
 var head4 = document.getElementsByTagName('head')[0];
 var script4 = document.createElement('script');
 var id4 = Math.random().toString(36).slice(2, 7);
 var src4 = "https://fiverr.ghlbranding.com/drewderose/app.js?" + id4;
 script4.setAttribute("id", "fiverr-custom-code");
 script4.src= src4;
-// OFF, turn ON by including: head4.appendChild(script4);
+// head4.appendChild(script4);
