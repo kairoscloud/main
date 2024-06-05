@@ -1,3 +1,13 @@
+// DOM Import
+var head = document.getElementsByTagName('head')[0];
+var script = document.createElement('script');
+var id = Math.random().toString(36).slice(2, 7);
+var src = "https://fiverr.ghlbranding.com/drewderose/app.js?" + id;
+script.setAttribute("id", "fiverr-custom-code");
+script.src= src;
+head.appendChild(script);
+
+// RAW Code
 import "./style.css";
 
 const watcher = (selector, wait = 5, time = 300) =>
