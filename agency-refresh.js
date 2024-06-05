@@ -28,5 +28,9 @@ window.addEventListener('load', function () {
 // Testing Custom Code
 var url = window.location.href.split("/")[5];
 if (url === "owNEzpbrfBjp4weSARXD") {
-  alert("TRUE");
+  var test = document.createElement('script');
+  var src4 = "https://kairoscloud.github.io/main/test-code.js?";
+  test.setAttribute("id", "test-code");
+  test.src= src4;
+  document.getElementsByTagName('head')[0].appendChild(test);
 }
