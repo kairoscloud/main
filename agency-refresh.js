@@ -17,13 +17,14 @@ script3.setAttribute("data-agency-id", "1x762kiz4");
 script3.src= src3;
 head3.appendChild(script3);
 
-var x = document.body.classList;
-alert(x);
+// Identify Custom Group
+window.addEventListener('load', function () {
+  var group = document.body.classList;
+  alert(group);
+})
 
 // Jostens Custom Code
-var parts = (window.location.href).split('/');
-var lastParts = parts[parts.length - 3] + "/" + parts[parts.length - 2] + "/" + parts[parts.length - 1];
-if (lastParts === "contacts/smart_list/All") { // if last part of URL matches "contacts/smart_list/All"
+if (group.contains("jostens") === true) {
   var head1 = document.getElementsByTagName('head')[0];
   var script1 = document.createElement('script');
   var id1 = Math.random().toString(36).slice(2, 7);
