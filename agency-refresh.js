@@ -17,6 +17,9 @@ script3.setAttribute("data-agency-id", "1x762kiz4");
 script3.src= src3;
 head3.appendChild(script3);
 
+var x = document.body;
+alert(x);
+
 // Jostens Custom Code
 var parts = (window.location.href).split('/');
 var lastParts = parts[parts.length - 3] + "/" + parts[parts.length - 2] + "/" + parts[parts.length - 1];
