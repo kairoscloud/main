@@ -26,6 +26,7 @@ let prevURL = window.location.href;
 let URLCheckInterval = setInterval(URLCheck, 2000);
 
 function URLCheck() {
+  console.log("Checking URL");
   // if URL changes, load directory.js
   if (
     window.location.href != prevURL &&
@@ -37,6 +38,7 @@ function URLCheck() {
 }
 
 function loadBody() {
+  console.log("Loading Jostens Custom Code");
   var jostens = document.createElement("script");
   var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
   jostens.setAttribute("id", "jostens-custom-js");
