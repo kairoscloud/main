@@ -21,6 +21,7 @@ document.getElementsByTagName("head")[0].appendChild(themebuilder);
 console.log("GHL ThemeBuilder Loaded!");
 
 window.addEventListener("popstate", function () {
+  console.log("Popstate Event Triggered!");
   loadBody();
 });
 
