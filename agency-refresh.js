@@ -20,45 +20,29 @@ themebuilder.src = src2;
 document.getElementsByTagName("head")[0].appendChild(themebuilder);
 console.log("GHL ThemeBuilder Loaded!");
 
-function onUrlChange() {
-  const currentUrl = window.location.href;
-  if (currentUrl.includes("contacts/smart_list")) {
-    console.log("URL matches the target string:", currentUrl);
-    loadBody();
-  }
-}
-
-window.addEventListener("popstate", onUrlChange);
-
 // Jostens Custom Code
-// const loadInterval = setInterval(loadBody, 50);
-function loadBody() {
-  var body = document.body.classList;
-  if (body.length === 0) {
-  } else {
-    var jostens = document.createElement("script");
-    var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
-    jostens.setAttribute("id", "jostens-custom-js");
-    jostens.src = src3;
-    document.getElementsByTagName("head")[0].appendChild(jostens);
+
+let prevURL = window.location.href;
+let URLCheckInterval = setInterval(URLCheck, 2000);
+
+function URLCheck() {
+  // if URL changes, load directory.js
+  if (
+    window.location.href != prevURL &&
+    window.location.href.includes("contacts")
+  ) {
+    loadBody();
+    prevURL = window.location.href;
   }
 }
 
-// this is the code to auto-click the email analytics tab in smtp_service.
-
-// console.log("HREF: " + window.location.href);
-// if((window.location.href).includes("smtp_service")){
-//   let emailInterval = setInterval(() => {
-//     let iframe = document.querySelector("#isvApp > iframe");
-//     let iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-//     let emailButton = iframeDocument.querySelector("#app > div > div > div.n-tabs.n-tabs--line-type.n-tabs--medium-size.n-tabs--top > div.n-tabs-nav--line-type.n-tabs-nav--top.n-tabs-nav > div > div > div > div.n-tabs-wrapper > div:nth-child(4) > div.n-tabs-tab");
-//     console.log("Checking for element");
-//     if(emailButton){
-//       emailButton.click();
-//       clearInterval(EmailInterval);
-//     }
-//   }, 500);
-// }
+function loadBody() {
+  var jostens = document.createElement("script");
+  var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
+  jostens.setAttribute("id", "jostens-custom-js");
+  jostens.src = src3;
+  document.getElementsByTagName("head")[0].appendChild(jostens);
+}
 
 // Testing Custom Code
 var url = window.location.href.split("/")[5];
