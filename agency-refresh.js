@@ -33,8 +33,8 @@ function URLCheck() {
     window.location.href.includes("contacts")
   ) {
     loadBody();
-    prevURL = window.location.href;
   }
+  prevURL = window.location.href;
 }
 
 function loadBody() {
