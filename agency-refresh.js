@@ -21,7 +21,7 @@ document.getElementsByTagName("head")[0].appendChild(themebuilder);
 console.log("GHL ThemeBuilder Loaded!");
 
 // Jostens Custom Code
-
+console.log("Agency refresh v0.1");
 let prevURL = window.location.href;
 let URLCheckInterval = setInterval(URLCheck, 2000);
 
@@ -29,7 +29,7 @@ function URLCheck() {
   console.log("Checking URL");
   // if URL changes, load directory.js
   if (
-    window.location.href != prevURL &&
+    window.location.href != prevURL ||
     window.location.href.includes("contacts")
   ) {
     loadBody();
