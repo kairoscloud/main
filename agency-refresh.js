@@ -21,7 +21,7 @@ document.getElementsByTagName("head")[0].appendChild(themebuilder);
 console.log("GHL ThemeBuilder Loaded!");
 
 // Jostens Custom Code
-console.log("Agency refresh v0.3");
+console.log("Agency refresh v0.4");
 let prevURL = window.location.href; // the previous URL
 let URLCheckInterval = setInterval(URLCheck, 2000); // check every 2 seconds
 
@@ -29,9 +29,8 @@ function URLCheck() {
   console.log("Checking URL");
   // if entering the contacts page, load script
   if (
-    (window.location.href != prevURL ||
-      window.location.href.includes("contacts")) &&
-    !prevURL.includes("contacts")
+    window.location.href.includes("contacts") &&
+    !document.getElementById("jostens-custom-js")
   ) {
     loadBody();
   }
