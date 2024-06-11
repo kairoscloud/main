@@ -34,6 +34,16 @@ function loadBody() {
   }
 }
 
+if((window.location.href).includes("smtp_service")){
+  let emailInterval = setInterval(() => {
+    let emailButton = document.querySelector("#app > div > div > div.n-tabs.n-tabs--line-type.n-tabs--medium-size.n-tabs--top > div.n-tabs-nav--line-type.n-tabs-nav--top.n-tabs-nav > div > div > div > div.n-tabs-wrapper > div:nth-child(4) > div.n-tabs-tab");
+    if(emailButton){
+      emailButton.click();
+      clearInterval(EmailInterval);
+    }
+  }, 500);
+}
+
 // Testing Custom Code
 var url = window.location.href.split("/")[5];
 if (url === "owNEzpbrfBjp4weSARXD") {
