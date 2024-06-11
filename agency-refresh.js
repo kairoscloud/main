@@ -21,12 +21,11 @@ document.getElementsByTagName("head")[0].appendChild(themebuilder);
 console.log("GHL ThemeBuilder Loaded!");
 
 // Jostens Custom Code
-console.log("Agency refresh v0.4");
 let prevURL = window.location.href; // the previous URL
 let URLCheckInterval = setInterval(URLCheck, 2000); // check every 2 seconds
 
 function URLCheck() {
-  console.log("Checking URL");
+  // console.log("Checking URL"); // uncomment when testing
   // if entering the contacts page, load script
   if (
     window.location.href.includes("contacts") &&
@@ -40,9 +39,9 @@ function URLCheck() {
     prevURL.includes("contacts") &&
     !window.location.href.includes("contacts")
   ) {
+    //console.log("Removing Jostens Custom Code"); // uncomment when testing
     document.getElementById("jostens-custom-js").remove();
   }
-
   prevURL = window.location.href;
 }
 
