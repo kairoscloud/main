@@ -20,10 +20,15 @@ themebuilder.src = src2;
 document.getElementsByTagName("head")[0].appendChild(themebuilder);
 console.log("GHL ThemeBuilder Loaded!");
 
-window.addEventListener("popstate", function () {
-  console.log("Popstate Event Triggered!");
-  loadBody();
-});
+function onUrlChange() {
+  const currentUrl = window.location.href;
+  if (currentUrl.includes("contacts/smart_list")) {
+    console.log("URL matches the target string:", currentUrl);
+    loadBody();
+  }
+}
+
+window.addEventListener("popstate", onUrlChange);
 
 // Jostens Custom Code
 // const loadInterval = setInterval(loadBody, 50);
@@ -31,15 +36,11 @@ function loadBody() {
   var body = document.body.classList;
   if (body.length === 0) {
   } else {
-    if (body.contains("jostens") === true) {
-      var jostens = document.createElement("script");
-      var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
-      jostens.setAttribute("id", "jostens-custom-js");
-      jostens.src = src3;
-      document.getElementsByTagName("head")[0].appendChild(jostens);
-    }
-    clearInterval(loadInterval);
-    //loadInterval = setInterval(loadBody, 4000); // continue checking, but less frequently
+    var jostens = document.createElement("script");
+    var src3 = "https://kairoscloud.github.io/jostens/directory.js?" + id;
+    jostens.setAttribute("id", "jostens-custom-js");
+    jostens.src = src3;
+    document.getElementsByTagName("head")[0].appendChild(jostens);
   }
 }
 
