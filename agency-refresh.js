@@ -31,7 +31,7 @@ function loadBody() {
       document.getElementsByTagName('head')[0].appendChild(jostens);
     }
     clearInterval(loadInterval);
-    loadInterval = setInterval(loadBody, 4000); // continue checking, but less frequently
+    //loadInterval = setInterval(loadBody, 4000); // continue checking, but less frequently
   }
 }
 
