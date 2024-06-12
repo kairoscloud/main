@@ -57,7 +57,6 @@ if (url === "owNEzpbrfBjp4weSARXD") {
 
 function allowedLocation(pageURL) {
   let pagelocation = pageURL.split("/")[5];
-  console.log(pagelocation);
   return (
     pagelocation == "owNEzpbrfBjp4weSARXD" || // jostens demo
     pagelocation == "Psie74UmJnCQR7xxTRXa" || // jostens of Newhall, CA
