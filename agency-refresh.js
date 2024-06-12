@@ -57,6 +57,7 @@ if (url === "owNEzpbrfBjp4weSARXD") {
 
 function allowedLocation(pageURL) {
   let pagelocation = pageURL.split("/")[5];
+  console.log(pagelocation);
   return (
     pagelocation == "owNEzpbrfBjp4weSARXD" || // jostens demo
     pagelocation == "Psie74UmJnCQR7xxTRXa" || // jostens of Newhall, CA
@@ -64,6 +65,6 @@ function allowedLocation(pageURL) {
     pagelocation == "SUIEeAqgsArrIiPCkEna" || // jostens of Kalamazoo, MI
     pagelocation == "piRoFhArDXY4EYyWbmex" || // jostens of Lisle, IL
     pagelocation == "PqeI2v9lcicAtJBI7mzs" || // jostens of NE Kansas
-    pagelocation == "20wqXn14oRdWJ2IN02G3"    // your local jostens (Clackmas, OR)
+    pagelocation == "20wqXn14oRdWJ2IN02G3" // your local jostens (Clackmas, OR)
   );
 }
