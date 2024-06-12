@@ -29,8 +29,7 @@ function URLCheck() {
   // the script will stop itself if not on contacts
   if (
     window.location.href.includes("contacts") &&
-    !document.getElementById("jostens-custom-js") &&
-    allowedLocation(window.location.href)
+    !document.getElementById("jostens-custom-js")
   ) {
     loadBody();
   }
@@ -53,18 +52,4 @@ if (url === "owNEzpbrfBjp4weSARXD") {
   test.setAttribute("id", "test-code");
   test.src = src4;
   document.getElementsByTagName("head")[0].appendChild(test);
-}
-
-function allowedLocation(pageURL) {
-  let pagelocation = pageURL.split("/")[5];
-  console.log(pagelocation);
-  return (
-    pagelocation == "owNEzpbrfBjp4weSARXD" || // jostens demo
-    pagelocation == "Psie74UmJnCQR7xxTRXa" || // jostens of Newhall, CA
-    pagelocation == "jvJWOe4Ds0CGBV6p2cl9" || // jostens of Pittsburg, KS
-    pagelocation == "SUIEeAqgsArrIiPCkEna" || // jostens of Kalamazoo, MI
-    pagelocation == "piRoFhArDXY4EYyWbmex" || // jostens of Lisle, IL
-    pagelocation == "PqeI2v9lcicAtJBI7mzs" || // jostens of NE Kansas
-    pagelocation == "20wqXn14oRdWJ2IN02G3" // your local jostens (Clackmas, OR)
-  );
 }
