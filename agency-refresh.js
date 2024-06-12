@@ -21,31 +21,19 @@ document.getElementsByTagName("head")[0].appendChild(themebuilder);
 console.log("GHL ThemeBuilder Loaded!");
 
 // Jostens Custom Code
-let prevURL = window.location.href; // the previous URL
 let URLCheckInterval = setInterval(URLCheck, 2000); // check every 2 seconds
 
 function URLCheck() {
   // console.log("Checking URL"); // uncomment when testing
   // if entering the contacts page, load script
+  // the script will stop itself if not on contacts
   if (
     window.location.href.includes("contacts") &&
     !document.getElementById("jostens-custom-js") &&
-    document
-      .querySelector(".filter-option .filter-option-inner")
-      .innerHTML.includes("Jostens")
+    allowedLocation(window.location.href)
   ) {
     loadBody();
   }
-
-  if (
-    // if exiting contacts page, remove script
-    prevURL.includes("contacts") &&
-    !window.location.href.includes("contacts")
-  ) {
-    //console.log("Removing Jostens Custom Code"); // uncomment when testing
-    document.getElementById("jostens-custom-js").remove();
-  }
-  prevURL = window.location.href;
 }
 
 function loadBody() {
@@ -65,4 +53,17 @@ if (url === "owNEzpbrfBjp4weSARXD") {
   test.setAttribute("id", "test-code");
   test.src = src4;
   document.getElementsByTagName("head")[0].appendChild(test);
+}
+
+function allowedLocation(pageURL) {
+  let pagelocation = pageURL.split("/")[5];
+  return (
+    pagelocation == "owNEzpbrfBjp4weSARXD" || // jostens demo
+    pagelocation == "Psie74UmJnCQR7xxTRXa" || // jostens of Newhall, CA
+    pagelocation == "jvJWOe4Ds0CGBV6p2cl9" || // jostens of Pittsburg, KS
+    pagelocation == "SUIEeAqgsArrIiPCkEna" || // jostens of Kalamazoo, MI
+    pagelocation == "piRoFhArDXY4EYyWbmex" || // jostens of Lisle, IL
+    pagelocation == "PqeI2v9lcicAtJBI7mzs" || // jostens of NE Kansas
+    pagelocation == "20wqXn14oRdWJ2IN02G3"    // your local jostens (Clackmas, OR)
+  );
 }
