@@ -29,7 +29,10 @@ function URLCheck() {
   // if entering the contacts page, load script
   if (
     window.location.href.includes("contacts") &&
-    !document.getElementById("jostens-custom-js")
+    !document.getElementById("jostens-custom-js") &&
+    document
+      .querySelector(".filter-option .filter-option-inner")
+      .innerHTML.includes("Jostens")
   ) {
     loadBody();
   }
