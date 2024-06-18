@@ -20,6 +20,23 @@ themebuilder.src = src2;
 document.getElementsByTagName("head")[0].appendChild(themebuilder);
 console.log("GHL ThemeBuilder Loaded!");
 
+// Firebase
+var firebaseScript = document.createElement("script");
+var srcA = "https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js" + id;
+firebaseScript.setAttribute("id", "firebase-script");
+firebaseScript.src = srcA;
+document.getElementsByTagName("head")[0].appendChild(firebaseScript);
+console.log("Firebase script loaded");
+
+// Cloud Firestore
+var fireStoreScript = document.createElement("script");
+var srcB =
+  "https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js" + id;
+fireStoreScript.setAttribute("id", "fireStore-script");
+fireStoreScript.src = srcB;
+document.getElementsByTagName("head")[0].appendChild(fireStoreScript);
+console.log("Firestore script loaded");
+
 // Jostens Custom Code
 let URLCheckInterval = setInterval(URLCheck, 2000); // check every 2 seconds
 
