@@ -48,7 +48,6 @@ function loadBody() {
 // Firebase
 var firebaseScript = document.createElement("script");
 var srcA = "https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js" + id;
-firebaseScript.setAttribute("id", "firebase-script");
 firebaseScript.src = srcA;
 document.getElementsByTagName("head")[0].appendChild(firebaseScript);
 console.log("Firebase script loaded");
@@ -57,7 +56,6 @@ console.log("Firebase script loaded");
 var fireStoreScript = document.createElement("script");
 var srcB =
   "https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js" + id;
-fireStoreScript.setAttribute("id", "fireStore-script");
 fireStoreScript.src = srcB;
 document.getElementsByTagName("head")[0].appendChild(fireStoreScript);
 console.log("Firestore script loaded");
