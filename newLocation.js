@@ -16,7 +16,7 @@ setTimeout(() => {
     measurementId: "G-M1BXTKSG3B",
   };
 
-  firebase.initializeApp(firebaseConfig); // Use a different name for a new instance, this forces it to update
+  firebase.initializeApp(firebaseConfig, "primary");
 
   console.log("Initializing newloc!");
   let globalLocationList = [];
@@ -28,7 +28,7 @@ setTimeout(() => {
   function checkIfLocationInFB() {
     // we encapsulate it in a function, so it doesn't interfere with firebase stuff in any other files
 
-    let firestore = firebase.firestore();
+    let firestore = firebase.app("primary").firestore();
     let locationNL = window.location.href.split("/")[5];
     // let locationNL = "vPGRw179FP3xMUXHoDWF"; // for testing
     let agencyTokenNL = "";
@@ -96,7 +96,7 @@ setTimeout(() => {
 
   // puts the firebase contents into a global array
   function FBToArray() {
-    firebase.initializeApp(firebaseConfig, "secondary");
+    firebase.initializeApp(firebaseConfig, "secondary"); // we name it something different to avoid conflict with the other firebase instance. It also forces an update.
     setTimeout(() => {
       // allow a 1s delay for firebase to update with the new entry
       firebase
