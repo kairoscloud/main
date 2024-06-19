@@ -7,9 +7,6 @@
     //  - check if URL has changed every 5 seconds (not urgent). If so, rerun everything
 
     console.log("Initializing newloc!");
-    let globalLocationList = [];
-    let prevLocationNL = "";
-    let locationCheckInterval = setInterval(detectLocationChange, 5000);
 
     let firebaseConfig = {
         apiKey: "AIzaSyAkvl6HKgup1AofIrUU_Q7b4RlvhI2QTpc",
@@ -26,6 +23,10 @@
 
     firebase.initializeApp(firebaseConfig, name1);
     firebase.initializeApp(firebaseConfig, name2); // Use a different name for a new instance, this forces it to update
+
+    let globalLocationList = [];
+    let prevLocationNL = "";
+    let locationCheckInterval = setInterval(detectLocationChange, 5000);
 
     function detectLocationChange() {
         // let currentLocationNL = window.location.href.split("/")[5];
