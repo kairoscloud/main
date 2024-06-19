@@ -29,8 +29,8 @@ setTimeout(() => {
     // we encapsulate it in a function, so it doesn't interfere with firebase stuff in any other files
 
     let firestore = firebase.firestore();
-    // let locationNL = window.location.href.split("/")[5];
-    let locationNL = "vPGRw179FP3xMUXHoDWF"; // for testing
+    let locationNL = window.location.href.split("/")[5];
+    // let locationNL = "vPGRw179FP3xMUXHoDWF"; // for testing
     let agencyTokenNL = "";
     let inDB = false;
 
