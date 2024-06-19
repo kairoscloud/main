@@ -5,7 +5,10 @@
 //  - check if loc exists in list
 //  - if not, add entry to firebase with a new token for that location. Redownload list
 
+let globalLocationList = []; // This array is for pages to check if they're a Jostens subaccount. It's scoped globally so it can be accessed by other scripts
+
 setTimeout(() => {
+  // do everything after 2 seconds
   let firebaseConfig = {
     apiKey: "AIzaSyAkvl6HKgup1AofIrUU_Q7b4RlvhI2QTpc",
     authDomain: "kairos-test-eedd6.firebaseapp.com",
@@ -17,12 +20,8 @@ setTimeout(() => {
   };
 
   firebase.initializeApp(firebaseConfig, "primary");
-
   console.log("Initializing newloc!");
-  let globalLocationList = [];
-
   let prevLocationNL = "";
-
   checkIfLocationInFB();
 
   function checkIfLocationInFB() {
