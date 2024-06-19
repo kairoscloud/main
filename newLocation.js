@@ -1,4 +1,4 @@
-// this script runs on all locations, regardless of if jostens or not
+ // this script runs on all locations, regardless of if jostens or not
     // Note to jake: include after firebase/firestore inclusion on agency-refresh.js, but before directory.js
     // What does it do?
     //  - download list of fb locs
@@ -10,8 +10,21 @@
     let prevLocationNL = "";
     let locationCheckInterval = setInterval(detectLocationChange, 5000);
 
+    let firebaseConfig = {
+        apiKey: "AIzaSyAkvl6HKgup1AofIrUU_Q7b4RlvhI2QTpc",
+        authDomain: "kairos-test-eedd6.firebaseapp.com",
+        projectId: "kairos-test-eedd6",
+        storageBucket: "kairos-test-eedd6.appspot.com",
+        messagingSenderId: "34445244935",
+        appId: "1:34445244935:web:b4ed7e9be70c16251d88a2",
+        measurementId: "G-M1BXTKSG3B",
+    };
+    firebase.initializeApp(firebaseConfig, "secondary"); // Use a different name for a new instance, this forces it to update
+    firebase.initializeApp(firebaseConfig, "primary");
+
     function detectLocationChange() {
-        let currentLocationNL = window.location.href.split("/")[5];
+        // let currentLocationNL = window.location.href.split("/")[5];
+        let currentLocationNL = "vPGRw179FP3xMUXHoDWF"; // for testing
         if (currentLocationNL != prevLocationNL) {
             // if location changed
             checkIfLocationInFB();
@@ -21,20 +34,10 @@
 
     function checkIfLocationInFB() {
         // we encapsulate it in a function, so it doesn't interfere with firebase stuff in any other files
-        const firebaseConfig = {
-            apiKey: "AIzaSyAkvl6HKgup1AofIrUU_Q7b4RlvhI2QTpc",
-            authDomain: "kairos-test-eedd6.firebaseapp.com",
-            projectId: "kairos-test-eedd6",
-            storageBucket: "kairos-test-eedd6.appspot.com",
-            messagingSenderId: "34445244935",
-            appId: "1:34445244935:web:b4ed7e9be70c16251d88a2",
-            measurementId: "G-M1BXTKSG3B",
-        };
 
-        firebase.initializeApp(firebaseConfig);
-
-        const firestore = firebase.firestore();
-        let locationNL = window.location.href.split("/")[5];
+        let firestore = firebase.app("secondary").firestore();
+        // let locationNL = window.location.href.split("/")[5];
+        let locationNL = "vPGRw179FP3xMUXHoDWF"; // for testing
         let agencyTokenNL = "";
         let inDB = false;
 
@@ -103,17 +106,7 @@
     function FBToArray() {
         setTimeout(() => {
             // allow a 1s delay for firebase to update with the new entry
-            const firebaseConfig = {
-                apiKey: "AIzaSyAkvl6HKgup1AofIrUU_Q7b4RlvhI2QTpc",
-                authDomain: "kairos-test-eedd6.firebaseapp.com",
-                projectId: "kairos-test-eedd6",
-                storageBucket: "kairos-test-eedd6.appspot.com",
-                messagingSenderId: "34445244935",
-                appId: "1:34445244935:web:b4ed7e9be70c16251d88a2",
-                measurementId: "G-M1BXTKSG3B",
-            };
-            firebase.initializeApp(firebaseConfig, "secondary"); // Use a different name for a new instance, this forces it to update
-            const firestore = firebase
+            firebase
                 .app("secondary")
                 .firestore()
                 .collection("tokens")
