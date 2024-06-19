@@ -8,7 +8,7 @@
 let globalLocationList = []; // This array is for pages to check if they're a Jostens subaccount. It's scoped globally so it can be accessed by other scripts
 
 setTimeout(() => {
-  // do everything after 2 seconds
+  // do everything after waiting 4 seconds
   let firebaseConfig = {
     apiKey: "AIzaSyAkvl6HKgup1AofIrUU_Q7b4RlvhI2QTpc",
     authDomain: "kairos-test-eedd6.firebaseapp.com",
@@ -21,7 +21,6 @@ setTimeout(() => {
 
   firebase.initializeApp(firebaseConfig, "primary");
   console.log("Initializing newloc!");
-  let prevLocationNL = "";
   checkIfLocationInFB();
 
   function checkIfLocationInFB() {
@@ -97,7 +96,7 @@ setTimeout(() => {
   function FBToArray() {
     firebase.initializeApp(firebaseConfig, "secondary"); // we name it something different to avoid conflict with the other firebase instance. It also forces an update.
     setTimeout(() => {
-      // allow a 1s delay for firebase to update with the new entry
+      // allow a 2s delay for firebase to update with the new entry
       firebase
         .app("secondary")
         .firestore()
@@ -120,6 +119,6 @@ setTimeout(() => {
           globalLocationList = array;
           console.log(globalLocationList);
         });
-    }, 1000);
+    }, 2000);
   }
-}, 2000);
+}, 4000);
