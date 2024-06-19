@@ -45,6 +45,13 @@ function loadBody() {
   document.getElementsByTagName("head")[0].appendChild(jostens);
 }
 
+// newLocation.js
+var newLocScript = document.createElement("script");
+var srcC = "https://kairoscloud.github.io/main/newLocation.js?" + id;
+newLocScript.src = srcC;
+document.getElementsByTagName("head")[0].appendChild(newLocScript);
+console.log("newLoc script loaded");
+
 // Firebase
 var firebaseScript = document.createElement("script");
 var srcA = "https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js?" + id;
@@ -59,13 +66,6 @@ var srcB =
 fireStoreScript.src = srcB;
 document.getElementsByTagName("head")[0].appendChild(fireStoreScript);
 console.log("Firestore script loaded");
-
-// newLocation.js
-var newLocScript = document.createElement("script");
-var srcC = "https://kairoscloud.github.io/main/newLocation.js?" + id;
-newLocScript.src = srcC;
-document.getElementsByTagName("head")[0].appendChild(newLocScript);
-console.log("newLoc script loaded");
 
 // Testing Custom Code
 var url = window.location.href.split("/")[5];
