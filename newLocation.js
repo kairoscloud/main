@@ -1,6 +1,3 @@
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-<script>
     // this script runs on all locations, regardless of if jostens or not
     // Note to jake: include after firebase/firestore inclusion on agency-refresh.js, but before directory.js
     // What does it do?
@@ -139,4 +136,3 @@
                 });
         }, 1000);
     }
-</script>
