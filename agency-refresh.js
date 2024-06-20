@@ -33,6 +33,7 @@ function URLCheck() {
     allowedLocation()
   ) {
     loadBody();
+    clearInterval(URLCheckInterval);
   }
 }
 
