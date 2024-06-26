@@ -46,6 +46,13 @@ function loadBody() {
   document.getElementsByTagName("head")[0].appendChild(jostens);
 }
 
+// campaignDetails.js
+var campaignDetailsScript = document.createElement("script");
+var srcD = "https://kairoscloud.github.io/jostens/campaignDetails.js?" + id;
+campaignDetailsScript.src = srcD;
+document.getElementsByTagName("head")[0].appendChild(campaignDetailsScript);
+console.log("Campaign details script loaded");
+
 // newLocation.js
 var newLocScript = document.createElement("script");
 var srcC = "https://kairoscloud.github.io/main/newLocation.js?" + id;
