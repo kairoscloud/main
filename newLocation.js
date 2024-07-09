@@ -6,6 +6,7 @@
 //  - if not, add entry to firebase with a new token for that location. Redownload list
 
 let globalLocationList = []; // This array is for pages to check if they're a Jostens subaccount. It's scoped globally so it can be accessed by other scripts
+let globalGitPat = ""; // This is the GitHub Personal Access Token
 
 setTimeout(() => {
   // do everything after waiting 4 seconds
@@ -31,6 +32,16 @@ setTimeout(() => {
     // let locationNL = "vPGRw179FP3xMUXHoDWF"; // for testing
     let agencyTokenNL = "";
     let inDB = false;
+
+    // grab the github personal access token
+    firestore
+      .collection("github_pat")
+      .doc("pat")
+      .patRef.get()
+      .then((doc) => {
+        globalGitPat = doc.data().pat;
+        console.log("GGP: " + globalGitPat);
+      });
 
     firestore // check if location is in firebase
       .collection("tokens")
