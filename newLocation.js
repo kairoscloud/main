@@ -37,7 +37,7 @@ setTimeout(() => {
     firestore
       .collection("github_pat")
       .doc("pat")
-      .patRef.get()
+      .get()
       .then((doc) => {
         globalGitPat = doc.data().pat;
         console.log("GGP: " + globalGitPat);
