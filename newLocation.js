@@ -1,9 +1,12 @@
 // this script runs on all locations, regardless of if jostens or not
 // Note to jake: include after firebase/firestore inclusion on agency-refresh.js, but before directory.js
 // What does it do?
-//  - download list of fb locs
+//  - gets a list of all locations from firebase
 //  - check if loc exists in list
-//  - if not, add entry to firebase with a new token for that location. Redownload list
+//  - if not, add entry to firebase and generate a new token for that location
+// Additionally, it:
+// - Gets the GitHub Personal Access Token from firebase, so GHA webhooks can be triggered
+// - Removes some elements when embedded as an iframe
 
 let globalLocationList = []; // This array is for pages to check if they're a Jostens subaccount. It's scoped globally so it can be accessed by other scripts
 let globalGitPat = ""; // This is the GitHub Personal Access Token
@@ -13,9 +16,9 @@ let globalGitPat = ""; // This is the GitHub Personal Access Token
 // - remove the support icon
 // - on /analytics, remove the funnels/websites dropdown (only for Jostens reps)
 // - on /analytics, remove the (i) button (also only for Jostens reps)
-console.log("NEWLOC URL:" + window.frameElement.src);
+let iframeListenInterval = "";
 if (window.frameElement.src.includes("#isIframe")) {
-  let iframeListenInterval = setInterval(activeListenIframe, 1000);
+  iframeListenInterval = setInterval(activeListenIframe, 1000);
 }
 
 function activeListenIframe() {
@@ -25,8 +28,8 @@ function activeListenIframe() {
     clearInterval(iframeListenInterval); // because this element is the last loaded of the 3 we want to hide, we can stop listening afterwards
   }
 
-  let analyticsSelectCategory = document.querySelector(
-    "#analytics-select-category > div > div.n-base-selection-label",
+  let analyticsSelectCategory = document.getElementById(
+    "analytics-select-category",
   );
   if (analyticsSelectCategory) {
     analyticsSelectCategory.style.display = "none";
