@@ -8,19 +8,21 @@
 let globalLocationList = []; // This array is for pages to check if they're a Jostens subaccount. It's scoped globally so it can be accessed by other scripts
 let globalGitPat = ""; // This is the GitHub Personal Access Token
 
-// this small code block just removes the support icon from the bottom right corner when on the following pages:
-// - /analytics
-// - /settings/smtp_service
-// - /settings/phone_number?tab=messaging-stats
-let pageEnd = window.location.href
-  .split(window.location.href.split("/")[5])
-  .pop();
-if (
-  pageEnd == "/analytics" ||
-  pageEnd == "/settings/smtp_service" ||
-  pageEnd == "/settings/phone_number?tab=messaging-stats"
-) {
+// this small if-block checks if the script is running in an iframe, by looking at a tag I've added to the end of the url "#isIframe"
+// if it is, we:
+// - remove the support icon
+// - on /analytics, remove the funnels/websites dropdown (only for Jostens reps)
+// - on /analytics, remove the (i) button (also only for Jostens reps)
+if (window.location.href.includes("#isIframe")) {
   document.getElementById("sw-exp-button-cont").style.display = "none";
+  if (window.location.href.includes("/analytics")) {
+    document.querySelector(
+      "#analytics-select-category > div > div.n-base-selection-label",
+    ).style.display = "none";
+    document.querySelector(
+      "#funnelWebsiteAnalytics > div > div > div > div.flex.items-center.justify-between > div:nth-child(2) > a",
+    ).style.display = "none";
+  }
 }
 
 // this code block is for the adding a new location to FB
