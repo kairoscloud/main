@@ -13,9 +13,12 @@ let globalGitPat = ""; // This is the GitHub Personal Access Token
 // - remove the support icon
 // - on /analytics, remove the funnels/websites dropdown (only for Jostens reps)
 // - on /analytics, remove the (i) button (also only for Jostens reps)
+console.log("NEWLOC URL:" + window.location.href);
 if (window.location.href.includes("#isIframe")) {
+  console.log("Found isIframe!");
   document.getElementById("sw-exp-button-cont").style.display = "none";
   if (window.location.href.includes("/analytics")) {
+    console.log("Found /analytics!");
     document.querySelector(
       "#analytics-select-category > div > div.n-base-selection-label",
     ).style.display = "none";
