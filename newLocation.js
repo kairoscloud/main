@@ -15,16 +15,28 @@ let globalGitPat = ""; // This is the GitHub Personal Access Token
 // - on /analytics, remove the (i) button (also only for Jostens reps)
 console.log("NEWLOC URL:" + window.frameElement.src);
 if (window.frameElement.src.includes("#isIframe")) {
-  console.log("Found isIframe!");
-  document.getElementById("sw-exp-button-cont").style.display = "none";
-  if (window.frameElement.src.includes("/analytics")) {
-    console.log("Found /analytics!");
-    document.querySelector(
-      "#analytics-select-category > div > div.n-base-selection-label",
-    ).style.display = "none";
-    document.querySelector(
-      "#funnelWebsiteAnalytics > div > div > div > div.flex.items-center.justify-between > div:nth-child(2) > a",
-    ).style.display = "none";
+  let iframeListenInterval = setInterval(activeListenIframe, 1000);
+}
+
+function activeListenIframe() {
+  let supportButton = document.getElementById("sw-exp-button-cont");
+  if (supportButton) {
+    supportButton.style.display = "none";
+    clearInterval(iframeListenInterval); // because this element is the last loaded of the 3 we want to hide, we can stop listening afterwards
+  }
+
+  let analyticsSelectCategory = document.querySelector(
+    "#analytics-select-category > div > div.n-base-selection-label",
+  );
+  if (analyticsSelectCategory) {
+    analyticsSelectCategory.style.display = "none";
+  }
+
+  let funnelWebsiteAnalytics = document.querySelector(
+    "#funnelWebsiteAnalytics > div > div > div > div.flex.items-center.justify-between > div:nth-child(2) > a",
+  );
+  if (funnelWebsiteAnalytics) {
+    funnelWebsiteAnalytics.style.display = "none";
   }
 }
 
