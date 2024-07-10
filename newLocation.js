@@ -8,6 +8,22 @@
 let globalLocationList = []; // This array is for pages to check if they're a Jostens subaccount. It's scoped globally so it can be accessed by other scripts
 let globalGitPat = ""; // This is the GitHub Personal Access Token
 
+// this small code block just removes the support icon from the bottom right corner when on the following pages:
+// - /analytics
+// - /settings/smtp_service
+// - /settings/phone_number?tab=messaging-stats
+let pageEnd = window.location.href
+  .split(window.location.href.split("/")[5])
+  .pop();
+if (
+  pageEnd == "/analytics" ||
+  pageEnd == "/settings/smtp_service" ||
+  pageEnd == "/settings/phone_number?tab=messaging-stats"
+) {
+  document.getElementById("sw-exp-button-cont").style.display = "none";
+}
+
+// this code block is for the adding a new location to FB
 setTimeout(() => {
   // do everything after waiting 4 seconds
   let firebaseConfig = {
