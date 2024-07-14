@@ -90,3 +90,5 @@ function allowedLocation() {
     return document.querySelector(".jostens");
   }
 }
+
+console.log("AGENCY REFRESH LOCATION: " + window.location.href.split("/")[5]);
