@@ -16,12 +16,13 @@ let globalGitPat = ""; // This is the GitHub Personal Access Token
 // - remove the support icon
 // - on /analytics, remove the funnels/websites dropdown (only for Jostens reps)
 // - on /analytics, remove the (i) button (also only for Jostens reps)
-let iframeListenInterval = "";
-if (window.frameElement.src) {
-  if (iframeURL.includes("#isIframe")) {
+// We put this in a try-catch block because, in most cases, this isn't being loaded in an iframe
+try {
+  let iframeListenInterval = "";
+  if (window.frameElement.src.includes("#isIframe")) {
     iframeListenInterval = setInterval(activeListenIframe, 1000);
   }
-}
+} catch (e) {}
 
 if (window.location.href.includes("page-builder")) {
   console.log("App builder detected!");
