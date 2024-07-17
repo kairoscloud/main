@@ -17,8 +17,7 @@ let globalGitPat = ""; // This is the GitHub Personal Access Token
 // - on /analytics, remove the funnels/websites dropdown (only for Jostens reps)
 // - on /analytics, remove the (i) button (also only for Jostens reps)
 let iframeListenInterval = "";
-let iframeURL = window.frameElement.src;
-if (iframeURL) {
+if (window.frameElement.src) {
   if (iframeURL.includes("#isIframe")) {
     iframeListenInterval = setInterval(activeListenIframe, 1000);
   }
