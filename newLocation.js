@@ -24,9 +24,9 @@ try {
   }
 } catch (e) {}
 
-if (window.location.href.includes("page-builder")) {
-  document.body.innerHTML += `<span style="position: absolute; width: 110px; right: 3px; top: 6px; height: 42px; cursor: pointer" id="clickCatcher" onclick="alert('Hello!')"><span style="background-color: #165EF0; position: absolute; height: 30px; width: 60px; display: flex; align-items: center; color: white; font-weight: 500; left: 40px; top: 5px; padding-left: 5px" id="textCoverUp">  Link</span></span>`;
-}
+// if (window.location.href.includes("page-builder")) {
+//   document.body.innerHTML += `<span style="position: absolute; width: 110px; right: 3px; top: 6px; height: 42px; cursor: pointer" id="clickCatcher" onclick="alert('Hello!')"><span style="background-color: #165EF0; position: absolute; height: 30px; width: 60px; display: flex; align-items: center; color: white; font-weight: 500; left: 40px; top: 5px; padding-left: 5px" id="textCoverUp">  Link</span></span>`;
+// }
 
 function shortenLinkDialogue() {}
 
