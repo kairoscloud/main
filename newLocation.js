@@ -173,18 +173,18 @@ function shortenLink() {
 
 async function loadingAnimation() {
   let shortBox = document.getElementById("shortenedURLBox");
-  shortBox.innerHTML = "";
+  shortBox.innerHTML = ".";
   let itrs = 0;
   let animInterval = setInterval(() => {
     shortBox.innerHTML += ".";
-    if (shortBox.innerHTML == "....") {
-      shortBox.innerHTML = "";
+    if (shortBox.innerHTML == ".............") {
+      shortBox.innerHTML = ".";
       itrs++;
     }
     if (itrs == 5) {
       clearInterval(animInterval);
     }
-  }, 350);
+  }, 100);
 }
 
 function activeListenIframe() {
