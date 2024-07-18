@@ -24,7 +24,10 @@ try {
   }
 } catch (e) {}
 
-if (window.location.href.includes("page-builder")) {
+if (
+  window.location.href.includes("page-builder") &&
+  window.location.href.includes("owNEzpbrfBjp4weSARXD") // remove after testing
+) {
   // Create the new span element
   var newElement = document.createElement("span");
   newElement.style.position = "absolute";
@@ -126,7 +129,7 @@ if (window.location.href.includes("page-builder")) {
   <input type="checkbox" style="border-radius: 3px; margin-right: 6px; margin-top: 3px"> Mask URL
   </div>
       <div class="mb-1 hl-text-sm-medium">Shortened URL</div>
-  <div type="text" class="input-field ghlText greyedOut" style="width: 95%;" id="unshortenerURLBox">ShortenedURL</div></div></div><div class="n-card__footer" role="none"><div class="p-2 flex items-center justify-end"><span id="save" style="display: block;" onclick="close()" class="ghlText">Skip for now</span><span id="send" class="ghlText" onclick="close()" style="cursor: pointer">Shorten</span></div></div><!----></div><div aria-hidden="true" tabindex="0" style="position: absolute; height: 0px; width: 0px;"></div></div></div><div class="n-scrollbar-rail n-scrollbar-rail--vertical n-scrollbar-rail--disabled" data-scrollbar-rail="true" aria-hidden="true"><!----></div><!----></div></div>`;
+  <div type="text" class="input-field ghlText greyedOut" style="width: 95%;" id="shortenedURLBox">ShortenedURL</div></div></div><div class="n-card__footer" role="none"><div class="p-2 flex items-center justify-end"><span id="save" style="display: block;" onclick="close()" class="ghlText">Skip for now</span><span id="send" class="ghlText" onclick="close()" style="cursor: pointer">Shorten</span></div></div><!----></div><div aria-hidden="true" tabindex="0" style="position: absolute; height: 0px; width: 0px;"></div></div></div><div class="n-scrollbar-rail n-scrollbar-rail--vertical n-scrollbar-rail--disabled" data-scrollbar-rail="true" aria-hidden="true"><!----></div><!----></div></div>`;
   // Get the element with id "app"
   var appElement = document.getElementById("app");
 
@@ -141,6 +144,46 @@ function shortenLinkDialogue() {
 
 function closeWindow() {
   document.getElementById("linkShortenerWindow").style.display = "none";
+}
+
+function shortenLink() {
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      Authorization: "sk" + "_" + "dN" + "MGPMpU" + "hmY' + 'Edh8n",
+    },
+    body: JSON.stringify({
+      allowDuplicates: true,
+      originalURL: "https://jacobwestra.com",
+      path: "pathGoesHere",
+      title: "titleGoesHere",
+      expiredURL: "https://jostens.co",
+      cloaking: true,
+      domain: "jostens.co",
+    }),
+  };
+
+  fetch("https://api.short.io/links", options)
+    .then((response) => response.json())
+    .then((response) => console.log(response))
+    .catch((err) => console.error(err));
+}
+
+async function loadingAnimation() {
+  let shortBox = document.getElementById("shortenedURLBox");
+  let itrs = 0;
+  let animInterval = setInterval(() => {
+    shortBox.innerHTML += ".";
+    if (shortBox.innerHTML == "....") {
+      shortBox.innerHTML = "";
+      itrs++;
+    }
+    if (itrs == 5) {
+      clearInterval(animInterval);
+    }
+  }, 350);
 }
 
 function activeListenIframe() {
