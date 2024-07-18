@@ -56,69 +56,73 @@ if (window.location.href.includes("page-builder")) {
 
   // Create a temporary container element
   var tempContainer = document.createElement("span");
-  tempContainer.innerHTML = `<div role="none" class="n-modal-body-wrapper" style="display: none" id="linkShortenerWindow"><div role="none" class="n-scrollbar" style="--n-scrollbar-bezier: cubic-bezier(.4, 0, .2, 1); --n-scrollbar-color: rgba(0, 0, 0, 0.25); --n-scrollbar-color-hover: rgba(0, 0, 0, 0.4); --n-scrollbar-border-radius: 5px; --n-scrollbar-width: 5px; --n-scrollbar-height: 5px; display: block"><div role="none" class="n-scrollbar-container"><div role="none" class="n-scrollbar-content n-modal-scroll-content"><div aria-hidden="true" class="n-modal-mask"></div><div aria-hidden="true" tabindex="0" style="position: absolute; height: 0px; width: 0px;"></div><div class="n-card n-modal hl-modal" role="dialog" aria-modal="true" style="--n-bezier: cubic-bezier(.4, 0, .2, 1); --n-border-radius: 3px; --n-color: #fff; --n-color-modal: #fff; --n-color-popover: #fff; --n-color-embedded: rgb(250, 250, 252); --n-color-embedded-modal: rgb(250, 250, 252); --n-color-embedded-popover: rgb(250, 250, 252); --n-color-target: #155EEF; --n-text-color: rgba(52, 64, 84, 1); --n-line-height: 1.6; --n-action-color: rgb(250, 250, 252); --n-title-text-color: rgba(16, 24, 40, 1); --n-title-font-weight: 500; --n-close-icon-color: rgba(102, 102, 102, 1); --n-close-icon-color-hover: rgba(102, 102, 102, 1); --n-close-icon-color-pressed: rgba(102, 102, 102, 1); --n-close-color-hover: rgba(0, 0, 0, .09); --n-close-color-pressed: rgba(0, 0, 0, .13); --n-border-color: rgb(239, 239, 245); --n-box-shadow: 0 1px 2px -2px rgba(0, 0, 0, .08), 0 3px 6px 0 rgba(0, 0, 0, .06), 0 5px 12px 4px rgba(0, 0, 0, .04); --n-padding-top: 27px; --n-padding-bottom: 28px; --n-padding-left: 40px; --n-font-size: 14px; --n-title-font-size: 18px; --n-close-size: 22px; --n-close-icon-size: 18px; --n-close-border-radius: 3px; width: 500px; top: 15vh"><!----><div class="n-card-header"><div class="n-card-header__main" role="heading"><div class="hl-modal-heading"><div><div class="hl-icon-container"><div class="icon icon-custom"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M2 12c0 5.523 4.477 10 10 10M2 12C2 6.477 6.477 2 12 2m10 10c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m0 0a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10m0-20a15.3 15.3 0 00-4 10 15.3 15.3 0 004 10"></path></svg></div><div class="action"><button class="n-button n-button--default-type n-button--medium-type quaternary icon-only" tabindex="0" type="button" id="modal-header-modal-close-btn" linkgray="false" style="--n-bezier: cubic-bezier(.4, 0, .2, 1); --n-bezier-ease-out: cubic-bezier(0, 0, .2, 1); --n-ripple-duration: .6s; --n-opacity-disabled: 0.5; --n-wave-opacity: 0.6; font-weight: 400; --n-color: #0000; --n-color-hover: rgba(46, 51, 56, .09); --n-color-pressed: rgba(46, 51, 56, .13); --n-color-focus: rgba(46, 51, 56, .09); --n-color-disabled: #0000; --n-ripple-color: #0000; --n-text-color: rgba(52, 64, 84, 1); --n-text-color-hover: rgba(52, 64, 84, 1); --n-text-color-pressed: rgba(52, 64, 84, 1); --n-text-color-focus: rgba(52, 64, 84, 1); --n-text-color-disabled: rgba(52, 64, 84, 1); --n-border: 1px solid rgb(224, 224, 230); --n-border-hover: 1px solid #004EEB; --n-border-pressed: 1px solid #155EEF; --n-border-focus: 1px solid #004EEB; --n-border-disabled: 1px solid rgb(224, 224, 230); --n-width: 34px; --n-height: 34px; --n-font-size: 14px; --n-padding: initial; --n-icon-size: 18px; --n-icon-margin: 6px; --n-border-radius: 34px;"><!----><!----><span class="n-button__content" onclick="closeWindow()"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 7L7 17M7 7l10 10"></path></svg><!----></span><div aria-hidden="true" class="n-base-wave"></div><!----><!----></button></div></div><div class="title">Shorten link<!----></div><div class="description">Create a shortened link to your site before publishing</div></div></div></div><!----><!----></div><div class="n-card__content" role="none"><div class="hl-modal-content py-3"><div class="mb-1 hl-text-sm-medium">URL</div><style>
-      .ghlText {
-          font-family: "Roboto", sans-serif;
-          font-weight: 400;
-          font-style: normal;
-          color: #2c3538;
-          font-size: 12pt;
-      }
+  tempContainer.innerHTML = `<div role="none" class="n-modal-body-wrapper" style="display: none;" id="linkShortenerWindow"><div role="none" class="n-scrollbar" style="--n-scrollbar-bezier: cubic-bezier(.4, 0, .2, 1); --n-scrollbar-color: rgba(0, 0, 0, 0.25); --n-scrollbar-color-hover: rgba(0, 0, 0, 0.4); --n-scrollbar-border-radius: 5px; --n-scrollbar-width: 5px; --n-scrollbar-height: 5px; display: block"><div role="none" class="n-scrollbar-container"><div role="none" class="n-scrollbar-content n-modal-scroll-content"><div aria-hidden="true" class="n-modal-mask"></div><div aria-hidden="true" tabindex="0" style="position: absolute; height: 0px; width: 0px;"></div><div class="n-card n-modal hl-modal" role="dialog" aria-modal="true" style="--n-bezier: cubic-bezier(.4, 0, .2, 1); --n-border-radius: 3px; --n-color: #fff; --n-color-modal: #fff; --n-color-popover: #fff; --n-color-embedded: rgb(250, 250, 252); --n-color-embedded-modal: rgb(250, 250, 252); --n-color-embedded-popover: rgb(250, 250, 252); --n-color-target: #155EEF; --n-text-color: rgba(52, 64, 84, 1); --n-line-height: 1.6; --n-action-color: rgb(250, 250, 252); --n-title-text-color: rgba(16, 24, 40, 1); --n-title-font-weight: 500; --n-close-icon-color: rgba(102, 102, 102, 1); --n-close-icon-color-hover: rgba(102, 102, 102, 1); --n-close-icon-color-pressed: rgba(102, 102, 102, 1); --n-close-color-hover: rgba(0, 0, 0, .09); --n-close-color-pressed: rgba(0, 0, 0, .13); --n-border-color: rgb(239, 239, 245); --n-box-shadow: 0 1px 2px -2px rgba(0, 0, 0, .08), 0 3px 6px 0 rgba(0, 0, 0, .06), 0 5px 12px 4px rgba(0, 0, 0, .04); --n-padding-top: 27px; --n-padding-bottom: 28px; --n-padding-left: 40px; --n-font-size: 14px; --n-title-font-size: 18px; --n-close-size: 22px; --n-close-icon-size: 18px; --n-close-border-radius: 3px; width: 500px; top: 15vh"><!----><div class="n-card-header"><div class="n-card-header__main" role="heading"><div class="hl-modal-heading"><div><div class="hl-icon-container"><div class="icon icon-custom"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M2 12c0 5.523 4.477 10 10 10M2 12C2 6.477 6.477 2 12 2m10 10c0 5.523-4.477 10-10 10m10-10c0-5.523-4.477-10-10-10m0 0a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10m0-20a15.3 15.3 0 00-4 10 15.3 15.3 0 004 10"></path></svg></div><div class="action"><button class="n-button n-button--default-type n-button--medium-type quaternary icon-only" tabindex="0" type="button" id="modal-header-modal-close-btn" linkgray="false" style="--n-bezier: cubic-bezier(.4, 0, .2, 1); --n-bezier-ease-out: cubic-bezier(0, 0, .2, 1); --n-ripple-duration: .6s; --n-opacity-disabled: 0.5; --n-wave-opacity: 0.6; font-weight: 400; --n-color: #0000; --n-color-hover: rgba(46, 51, 56, .09); --n-color-pressed: rgba(46, 51, 56, .13); --n-color-focus: rgba(46, 51, 56, .09); --n-color-disabled: #0000; --n-ripple-color: #0000; --n-text-color: rgba(52, 64, 84, 1); --n-text-color-hover: rgba(52, 64, 84, 1); --n-text-color-pressed: rgba(52, 64, 84, 1); --n-text-color-focus: rgba(52, 64, 84, 1); --n-text-color-disabled: rgba(52, 64, 84, 1); --n-border: 1px solid rgb(224, 224, 230); --n-border-hover: 1px solid #004EEB; --n-border-pressed: 1px solid #155EEF; --n-border-focus: 1px solid #004EEB; --n-border-disabled: 1px solid rgb(224, 224, 230); --n-width: 34px; --n-height: 34px; --n-font-size: 14px; --n-padding: initial; --n-icon-size: 18px; --n-icon-margin: 6px; --n-border-radius: 34px;"><!----><!----><span class="n-button__content" onclick="closeWindow()"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 7L7 17M7 7l10 10"></path></svg><!----></span><div aria-hidden="true" class="n-base-wave"></div><!----><!----></button></div></div><div class="title">Shorten link<!----></div><div class="description">Create a shortened link to your site before publishing</div></div></div></div><!----><!----></div><div class="n-card__content" role="none"><div class="hl-modal-content py-3"><div class="mb-1 hl-text-sm-medium">Title</div><style>
+        .ghlText {
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            color: #2c3538;
+            font-size: 12pt;
+        }
 
-  #send {
-          float: right;
-          color: #31324a;
-          text-align: center;
-          padding: 9px 11px;
-          text-decoration: none;
-          font-size: 14px;
-          background-color: #165ef0;
-          border-radius: 6px;
-          margin-left: 8px;
-          color: white;
-          font-weight: 500;
-          cusor: pointer;
-      }
+    #send {
+            float: right;
+            color: #31324a;
+            text-align: center;
+            padding: 9px 11px;
+            text-decoration: none;
+            font-size: 14px;
+            background-color: #165ef0;
+            border-radius: 6px;
+            margin-left: 8px;
+            color: white;
+            font-weight: 500;
+            cusor: pointer;
+        }
 
-      #save {
-          float: right;
-          font-weight: 500;
-          color: #31324a;
-          text-align: center;
-          padding: 9px 11px;
-          text-decoration: none;
-          font-size: 14px;
-          background-color: white;
-          border: 1px solid #d1d5de;
-          border-radius: 6px;
-          margin-left: 8px;
-          color: #2c3538;
-          cursor: pointer;
-      }
+        #save {
+            float: right;
+            font-weight: 500;
+            color: #31324a;
+            text-align: center;
+            padding: 9px 11px;
+            text-decoration: none;
+            font-size: 14px;
+            background-color: white;
+            border: 1px solid #d1d5de;
+            border-radius: 6px;
+            margin-left: 8px;
+            color: #2c3538;
+            cursor: pointer;
+        }
 
-      .greyedOut {
-          background-color: #f0f0f0 !important; /* Light grey background */
-          border: 1px solid #d1d5de !important;
-          color: #a0a0a0 !important; /* Light grey text */
-          cursor: not-allowed !important; /* Change cursor to indicate */
-      }
+        .greyedOut {
+            background-color: #f0f0f0 !important; /* Light grey background */
+            border: 1px solid #d1d5de !important;
+            color: #a0a0a0 !important; /* Light grey text */
+            cursor: not-allowed !important; /* Change cursor to indicate */
+        }
 
-      .input-field {
-          padding: 8px 10px; /* Adjust padding to match button styles */
-          font-size: 14px; /* Match font size with button styles */
-          border: 1px solid #d1d5de; /* Match border style with button */
-          border-radius: 5px; /* Match border radius with button styles */
-          color: #2c3538; /* Match text color with button styles */
-          box-sizing: border-box; /* Ensure padding is included in width */
-          width: 100vw; /* Adjust width as needed */
-          margin-top: 3px;
-          margin-bottom: 8px;
-      }
-  </style>
+        .input-field {
+            padding: 8px 10px; /* Adjust padding to match button styles */
+            font-size: 14px; /* Match font size with button styles */
+            border: 1px solid #d1d5de; /* Match border style with button */
+            border-radius: 5px; /* Match border radius with button styles */
+            color: #2c3538; /* Match text color with button styles */
+            box-sizing: border-box; /* Ensure padding is included in width */
+            width: 100vw; /* Adjust width as needed */
+            margin-top: 3px;
+            margin-bottom: 8px;
+        }
+    </style>
 
-  <div type="text" class="input-field ghlText greyedOut" style="width: 95%;" id="unshortenerURLBox">unshortenedURL</div>
-  <div class="mb-1 hl-text-sm-medium">Shortened URL</div><input type="text" class="input-field ghlText" style="width: 95%;" placeholder="ShortenedURL" id="unshortenerURLBox"></div></div><div class="n-card__footer" role="none"><div class="p-2 flex items-center justify-end"><span id="save" style="display: block;" onclick="skip()" class="ghlText">Skip for now</span><span id="send" class="ghlText" onclick="close()" style="cursor: pointer">Shorten</span></div></div><!----></div><div aria-hidden="true" tabindex="0" style="position: absolute; height: 0px; width: 0px;"></div></div></div><div class="n-scrollbar-rail n-scrollbar-rail--vertical n-scrollbar-rail--disabled" data-scrollbar-rail="true" aria-hidden="true"><!----></div><!----></div></div>`;
+  <input id="unshortenerURLBox" placeholder="ex. 'my page'" style="width: 95%;" class="input-field ghlText" type="text">
 
+  <div class="mb-1 hl-text-sm-medium">Path</div>
+
+  <div style="display: flex">
+    <div type="text" class="input-field ghlText greyedOut" style="width: 40%;" id="unshortenerURLBox">https:jostens.co/</div><input id="unshortenerURLBox" placeholder="ex. 'my page'" style="width: 85%;" class="input-field ghlText" type="text"></div>
+    <div class="mb-1 hl-text-sm-medium">Shortened URL</div><input type="text" class="input-field ghlText" style="width: 95%;" placeholder="ShortenedURL" id="unshortenerURLBox"></div></div><div class="n-card__footer" role="none"><div class="p-2 flex items-center justify-end"><span id="save" style="display: block;" onclick="skip()" class="ghlText">Skip for now</span><span id="send" class="ghlText" onclick="close()" style="cursor: pointer">Shorten</span></div></div><!----></div><div aria-hidden="true" tabindex="0" style="position: absolute; height: 0px; width: 0px;"></div></div></div><div class="n-scrollbar-rail n-scrollbar-rail--vertical n-scrollbar-rail--disabled" data-scrollbar-rail="true" aria-hidden="true"><!----></div><!----></div></div>`;
   // Get the element with id "app"
   var appElement = document.getElementById("app");
 
