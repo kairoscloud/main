@@ -154,7 +154,7 @@ function shortenLink() {
     headers: {
       accept: "application/json",
       "content-type": "application/json",
-      Authorization: "sk" + "_" + "dN" + "MGPMpU" + "hmY' + 'Edh8n",
+      Authorization: "sk" + "_" + "3LZd" + "0fliy8pZAXVs",
     },
     body: JSON.stringify({
       allowDuplicates: false,
@@ -165,7 +165,7 @@ function shortenLink() {
       title: document.getElementById("urlTitle").value,
       expiredURL: "https://jostens.co#expiredURL",
       cloaking: true,
-      domain: "app.kairoscloud.io",
+      domain: "jostens.co",
     }),
   };
 
