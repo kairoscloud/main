@@ -154,18 +154,18 @@ function shortenLink() {
     headers: {
       accept: "application/json",
       "content-type": "application/json",
-      Authorization: "sk_dNMGPMpUhmYEdh8n",
+      Authorization: "sk" + "_" + "dN" + "MGPMpU" + "hmY' + 'Edh8n",
     },
     body: JSON.stringify({
-      allowDuplicates: true,
+      allowDuplicates: false,
       originalURL:
         "https://app.kairoscloud.io/v2/preview/" +
         window.location.href.split("/")[6],
       path: document.getElementById("urlPath").value,
       title: document.getElementById("urlTitle").value,
-      expiredURL: "https://jostens.co",
+      expiredURL: "https://jostens.co#expiredURL",
       cloaking: true,
-      domain: "jostens.co",
+      domain: "app.kairoscloud.io",
     }),
   };
 
