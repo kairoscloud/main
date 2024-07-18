@@ -154,7 +154,7 @@ function shortenLink() {
     headers: {
       accept: "application/json",
       "content-type": "application/json",
-      Authorization: "sk" + "_" + "dN" + "MGPMpU" + "hmY' + 'Edh8n",
+      Authorization: "sk_dNMGPMpUhmYEdh8n",
     },
     body: JSON.stringify({
       allowDuplicates: true,
