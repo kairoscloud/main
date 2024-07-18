@@ -173,6 +173,7 @@ function shortenLink() {
 
 async function loadingAnimation() {
   let shortBox = document.getElementById("shortenedURLBox");
+  shortBox.innerHTML = "";
   let itrs = 0;
   let animInterval = setInterval(() => {
     shortBox.innerHTML += ".";
