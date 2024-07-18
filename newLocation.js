@@ -126,7 +126,7 @@ if (
     <div style="display: flex">
       <div type="text" class="input-field ghlText greyedOut" style="width: 25%; border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: none" id="unshortenerURLBox">jostens.co/</div><input id="urlPath" placeholder="path-to-my-page" style="width: 80%; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-right: 5%" class="input-field ghlText" type="text"></div>
   <div style="display: flex; padding-top: 10px; padding-bottom: 15px">
-  <input type="checkbox" style="border-radius: 3px; margin-right: 6px; margin-top: 3px"> Mask URL
+  <input type="checkbox" id="maskURL" style="border-radius: 3px; margin-right: 6px; margin-top: 3px"> Mask URL
   </div>
       <div class="mb-1 hl-text-sm-medium">Shortened URL</div>
   <div type="text" class="input-field ghlText greyedOut" style="width: 95%;" id="shortenedURLBox">ShortenedURL</div></div></div><div class="n-card__footer" role="none"><div class="p-2 flex items-center justify-end"><span id="save" style="display: block;" onclick="close()" class="ghlText">Skip for now</span><span id="send" class="ghlText" onclick="shortenLink()" style="cursor: pointer">Shorten</span></div></div><!----></div><div aria-hidden="true" tabindex="0" style="position: absolute; height: 0px; width: 0px;"></div></div></div><div class="n-scrollbar-rail n-scrollbar-rail--vertical n-scrollbar-rail--disabled" data-scrollbar-rail="true" aria-hidden="true"><!----></div><!----></div></div>`;
