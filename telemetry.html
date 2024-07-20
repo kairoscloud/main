@@ -7,7 +7,7 @@
     // What does it do?
     // - It overrides the global console.log function, putting each message onto a stack
     // - It gathers telemetry data (browser name, version, platform, etc.) to create a unique telemetryID (think of it as a tracking ID, unique to each session)
-    // - All browser data/settings that may be important is gathered and pushed to Firebase Firestore
+    // - All browser data/settings that may be important are gathered and pushed to Firebase Firestore
     // - Every 1 minute (we can change this), it pushes the log stack to Firebase. You can see it here: https://console.firebase.google.com/u/3/project/kairos-test-eedd6/firestore/databases/-default-/data/~2Ftelemetry~2FChrome-126-MacIntel-2fc67107
     // - To fetch the log stack from firebase, use getLogStackFromFirebase()
     // JACOB TODO: Comment this more thoroughly. Also override console.error, console.warn, etc.
