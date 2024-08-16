@@ -6,4 +6,7 @@ let throw = false;
 setInterval(() => {
   console.log("Test script running!");
   active["test"] = Date.now();
+  if(throw){
+    throw new Error;
+  }
 }, 2000);
