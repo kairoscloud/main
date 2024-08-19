@@ -1,10 +1,15 @@
-console.log("Test Code Loaded!");
-console.log("Script ver 3");
+// this is a test script. Should be pretty self-explanatory
 
-let test_code_var = true;
+console.log("script version 4!");
+main_test();
 
-//setTimeout(clearInterval(tempIntv), 10000); // clear after 10s
-let tempIntv = setInterval(() => {
-  console.log("Test script running!");
-  active["test"] = Date.now();
-}, 2000);
+function main_test() {
+  let tempIntv = setInterval(() => {
+    //console.log("Test script running!");
+    active["test"] = Date.now();
+    if (stop["test"]) {
+      clearInterval(tempIntv);
+      console.log("Test script stopped!");
+    }
+  }, 2000);
+}
