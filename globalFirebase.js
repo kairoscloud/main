@@ -2,6 +2,7 @@
 // Why? Instead of creating a firebase object whenever we need it (ex. to grab an API key), we just create it once and reuse it
 // Having multiple firebase objects in the global scope has lead to many issues
 // Plus, we need firebase globally anyways to push all the telemetry data
+// We try-catch to avoid any conflicting instances (ex loaded in an iframe somewhere)
 
 try {
   const firebaseConfig = {
