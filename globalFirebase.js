@@ -27,18 +27,13 @@ try {
   window.GlobalLocationID = window.location.href.split("/")[5]; // URL might not contain location ID, hence the try-catch
   window.GlobalLocationAccessKey = "";
   const tokensDocRef = firestore.collection("tokens").doc(GlobalLocationID);
-  tokensDocRef
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        GlobalLocationAccessKey = doc.data().locationAccessToken;
-      } else {
-        throw new Error("No location found");
-      }
-    })
-    .catch((error) => {
-      throw new Error("Error getting document: ", error);
-    });
+  tokensDocRef.get().then((doc) => {
+    if (doc.exists) {
+      GlobalLocationAccessKey = doc.data().locationAccessToken;
+    } else {
+      throw new Error("No location found");
+    }
+  });
 } catch (error) {
   console.warn("Could not get location access key: " + error.message);
 }
