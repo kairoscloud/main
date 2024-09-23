@@ -30,8 +30,6 @@ try {
   tokensDocRef.get().then((doc) => {
     if (doc.exists) {
       GlobalLocationAccessKey = doc.data().locationAccessToken;
-    } else {
-      throw new Error("No location found");
     }
   });
 } catch (error) {
