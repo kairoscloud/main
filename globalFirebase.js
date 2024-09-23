@@ -24,8 +24,8 @@ try {
 // all API calls will use this global variable
 try {
   // capitalize to indicate global scope
-  let GlobalLocationID = window.location.href.split("/")[5]; // URL might not contain location ID, hence the try-catch
-  let GlobalLocationAccessKey = "";
+  window.GlobalLocationID = window.location.href.split("/")[5]; // URL might not contain location ID, hence the try-catch
+  window.GlobalLocationAccessKey = "";
   const tokensDocRef = firestore.collection("tokens").doc(GlobalLocationID);
   tokensDocRef
     .get()
@@ -33,11 +33,11 @@ try {
       if (doc.exists) {
         GlobalLocationAccessKey = doc.data().locationAccessToken;
       } else {
-        console.error("No such document!");
+        throw new Error("No location found");
       }
     })
     .catch((error) => {
-      console.error("Error getting document: ", error);
+      throw new Error("Error getting document: ", error);
     });
 } catch (error) {
   console.warn("Could not get location access key: " + error.message);
