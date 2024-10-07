@@ -1,0 +1,82 @@
+<script src="https://kairoscloud.github.io/main/hash.js"></script>
+<style>
+    img {
+        /* put in horizontal and vertical center of page */
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 35vh;
+    }
+
+    .input-field {
+        padding: 12px 10px; /* Adjust padding to match button styles */
+        font-size: 14px; /* Match font size with button styles */
+        border: 1px solid #d1d5de; /* Match border style with button styles */
+        border-radius: 5px; /* Match border radius with button styles */
+        color: #2c3538; /* Match text color with button styles */
+        box-sizing: border-box; /* Ensure padding is included in width */
+        width: 200px; /* Adjust width as needed */
+        margin-top: -1px;
+        margin-bottom: -1px;
+    }
+
+    .input-field:focus {
+        outline: none; /* Remove outline on focus */
+        border-color: #165ef0; /* Highlight border color on focus */
+    }
+
+    .manageButton {
+        float: right;
+        right: 10px;
+        font-weight: 500;
+        color: #31324a;
+        text-align: center;
+        padding: 9px 11px;
+        text-decoration: none;
+        font-size: 14px;
+        background-color: transparent;
+        border: 1px solid #d1d5de;
+        border-radius: 5px;
+        margin: 8px;
+        margin-top: 2px;
+        color: #2c3538;
+        cursor: pointer;
+    }
+
+    .manageButton:hover {
+        background-color: #f0f0f0;
+    }
+    .ghlText {
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        color: #2c3538;
+        font-size: 12pt;
+    }
+
+    #formContainer {
+        position: absolute;
+        top: 55%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+</style>
+<img src="https://kairoscloud.github.io/main/Assets/telemEx.png" />
+<div id="formContainer" class="ghlText">
+<input class="input-field" id="password" type="password" placeholder="Access key"> </input>
+<div class="manageButton" onclick="login()">Login</div>
+</div>
+<script>
+function login(){
+  // jake note: it's 94e758f157438eca
+  let password = document.getElementById("password").value;
+  if(hash(password) == "3b1f877220d89fa9"){
+    window.location.href = "https://kairoscloud.github.io/main/telemetryExplorer.html?hash=" + password;
+  } else {
+    // do nothing
+  }
+}
+</script>

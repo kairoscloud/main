@@ -1,0 +1,233 @@
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="https://kairoscloud.github.io/main/globalFirebase.js?"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet"
+/>
+<script src="https://kairoscloud.github.io/main/hash.js"></script>
+<style>
+    #mainContainer {
+        height: 30rem;
+        margin-left: 10rem;
+        margin-right: 10rem;
+        background-color: #f6f6f6;
+        margin-top: 15rem;
+        -webkit-box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.05);
+        -moz-box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.05);
+        box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.05);
+    }
+
+    .ghlText {
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        color: #2c3538;
+        font-size: 12pt;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        height: 100%;
+    }
+
+    .column {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #queryBuilder {
+    }
+
+    #leftColumn {
+        width: 35%;
+        height: 100%;
+    }
+
+    #rightColumn {
+        width: 65%;
+        background-color: lightcoral;
+        height: 100%;
+    }
+
+    #searchButtonContainer {
+        background-color: white;
+        height: 10%;
+        padding: 5px;
+        border-bottom-left-radius: 3px;
+    }
+
+    #listView {
+        height: auto;
+        overflow-y: scroll;
+    }
+
+    .saveNew {
+        float: right;
+        color: #31324a;
+        text-align: center;
+        padding: 9px 11px;
+        text-decoration: none;
+        font-size: 14px;
+        background-color: #165ef0;
+        border-radius: 5px;
+        margin: 5px;
+        color: white;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1px solid #165eff;
+    }
+
+    #queryText {
+        width: 100%;
+        height: 6rem;
+        border-radius: 0;
+        /* no highlight border when selected */
+        outline: none;
+        resize: none;
+        border: none;
+        font-size: 14px;
+    }
+    .result {
+        margin: 5px;
+        padding: 10px;
+        border-radius: 3px;
+        background-color: #e2e2e2;
+    }
+
+    .result:hover {
+        background-color: #cecece;
+    }
+
+    .timestamp {
+        font-size: 10pt;
+        color: #7a7a7a;
+    }
+
+    #xResults {
+        font-size: 12px;
+        margin-left: 10px;
+    }
+
+    #consoleLogs {
+        background-color: black;
+        height: 100%;
+        color: white;
+        font-size: 14px;
+        font-family: monospace;
+        padding: 10px;
+        overflow-y: scroll;
+        overflow-wrap: break-word;
+    }
+</style>
+
+<div id="mainContainer" class="ghlText">
+    <div class="row">
+        <div class="column" id="leftColumn">
+            <div id="queryBuilder">
+                <textarea spellcheck="false" id="queryText">
+firestore.collection("telemetry")
+  .where("browserName", "==", "Chrome")</textarea
+                >
+            </div>
+            <div id="searchButtonContainer">
+                <button class="saveNew" onclick="search()">Search</button>
+            </div>
+            <div id="listView">
+                <div style="margin-top: 10px"></div>
+                <div id="xResults"></div>
+                <span id="resultsContainer">
+                    <!-- <div class="result">
+                        Chrome128-MacIntel-16a0b0fea4a99e61
+                        <div>
+                            Location <span class="timestamp">timestamp</span>
+                        </div>
+                    </div> -->
+                </span>
+            </div>
+        </div>
+        <div class="column" id="rightColumn">
+            <div id="consoleLogs"></div>
+        </div>
+    </div>
+</div>
+<script>
+    let docs = [];
+    let docIDs = [];
+    if (
+        !(hash(window.location.href.split("?hash=")[1]) == "3b1f877220d89fa9")
+    ) {
+        window.location.href = "loginpage.html";
+    } else {
+        window.location.href = window.location.href.split("?hash=")[0];
+    }
+    search();
+    function search() {
+        docs = [];
+        docIDs = [];
+        let query = document.getElementById("queryText").value;
+        let evalQuery =
+            query +
+            `
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                docs.push(doc.data());
+                docIDs.push(doc.id);
+            });
+            renderDocs();
+        });`;
+        console.log(evalQuery);
+        eval(evalQuery);
+    }
+
+    function renderDocs() {
+        let resultsContainer = document.getElementById("resultsContainer");
+        resultsContainer.innerHTML = "";
+        docs.forEach((doc) => {
+            console.log(doc);
+            let result = document.createElement("div");
+            result.classList.add("result");
+            result.innerHTML = docIDs[docs.indexOf(doc)];
+            result.onclick = () => display(docIDs[docs.indexOf(doc)]);
+            let location = document.createElement("div");
+            let locationID = "No location";
+            if (doc.locationID.length == 20) {
+                locationID = doc.locationID;
+            }
+            location.innerHTML = `${locationID} <span class="timestamp">${unixTimeToDate(doc.lastUpdated)}</span>`;
+            result.appendChild(location);
+            resultsContainer.appendChild(result);
+        });
+        document.getElementById("xResults").innerHTML =
+            `${docs.length} results`;
+    }
+
+    function display(docID) {
+        console.log(docID);
+        let consoleLogs = docs[docIDs.indexOf(docID)].consoleLog;
+        let consoleLogsContainer = document.getElementById("consoleLogs");
+        consoleLogsContainer.innerHTML = consoleLogs.replace(
+            / ##NL## /g,
+            "<br>",
+        );
+    }
+
+    function unixTimeToDate(unixTime) {
+        let date = new Date(unixTime);
+        // desired format: 9/10/2021, 3:00 PM
+        let options = {
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+        };
+        return date.toLocaleDateString("en-US", options);
+    }
+</script>
