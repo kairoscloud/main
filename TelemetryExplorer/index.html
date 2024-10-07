@@ -166,7 +166,11 @@ firestore.collection("telemetry")
     if (
         !(hash(window.location.href.split("?hash=")[1]) == "3b1f877220d89fa9")
     ) {
-      console.log("Incorect hash! Got " + hash(window.location.href.split("?hash=")[1] + " expected 3b1f877220d89fa9")
+        console.log(
+            "Incorect hash! Got " +
+                hash(window.location.href.split("?hash=")[1]) +
+                " expected 3b1f877220d89fa9",
+        );
         window.location.href =
             "https://kairoscloud.github.io/main/TelemetryExplorer/login/";
     } else {
