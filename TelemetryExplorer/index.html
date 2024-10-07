@@ -158,10 +158,15 @@ firestore.collection("telemetry")
 <script>
     let docs = [];
     let docIDs = [];
+    if (!window.location.href.includes("?hash=")) {
+        window.location.href =
+            "https://kairoscloud.github.io/main/TelemetryExplorer/login/";
+    }
     if (
         !(hash(window.location.href.split("?hash=")[1]) == "3b1f877220d89fa9")
     ) {
-        window.location.href = "loginpage.html";
+        window.location.href =
+            "https://kairoscloud.github.io/main/TelemetryExplorer/login/";
     } else {
         window.location.href = window.location.href.split("?hash=")[0];
     }
