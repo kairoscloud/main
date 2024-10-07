@@ -8,8 +8,6 @@ const originalConsoleLog = console.log;
 const originalConsoleError = console.error;
 const originalConsoleWarn = console.warn;
 
-const initialGlobals = Object.keys(window); // Get initial global variables
-
 // Create a global variable to store logs
 window.logStack = [];
 
