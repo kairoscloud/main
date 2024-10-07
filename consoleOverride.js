@@ -98,7 +98,7 @@ console.error = function (...args) {
     const stackTrace = stack.split("\n")[2].trim(); // Skip the first two lines (current and the error line)
 
     // Format the message: [ERROR][CallingFunction, callingScript:line:column]: Message
-    const formattedMessage = `[${getFormattedTime()}][ERROR][${stackTrace}]: ${args.join(" ")}`; // Format the text
+    const formattedMessage = `[${getFormattedTime()}][ERROR][${stackTrace}]: ${args.join(" ")} [End error]`; // Format the text
 
     // Add the stack trace to the original console.error call
     const updatedArgs = [...args, stackTrace];
@@ -118,7 +118,7 @@ console.warn = function (...args) {
   // Extract the relevant part of the stack trace (e.g., function, script, line, column)
   const stackTrace = stack.split("\n")[2].trim(); // Skip the first two lines (current and the error line)
   // Format the message: [ERROR][CallingFunction, callingScript:line:column]: Message
-  const formattedMessage = `[${getFormattedTime()}][WARNING][${stackTrace}]: ${args.join(" ")}`; // Format the text
+  const formattedMessage = `[${getFormattedTime()}][WARNING][${stackTrace}]: ${args.join(" ")} [End warning]`; // Format the text
   // Add the stack trace to the original console.error call
   const updatedArgs = [...args, stackTrace];
   // Call original console.error with updated arguments
@@ -133,7 +133,7 @@ window.onerror = function (message, source, lineno, colno, error) {
       window.logStack.push(`[${getFormattedTime()}][ERROR]: ${message}`);
     } else {
       window.logStack.push(
-        `[${getFormattedTime()}][ERROR][${source + ":" + lineno + ":" + colno}]: ${message}`,
+        `[${getFormattedTime()}][ERROR][${source + ":" + lineno + ":" + colno}]: ${message} [End error]`,
       );
     }
   } catch {
