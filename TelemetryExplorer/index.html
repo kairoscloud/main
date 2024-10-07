@@ -159,23 +159,14 @@ firestore.collection("telemetry")
 <script>
     let docs = [];
     let docIDs = [];
-    if (!window.location.href.includes("?hash=")) {
+    if (window.location.href.includes("&authenticated")) {
+        console.log("Authenticated");
         window.location.href =
-            "https://kairoscloud.github.io/main/TelemetryExplorer/login/";
-    }
-    if (
-        !(hash(window.location.href.split("?hash=")[1]) == "3b1f877220d89fa9")
-    ) {
-        console.log(
-            "Incorect hash! Got " +
-                hash(window.location.href.split("?hash=")[1]) +
-                " expected 3b1f877220d89fa9",
-        );
-        window.location.href =
-            "https://kairoscloud.github.io/main/TelemetryExplorer/login/";
+            "https://kairoscloud.github.io/main/TelemetryExplorer/";
     } else {
-        console.log("Authentication successful!");
-        window.location.href = window.location.href.split("?hash=")[0];
+        console.log("Not authenticated");
+        window.location.href =
+            "https://kairoscloud.github.io/main/TelemetryExplorer/login/";
     }
     search();
     function search() {
