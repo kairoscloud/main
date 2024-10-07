@@ -159,7 +159,7 @@ firestore.collection("telemetry")
 <script>
     let docs = [];
     let docIDs = [];
-    if (window.location.href.includes("&authenticated")) {
+    if (window.location.href.includes("?authenticated")) {
         console.log("Authenticated");
         window.location.href =
             "https://kairoscloud.github.io/main/TelemetryExplorer/";
