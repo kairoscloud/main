@@ -162,7 +162,7 @@ function formatLogStack() {
   //     window.logStack.push(variable + ": " + valueOf(variable)); // Logs only variables you've added
   //   }
   // }
-  return window.logStack.join(" //NL// "); // our specialized newline enumerator, since \n doesn't work in Firestore
+  return window.logStack.join(" ##NL## "); // our specialized newline enumerator, since \n doesn't work in Firestore
 }
 
 globalWaitForElement(
