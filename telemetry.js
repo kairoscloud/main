@@ -176,30 +176,32 @@ globalWaitForElement(
 );
 
 function globalWaitForElement(query, continuous, callback) {
-  console.log("Listening for element '" + query + "'...");
-  const observer = new MutationObserver(() => {
+  try {
+    console.log("Listening for element '" + query + "'...");
+    const observer = new MutationObserver(() => {
+      const element = document.querySelector(query);
+      // if exists, and if not already modified
+      if (element && !element.hasAttribute("cScriptModified")) {
+        element.setAttribute("cScriptModified", true); // mark as modified
+        if (!continuous) {
+          observer.disconnect();
+        }
+        console.log("Found element '" + query + "'");
+        callback(element); // call the callback function with found element as arg
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Initial check in case the element is already present
     const element = document.querySelector(query);
-    // if exists, and if not already modified
     if (element && !element.hasAttribute("cScriptModified")) {
-      element.setAttribute("cScriptModified", true); // mark as modified
+      element.setAttribute("cScriptModified", true);
       if (!continuous) {
         observer.disconnect();
       }
       console.log("Found element '" + query + "'");
-      callback(element); // call the callback function with found element as arg
+      callback(element);
     }
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
-
-  // Initial check in case the element is already present
-  const element = document.querySelector(query);
-  if (element && !element.hasAttribute("cScriptModified")) {
-    element.setAttribute("cScriptModified", true);
-    if (!continuous) {
-      observer.disconnect();
-    }
-    console.log("Found element '" + query + "'");
-    callback(element);
-  }
+  } catch {}
 }
