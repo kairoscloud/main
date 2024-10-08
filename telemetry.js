@@ -165,7 +165,7 @@ function formatLogStack() {
   return window.logStack.join(" ##NL## "); // our specialized newline enumerator, since \n doesn't work in Firestore
 }
 
-if (window.location.href.includes("https://app.kairoscloud.io/v2/preview")) {
+if (!window.location.href.includes("https://app.kairoscloud.io/v2/preview")) {
   globalWaitForElement(
     "#app > div:nth-child(1) > div.flex.v2-collapse.sidebar-v2-location.pmd-app." +
       window.location.href.split("/")[5] +
