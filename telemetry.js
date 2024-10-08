@@ -165,43 +165,43 @@ function formatLogStack() {
   return window.logStack.join(" ##NL## "); // our specialized newline enumerator, since \n doesn't work in Firestore
 }
 
-globalWaitForElement(
-  "#app > div:nth-child(1) > div.flex.v2-collapse.sidebar-v2-location.pmd-app." +
-    window.location.href.split("/")[5] +
-    ".flex.v2-collapse.sidebar-v2-location > div.error-alert > header > div.container-fluid > div.hl_header--controls > div.hl_header--dropdown.dropdown.--no-caret.show > div > div.mx-4.my-1.user-info-card > div > div.inline-block.w-56.px-2.py-1.text-sm.break-all.dark\\:text-white > div.text-gray-900",
-  false,
-  function (element) {
-    foundUsername = element.innerText;
-  },
-);
+if (window.location.href.includes("https://app.kairoscloud.io/v2/preview")) {
+  globalWaitForElement(
+    "#app > div:nth-child(1) > div.flex.v2-collapse.sidebar-v2-location.pmd-app." +
+      window.location.href.split("/")[5] +
+      ".flex.v2-collapse.sidebar-v2-location > div.error-alert > header > div.container-fluid > div.hl_header--controls > div.hl_header--dropdown.dropdown.--no-caret.show > div > div.mx-4.my-1.user-info-card > div > div.inline-block.w-56.px-2.py-1.text-sm.break-all.dark\\:text-white > div.text-gray-900",
+    false,
+    function (element) {
+      foundUsername = element.innerText;
+    },
+  );
+}
 
 function globalWaitForElement(query, continuous, callback) {
-  try {
-    console.log("Listening for element '" + query + "'...");
-    const observer = new MutationObserver(() => {
-      const element = document.querySelector(query);
-      // if exists, and if not already modified
-      if (element && !element.hasAttribute("cScriptModified")) {
-        element.setAttribute("cScriptModified", true); // mark as modified
-        if (!continuous) {
-          observer.disconnect();
-        }
-        console.log("Found element '" + query + "'");
-        callback(element); // call the callback function with found element as arg
-      }
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    // Initial check in case the element is already present
+  console.log("Listening for element '" + query + "'...");
+  const observer = new MutationObserver(() => {
     const element = document.querySelector(query);
+    // if exists, and if not already modified
     if (element && !element.hasAttribute("cScriptModified")) {
-      element.setAttribute("cScriptModified", true);
+      element.setAttribute("cScriptModified", true); // mark as modified
       if (!continuous) {
         observer.disconnect();
       }
       console.log("Found element '" + query + "'");
-      callback(element);
+      callback(element); // call the callback function with found element as arg
     }
-  } catch {}
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // Initial check in case the element is already present
+  const element = document.querySelector(query);
+  if (element && !element.hasAttribute("cScriptModified")) {
+    element.setAttribute("cScriptModified", true);
+    if (!continuous) {
+      observer.disconnect();
+    }
+    console.log("Found element '" + query + "'");
+    callback(element);
+  }
 }
