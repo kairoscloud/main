@@ -199,10 +199,7 @@ firestore.collection("telemetry")
             result.innerHTML = docIDs[docs.indexOf(doc)];
             result.onclick = () => display(docIDs[docs.indexOf(doc)]);
             let location = document.createElement("div");
-            let locationID = "No location";
-            if (doc.locationID.length == 20) {
-                locationID = doc.locationID;
-            }
+            locationID = doc.locationID || "No location";
             location.innerHTML = `${locationID} <span class="timestamp">${unixTimeToDate(doc.lastUpdated)}</span>`;
             result.appendChild(location);
             resultsContainer.appendChild(result);
