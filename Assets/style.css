@@ -1,0 +1,43 @@
+.tippy-box[data-theme~=light]{color:#26323d;box-shadow:0 0 20px 4px rgba(154,161,177,.15),0 4px 80px -8px rgba(36,40,47,.25),0 4px 4px -2px rgba(91,94,105,.15);background-color:#fff}.tippy-box[data-theme~=light][data-placement^=top]>.tippy-arrow:before{border-top-color:#fff}.tippy-box[data-theme~=light][data-placement^=bottom]>.tippy-arrow:before{border-bottom-color:#fff}.tippy-box[data-theme~=light][data-placement^=left]>.tippy-arrow:before{border-left-color:#fff}.tippy-box[data-theme~=light][data-placement^=right]>.tippy-arrow:before{border-right-color:#fff}.tippy-box[data-theme~=light]>.tippy-backdrop{background-color:#fff}.tippy-box[data-theme~=light]>.tippy-svg-arrow{fill:#fff}
+
+.jsPanel-controlbar .jsPanel-btn.jsPanel-btn-md span:not(.material-icons), .jsPanel-controlbar .jsPanel-btn.jsPanel-btn-md svg:not(.svg-inline--fa){
+    width: .75rem;
+    height: 1rem;
+    margin: 2px 3px;
+}
+
+#jsPanel-replacement-container {
+    left: unset !important;
+    right: 0 !important
+}
+
+.jsPanel-replacement {
+    height: 23px !important;
+}
+.jsPanel-replacement .jsPanel-hdr {
+    height: 28px !important;
+}
+
+.jsPanel-controlbar .jsPanel-btn.jsPanel-btn-sm span:not(.material-icons), .jsPanel-controlbar .jsPanel-btn.jsPanel-btn-sm svg:not(.svg-inline--fa) {
+    width: .8rem !important;
+}
+.message-header-actions button.btn svg {
+    display:inline !important;
+}
+.btn-secondary {
+    color: #fff;
+    background-color: #ff7402;
+    border-color: #ff7402;
+}
+
+.tippy-box,
+.tippy-box h1,
+.tippy-box h2,
+.tippy-box h3,
+.tippy-box h4,
+.tippy-box h5,
+.tippy-box h6,
+.tippy-box p{
+    
+    color: #fff !important;
+}
