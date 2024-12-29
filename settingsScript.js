@@ -1,4 +1,4 @@
-let sScript_ver = 0;
+let sScript_ver = 1;
 // The Kairos Cloud settings script
 // What does it do?
 // - Removes some AI garbage features from the settings menu
@@ -7,7 +7,7 @@ let sScript_ver = 0;
 // Loads from https://kairoscloud.github.io/main/settingsScript.js
 // Jacob Westra – jacob@thekairosmedia.com
 
-let sScript_id = "contacts"; // autoload form id later
+let sScript_id = "settingsScript"; // autoload form id later
 let sScript_hash = hash(document.currentScript.textContent).substring(4); // last 4 hex digits of hash
 console.log(sScript_id + " v" + sScript_ver + "-" + sScript_hash); // format: id v00-ffff
 active[sScript_id] = Date.now();
