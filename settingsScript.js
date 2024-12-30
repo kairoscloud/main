@@ -1,4 +1,4 @@
-let sScript_ver = 4;
+let sScript_ver = 5;
 // The Kairos Cloud settings script
 // What does it do?
 // - Removes some AI garbage features from the settings menu
@@ -31,12 +31,12 @@ function main_settings() {
   }, 2000);
 
   // Conversation AI
-  waitForElement("#sb_conversation_ai_settings_v2", false, function (element) {
+  waitForElement("#sb_conversation_ai_settings_v2", true, function (element) {
     element.style.display = "none";
   });
 
   // AI Voice Agent
-  waitForElement("#sb_ai_agent_settings", false, function (element) {
+  waitForElement("#sb_ai_agent_settings", true, function (element) {
     element.style.display = "none";
   });
 
