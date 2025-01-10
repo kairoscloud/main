@@ -37,7 +37,7 @@ function main_pageBuilder() {
   console.log("Page builder script running!");
 
   waitForElement("#funnelBuilderApp", false, async function (element) {
-    // await sleep(5000); // wait for the page to load
+    await sleep(5000); // wait for the page to load
     injectCFDropdown(element);
   });
 }
