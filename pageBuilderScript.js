@@ -31,6 +31,168 @@ function main_pageBuilder() {
   }, 2000);
 
   console.log("Page builder script running!");
+
+  waitForElement("#funnelBuilderApp", false, injectCFDropdown(element));
+}
+
+function injectCFDropdown(element) {
+  // Create the new div
+  const newDiv = document.createElement("div");
+  newDiv.id = "cfDropdown";
+  newDiv.style.position = "absolute";
+  newDiv.style.top = "19vh";
+  newDiv.style.left = "1vw";
+  newDiv.innerHTML = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        .dropdown {
+          position: relative;
+          width: 200px;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        .dropdown-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 15px;
+          background: white;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          cursor: pointer;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          width: 100%;
+          margin-top: 4px;
+          background: white;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .dropdown.active .dropdown-content {
+          display: block;
+        }
+
+        .option {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 15px;
+          cursor: default;
+        }
+
+        .option:hover {
+          background: #f5f5f5;
+        }
+
+        .copy-btn {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 4px;
+          opacity: 0.6;
+        }
+
+        .copy-btn:hover {
+          opacity: 1;
+        }
+
+        .chevron {
+          border: solid #666;
+          border-width: 0 2px 2px 0;
+          display: inline-block;
+          padding: 3px;
+          transform: rotate(45deg);
+          transition: transform 0.2s;
+        }
+
+        .dropdown.active .chevron {
+          transform: rotate(-135deg);
+        }
+      </style>
+    </head>
+    <body>
+      <div class="dropdown">
+        <div class="dropdown-header">
+          <span>fields</span>
+          <span class="chevron"></span>
+        </div>
+        <div class="dropdown-content">
+          <div class="option">
+            <span>name</span>
+            <button class="copy-btn" data-value="name">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="option">
+            <span>email</span>
+            <button class="copy-btn" data-value="email">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="option">
+            <span>phone</span>
+            <button class="copy-btn" data-value="phone">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        // Toggle dropdown
+        document.querySelector('.dropdown-header').addEventListener('click', function() {
+          document.querySelector('.dropdown').classList.toggle('active');
+        });
+
+        // Copy functionality
+        document.querySelectorAll('.copy-btn').forEach(button => {
+          button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const value = this.dataset.value;
+            navigator.clipboard.writeText(value).then(() => {
+              // Optional: Add some visual feedback
+              const originalColor = this.style.color;
+              this.style.color = '#4CAF50';
+              setTimeout(() => {
+                this.style.color = originalColor;
+              }, 500);
+            });
+          });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+          const dropdown = document.querySelector('.dropdown');
+          if (!dropdown.contains(e.target)) {
+            dropdown.classList.remove('active');
+          }
+        });
+      </script>
+    </body>
+    </html>
+  `;
+
+  // Insert as the first child
+  element.insertBefore(newDiv, parentElement.firstChild);
 }
 
 function waitForElement(query, continuous, callback) {
