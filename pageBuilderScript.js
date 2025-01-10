@@ -32,7 +32,9 @@ function main_pageBuilder() {
 
   console.log("Page builder script running!");
 
-  waitForElement("#funnelBuilderApp", false, injectCFDropdown(element));
+  waitForElement("#funnelBuilderApp", false, function (element) {
+    injectCFDropdown(element);
+  });
 }
 
 function injectCFDropdown(element) {
