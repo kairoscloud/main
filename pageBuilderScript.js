@@ -54,7 +54,7 @@ function injectCFDropdown(element) {
       <style>
         .dropdown {
           position: relative;
-          width: 200px;
+          width: 160pt;
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
@@ -132,17 +132,6 @@ function injectCFDropdown(element) {
           <span class="chevron"></span>
         </div>
         <div class="dropdown-content">
-          <--! Every option:
-              [[campaign_name]]
-              [[jostens_website_link]]
-              [[landing_page_1]]
-              [[landing_page_2]]
-              [[last_updated]]
-              [[order_due_date]]
-              [[school_location]]
-              [[school_logo_link]]
-              [[school_name]]
-          -->
           <div class="option">
             <span>Campaign Name</span>
             <button class="copy-btn" data-value="[[campaign_name]]">
