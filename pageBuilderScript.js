@@ -194,7 +194,7 @@ function injectCFDropdown(element) {
   `;
 
   // Insert as the first child
-  element.insertBefore(newDiv, parentElement.firstChild);
+  element.insertBefore(newDiv, element.firstChild);
 }
 
 function waitForElement(query, continuous, callback) {
