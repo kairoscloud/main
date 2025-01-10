@@ -30,9 +30,14 @@ function main_pageBuilder() {
     }
   }, 2000);
 
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   console.log("Page builder script running!");
 
-  waitForElement("#funnelBuilderApp", false, function (element) {
+  waitForElement("#funnelBuilderApp", false, async function (element) {
+    // await sleep(5000); // wait for the page to load
     injectCFDropdown(element);
   });
 }
@@ -45,8 +50,6 @@ function injectCFDropdown(element) {
   newDiv.style.top = "19vh";
   newDiv.style.left = "1vw";
   newDiv.innerHTML = `
-    <!DOCTYPE html>
-    <html>
     <head>
       <style>
         .dropdown {
@@ -121,11 +124,11 @@ function injectCFDropdown(element) {
           transform: rotate(-135deg);
         }
       </style>
-    </head>
+
     <body>
-      <div class="dropdown">
+      <div class="dropdown" id="mainCFDropdown">
         <div class="dropdown-header">
-          <span>fields</span>
+          <span>Custom Fields</span>
           <span class="chevron"></span>
         </div>
         <div class="dropdown-content">
@@ -159,42 +162,40 @@ function injectCFDropdown(element) {
         </div>
       </div>
 
-      <script>
-        // Toggle dropdown
-        document.querySelector('.dropdown-header').addEventListener('click', function() {
-          document.querySelector('.dropdown').classList.toggle('active');
-        });
-
-        // Copy functionality
-        document.querySelectorAll('.copy-btn').forEach(button => {
-          button.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const value = this.dataset.value;
-            navigator.clipboard.writeText(value).then(() => {
-              // Optional: Add some visual feedback
-              const originalColor = this.style.color;
-              this.style.color = '#4CAF50';
-              setTimeout(() => {
-                this.style.color = originalColor;
-              }, 500);
-            });
-          });
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-          const dropdown = document.querySelector('.dropdown');
-          if (!dropdown.contains(e.target)) {
-            dropdown.classList.remove('active');
-          }
-        });
-      </script>
-    </body>
-    </html>
   `;
 
-  // Insert as the first child
   element.insertBefore(newDiv, element.firstChild);
+
+  // Toggle dropdown
+  document
+    .querySelector(".dropdown-header")
+    .addEventListener("click", function () {
+      document.querySelector(".dropdown").classList.toggle("active");
+    });
+
+  // Copy functionality
+  document.querySelectorAll(".copy-btn").forEach((button) => {
+    button.addEventListener("click", function (e) {
+      e.stopPropagation();
+      const value = this.dataset.value;
+      navigator.clipboard.writeText(value).then(() => {
+        // Optional: Add some visual feedback
+        const originalColor = this.style.color;
+        this.style.color = "#4CAF50";
+        setTimeout(() => {
+          this.style.color = originalColor;
+        }, 500);
+      });
+    });
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", function (e) {
+    const dropdown = document.querySelector("#mainCFDropdown");
+    if (!dropdown.contains(e.target)) {
+      dropdown.classList.remove("active");
+    }
+  });
 }
 
 function waitForElement(query, continuous, callback) {
