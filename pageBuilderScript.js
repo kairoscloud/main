@@ -132,33 +132,108 @@ function injectCFDropdown(element) {
           <span class="chevron"></span>
         </div>
         <div class="dropdown-content">
+          <--! Every option:
+              [[campaign_name]]
+              [[jostens_website_link]]
+              [[landing_page_1]]
+              [[landing_page_2]]
+              [[last_updated]]
+              [[order_due_date]]
+              [[school_location]]
+              [[school_logo_link]]
+              [[school_name]]
+          -->
           <div class="option">
-            <span>name</span>
-            <button class="copy-btn" data-value="name">
+            <span>Campaign Name</span>
+            <button class="copy-btn" data-value="[[campaign_name]]">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
               </svg>
             </button>
           </div>
+
           <div class="option">
-            <span>email</span>
-            <button class="copy-btn" data-value="email">
+            <span>Jostens Website Link</span>
+            <button class="copy-btn" data-value="[[jostens_website_link]]">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
               </svg>
             </button>
           </div>
+
           <div class="option">
-            <span>phone</span>
-            <button class="copy-btn" data-value="phone">
+            <span>Landing Page 1</span>
+            <button class="copy-btn" data-value="[[landing_page_1]]">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
               </svg>
             </button>
           </div>
+
+            <div class="option">
+              <span>Landing Page 2</span>
+              <button class="copy-btn" data-value="[[landing_page_2]]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="option">
+              <span>Last Updated</span>
+              <button class="copy-btn" data-value="[[last_updated]]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="option">
+              <span>Order Due Date</span>
+              <button class="copy-btn" data-value="[[order_due_date]]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="option">
+              <span>School Location</span>
+              <button class="copy-btn" data-value="[[school_location]]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="option">
+              <span>School Logo Link</span>
+              <button class="copy-btn" data-value="[[school_logo_link]]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+
+            <div class="option">
+              <span>School Name</span>
+              <button class="copy-btn" data-value="[[school_name]]">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+              </button>
+            </div>
+
+
         </div>
       </div>
 
