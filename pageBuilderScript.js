@@ -223,6 +223,32 @@ function injectCFDropdown() {
               </button>
             </div>
 
+            <div class="divider">
+                <span style="font-size: 11pt">My Custom Fields</span>
+            </div>
+
+            <style>
+            .divider {
+                display: flex;
+                align-items: center;
+                margin: 20px 0;
+            }
+
+            .divider::before {
+                content: "";
+                flex: 1;
+                border-bottom: 1px solid #607279;
+                margin-right: 10px;
+            }
+
+            .divider::after {
+                content: "";
+                flex: 1;
+                border-bottom: 1px solid #607279;
+                margin-left: 10px;
+            }
+            </style>
+
             ${otherOptions}
 
 
