@@ -45,7 +45,7 @@ function main_pageBuilder() {
   });
 }
 
-function injectCFDropdown(element) {
+function injectCFDropdown() {
   let element = document.querySelector("#funnelBuilderApp");
   const newDiv = document.createElement("div");
   newDiv.id = "cfDropdown";
