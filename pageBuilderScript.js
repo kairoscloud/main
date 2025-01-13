@@ -1,4 +1,4 @@
-let pbScript_ver = 13;
+let pbScript_ver = 14;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page builder
@@ -316,11 +316,14 @@ async function assembleCFHTML() {
     const data = await response.json();
     console.log("Location access key: " + locationAccessKey);
     console.log(data);
-    // for (let i = 0; i < data.customFields.length; i++) {
-    //   if (data.customFields[i].placeholder.includes("  ")) {
-    //     console.log(data.customFields[i]);
-    //   }
-    // }
+    for (let i = 0; i < data.customFields.length; i++) {
+      if (data.customFields[i].placeholder.includes("  ")) {
+        addOption(
+          data.customFields[i].name,
+          data.customFields[i].placeholder.replace("  ", ""),
+        );
+      }
+    }
   } catch (error) {
     console.error(error);
   }
@@ -339,4 +342,18 @@ async function getLocationAccessKey(loc) {
         }
       });
     });
+}
+
+function addOption(name, placeholder) {
+  otherOptions += `
+    <div class="option">
+      <span>${placeholder}</span>
+      <button class="copy-btn" data-value="${name}">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+      </button>
+    </div>
+  `;
 }
