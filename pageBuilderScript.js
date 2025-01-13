@@ -334,6 +334,8 @@ async function getLocationAccessKey(loc) {
       querySnapshot.forEach((doc) => {
         if (doc.id == loc) {
           locationAccessKey = doc.data().locationAccessToken;
+          console.log("location: " + loc);
+          console.log("Location access key: " + locationAccessKey);
           return;
         }
       });
