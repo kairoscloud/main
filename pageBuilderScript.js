@@ -1,4 +1,4 @@
-let pbScript_ver = 11;
+let pbScript_ver = 12;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page builder
@@ -315,6 +315,7 @@ async function assembleCFHTML() {
   try {
     const response = await fetch(url, options);
     const data = await response.json();
+    console.log("Location access key: " + locationAccessKey);
     console.log(data);
     // for (let i = 0; i < data.customFields.length; i++) {
     //   if (data.customFields[i].placeholder.includes("  ")) {
@@ -334,8 +335,6 @@ async function getLocationAccessKey(loc) {
       querySnapshot.forEach((doc) => {
         if (doc.id == loc) {
           locationAccessKey = doc.data().locationAccessToken;
-          console.log("location: " + loc);
-          console.log("Location access key: " + locationAccessKey);
           return;
         }
       });
