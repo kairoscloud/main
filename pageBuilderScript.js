@@ -17,6 +17,9 @@ active[pbScript_id] = Date.now();
 // all variables will be reset when main is called again
 
 // called on initialization or restart
+let otherOptions = "";
+let locationAccessKey = "";
+let thisLocation = window.location.href.split("/")[4];
 main_pageBuilder();
 function main_pageBuilder() {
   // this is just protocol as defined by the script loader
@@ -42,7 +45,11 @@ function main_pageBuilder() {
   });
 }
 
-function injectCFDropdown(element) {
+async function injectCFDropdown(element) {
+  // configure custom fields here
+  await getLocationAccessKey(thisLocation);
+  await assembleCFHTML();
+
   // Create the new div
   const newDiv = document.createElement("div");
   newDiv.id = "cfDropdown";
@@ -220,6 +227,8 @@ function injectCFDropdown(element) {
               </button>
             </div>
 
+            ${otherOptions}
+
 
         </div>
       </div>
@@ -287,4 +296,46 @@ function waitForElement(query, continuous, callback) {
     console.log("Found element '" + query + "'");
     callback(element);
   }
+}
+
+async function assembleCFHTML() {
+  const url =
+    "https://services.leadconnectorhq.com/locations/" +
+    thisLocation +
+    "/customFields";
+  const options = {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + locationAccessKey,
+      Version: "2021-07-28",
+      Accept: "application/json",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    for (let i = 0; i < data.customFields.length; i++) {
+      if (data.customFields[i].placeholder.includes("  ")) {
+        console.log(data.customFields[i]);
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function getLocationAccessKey(loc) {
+  firestore // grab the location access key from Firebase
+    .collection("tokens")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.id == loc) {
+          locationAccessKey = doc.data().locationAccessToken;
+          return;
+        }
+      });
+    });
 }
