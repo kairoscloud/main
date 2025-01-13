@@ -42,12 +42,11 @@ function main_pageBuilder() {
   waitForElement("#funnelBuilderApp", false, async function (element) {
     await sleep(5000); // wait for the page to load
     await getLocationAccessKey(thisLocation);
-    injectCFDropdown(element);
   });
 }
 
 function injectCFDropdown(element) {
-  // Create the new div
+  let element = document.querySelector("#funnelBuilderApp");
   const newDiv = document.createElement("div");
   newDiv.id = "cfDropdown";
   newDiv.style.position = "absolute";
@@ -321,6 +320,7 @@ async function assembleCFHTML() {
         );
       }
     }
+    injectCFDropdown();
   } catch (error) {
     console.error(error);
   }
