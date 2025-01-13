@@ -1,4 +1,4 @@
-let pbScript_ver = 12;
+let pbScript_ver = 13;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page builder
@@ -48,7 +48,6 @@ function main_pageBuilder() {
 async function injectCFDropdown(element) {
   // configure custom fields here
   await getLocationAccessKey(thisLocation);
-  await assembleCFHTML();
 
   // Create the new div
   const newDiv = document.createElement("div");
@@ -335,6 +334,7 @@ async function getLocationAccessKey(loc) {
       querySnapshot.forEach((doc) => {
         if (doc.id == loc) {
           locationAccessKey = doc.data().locationAccessToken;
+          assembleCFHTML();
           return;
         }
       });
