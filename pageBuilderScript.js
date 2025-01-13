@@ -41,14 +41,12 @@ function main_pageBuilder() {
 
   waitForElement("#funnelBuilderApp", false, async function (element) {
     await sleep(5000); // wait for the page to load
+    await getLocationAccessKey(thisLocation);
     injectCFDropdown(element);
   });
 }
 
-async function injectCFDropdown(element) {
-  // configure custom fields here
-  await getLocationAccessKey(thisLocation);
-
+function injectCFDropdown(element) {
   // Create the new div
   const newDiv = document.createElement("div");
   newDiv.id = "cfDropdown";
@@ -314,7 +312,6 @@ async function assembleCFHTML() {
   try {
     const response = await fetch(url, options);
     const data = await response.json();
-    console.log("Location access key: " + locationAccessKey);
     console.log(data);
     for (let i = 0; i < data.customFields.length; i++) {
       if (data.customFields[i].placeholder.includes("  ")) {
