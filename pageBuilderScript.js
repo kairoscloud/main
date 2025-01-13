@@ -315,12 +315,12 @@ async function assembleCFHTML() {
   try {
     const response = await fetch(url, options);
     const data = await response.json();
-
-    for (let i = 0; i < data.customFields.length; i++) {
-      if (data.customFields[i].placeholder.includes("  ")) {
-        console.log(data.customFields[i]);
-      }
-    }
+    console.log(data);
+    // for (let i = 0; i < data.customFields.length; i++) {
+    //   if (data.customFields[i].placeholder.includes("  ")) {
+    //     console.log(data.customFields[i]);
+    //   }
+    // }
   } catch (error) {
     console.error(error);
   }
