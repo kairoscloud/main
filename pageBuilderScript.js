@@ -50,8 +50,8 @@ function injectCFDropdown() {
   const newDiv = document.createElement("div");
   newDiv.id = "cfDropdown";
   newDiv.style.position = "absolute";
-  newDiv.style.top = "1vh";
-  newDiv.style.right = "176pt";
+  newDiv.style.top = "7.7vh";
+  newDiv.style.right = "160pt";
   newDiv.innerHTML = `
     <head>
       <style>
@@ -65,7 +65,7 @@ function injectCFDropdown() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 8px 15px;
+          padding: 6px 15px;
           background: white;
           border: 1px solid #ddd;
           border-radius: 6px;
@@ -224,27 +224,27 @@ function injectCFDropdown() {
             </div>
 
             <div class="divider">
-                <span style="font-size: 11pt">My Custom Fields</span>
+                <span style="font-size: 9pt; color: #b4b4b4">My Custom Fields</span>
             </div>
 
             <style>
             .divider {
                 display: flex;
                 align-items: center;
-                margin: 20px 0;
+                margin: 10px 10px;
             }
 
             .divider::before {
                 content: "";
                 flex: 1;
-                border-bottom: 1px solid #607279;
+                border-bottom: 1px solid #b4b4b4;
                 margin-right: 10px;
             }
 
             .divider::after {
                 content: "";
                 flex: 1;
-                border-bottom: 1px solid #607279;
+                border-bottom: 1px solid #b4b4b4;
                 margin-left: 10px;
             }
             </style>
