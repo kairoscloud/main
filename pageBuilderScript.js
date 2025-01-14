@@ -1,4 +1,4 @@
-let pbScript_ver = 14;
+let pbScript_ver = 15;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page builder
@@ -50,7 +50,7 @@ function injectCFDropdown() {
   const newDiv = document.createElement("div");
   newDiv.id = "cfDropdown";
   newDiv.style.position = "absolute";
-  newDiv.style.top = "7.7vh";
+  newDiv.style.top = "43.8pt";
   newDiv.style.right = "160pt";
   newDiv.innerHTML = `
     <head>
@@ -380,3 +380,4 @@ function addOption(name, placeholder) {
     </div>
   `;
 }
+            
