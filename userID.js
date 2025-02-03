@@ -26,7 +26,9 @@ let globalUserID = hash(
     "" + screen.colorDepth ||
     "" + screen.pixelDepth ||
     ""
-  ).toString(),
+  )
+    .toString()
+    .replaceAll(" ", ""),
 );
 
 console.log("BaseHash: " + hash(""));
