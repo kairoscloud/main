@@ -8,56 +8,14 @@
 // Runs on https://sites.kairoscloud.io/*
 // Jacob Westra, jacob@thekairosmedia.com
 
-function getUserID() {
-  const data = {
-    userAgent: navigator.userAgent || "",
-    platform: navigator.platform || "",
-    language: navigator.language || "",
-    languages: navigator.languages ? navigator.languages.join(",") : "",
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
-    deviceMemory: navigator.deviceMemory || "",
-    cpuCores: navigator.hardwareConcurrency || "",
-    touchSupport: navigator.maxTouchPoints || "",
-    colorDepth: screen.colorDepth || "",
-    prefersReducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)")
-      .matches
-      ? "1"
-      : "0",
-  };
-
-  // Attempt WebGL fingerprinting
-  try {
-    const canvas = document.createElement("canvas");
-    const gl =
-      canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-    if (gl) {
-      const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-      if (debugInfo) {
-        data.webglVendor =
-          gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) || "";
-        data.webglRenderer =
-          gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || "";
-      }
-    }
-  } catch (e) {
-    data.webglVendor = data.webglRenderer = "";
-  }
-
-  // Attempt Canvas fingerprinting
-  try {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.textBaseline = "top";
-    ctx.font = "14px 'Arial'";
-    ctx.fillText("Hello, fingerprint!", 2, 2);
-    data.canvasHash = hash(canvas.toDataURL());
-  } catch (e) {
-    data.canvasHash = "";
-  }
-
-  // Hash all collected data
-  return hash(Object.values(data).join("|"));
-}
-
-let globalUserID = getUserID();
-console.log(globalUserID);
+let globalUserID = hash(
+  (
+    navigator.userAgent +
+    navigator.platform +
+    navigator.vendor +
+    navigator.language +
+    screen.width +
+    screen.height +
+    screen.colorDepth
+  ).toString(),
+);
