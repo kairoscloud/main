@@ -10,13 +10,22 @@
 
 let globalUserID = hash(
   (
-    navigator.userAgent +
-    navigator.platform +
-    navigator.vendor +
-    navigator.language +
-    screen.width +
-    screen.height +
-    screen.colorDepth
+    navigator.userAgent ||
+    "" + navigator.platform ||
+    "" + navigator.vendor ||
+    "" + navigator.language ||
+    "" + navigator.languages ||
+    "" + navigator.appName ||
+    "" + navigator.appVersion ||
+    "" + navigator.appCodeName ||
+    "" + navigator.cookieEnabled ||
+    "" + navigator.doNotTrack ||
+    "" + navigator.onLine ||
+    "" + navigator.hardwareConcurrency ||
+    "" + navigator.product ||
+    "" + screen.colorDepth ||
+    "" + screen.pixelDepth ||
+    ""
   ).toString(),
 );
 
