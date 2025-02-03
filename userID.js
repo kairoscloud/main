@@ -29,4 +29,5 @@ let globalUserID = hash(
   ).toString(),
 );
 
+console.log("BaseHash: " + hash(""));
 console.log("User ID: " + globalUserID);
