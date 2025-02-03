@@ -19,3 +19,5 @@ let globalUserID = hash(
     screen.colorDepth
   ).toString(),
 );
+
+console.log("User ID: " + globalUserID);
