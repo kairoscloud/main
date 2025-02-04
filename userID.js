@@ -24,50 +24,48 @@ let globalUserID = hash(
     navigator.hardwareConcurrency +
     navigator.product +
     screen.colorDepth +
-    screen.pixelDepth +
-    getCanvasFingerprint() +
-    getWebGLFingerprint()
+    screen.pixelDepth
   )
     .toString()
     .replaceAll(" ", ""),
 );
 
-// Attempt WebGL fingerprinting
+// // Attempt WebGL fingerprinting
 
-function getWebGLFingerprint() {
-  try {
-    const canvas = document.createElement("canvas");
-    const gl =
-      canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-    if (gl) {
-      const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-      if (debugInfo) {
-        let webglVendor =
-          gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) || "";
-        let webglRenderer =
-          gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || "";
+// function getWebGLFingerprint() {
+//   try {
+//     const canvas = document.createElement("canvas");
+//     const gl =
+//       canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+//     if (gl) {
+//       const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+//       if (debugInfo) {
+//         let webglVendor =
+//           gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) || "";
+//         let webglRenderer =
+//           gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || "";
 
-        return webglVendor + webglRenderer;
-      }
-    }
-  } catch (e) {
-    return "";
-  }
-}
+//         return webglVendor + webglRenderer;
+//       }
+//     }
+//   } catch (e) {
+//     return "";
+//   }
+// }
 
-// Attempt Canvas fingerprinting
+// // Attempt Canvas fingerprinting
 
-function getCanvasFingerprint() {
-  try {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.textBaseline = "top";
-    ctx.font = "14px 'Arial'";
-    ctx.fillText("Hello, fingerprint!", 2, 2);
-    return hash(canvas.toDataURL());
-  } catch (e) {
-    return "";
-  }
-}
+// function getCanvasFingerprint() {
+//   try {
+//     const canvas = document.createElement("canvas");
+//     const ctx = canvas.getContext("2d");
+//     ctx.textBaseline = "top";
+//     ctx.font = "14px 'Arial'";
+//     ctx.fillText("Hello, fingerprint!", 2, 2);
+//     return hash(canvas.toDataURL());
+//   } catch (e) {
+//     return "";
+//   }
+// }
 
 console.log("User ID: " + globalUserID);
