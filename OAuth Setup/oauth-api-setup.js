@@ -45,8 +45,8 @@ function fillformFunc() {
 // Editor Function
 function editorFunc() {
   var id = document.getElementById("DMqsWSFgrZGG6HSv8ZGS").value;
-  var scope = document.getElementById("bwsVb6yruPE21WBFcCSM").value;
-  var url = "https://marketplace.gohighlevel.com/oauth/chooselocation?response_type=code&redirect_uri=https://oauth.kairoscloud.io/url-redirect&client_id=" + id +"&scope=" + scope;
+  var scope = document.getElementById("bwsVb6yruPE21WBFcCSM").value.replace("  ", " ");
+  var url = "https://marketplace.gohighlevel.com/oauth/chooselocation?response_type=code&redirect_uri=https://oauth.kairoscloud.io/url-redirect&client_id=" + id +"&scope=" + scope + "&loginWindowOpenMode=self";
   document.getElementById("CFX6jNxLm6WeiJaeUb3o").value = url;
   document.getElementById("CFX6jNxLm6WeiJaeUb3o").dispatchEvent(new Event("input", {
     bubbles: true
