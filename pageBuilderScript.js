@@ -1,4 +1,4 @@
-let pbScript_ver = 15;
+let pbScript_ver = 16;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page builder
@@ -6,6 +6,7 @@ let pbScript_ver = 15;
 // - https://kairoscloud.github.io/main/settingsScript.js
 // Runs on page:
 // - https://app.kairoscloud.io/location/*/page-builder/*
+// - (Jostens only)
 
 let pbScript_id = "pageBuilderScript"; // autoload form id later
 let pbScript_hash = hash(document.currentScript.textContent).substring(4); // last 4 hex digits of hash
@@ -40,7 +41,7 @@ function main_pageBuilder() {
   console.log("Page builder script running!");
 
   waitForElement("#funnelBuilderApp", false, async function (element) {
-    await sleep(5000); // wait for the page to load
+    await sleep(5100); // wait for the page to load
     await getLocationAccessKey(thisLocation);
   });
 }
@@ -380,4 +381,3 @@ function addOption(name, placeholder) {
     </div>
   `;
 }
-            
