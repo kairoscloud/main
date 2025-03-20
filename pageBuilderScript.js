@@ -51,11 +51,16 @@ function main_pageBuilder() {
   waitForElement(appElement, false, async function (element) {
     await sleep(5100); // wait for the page to load
     await getLocationAccessKey(thisLocation);
-    // we call injectCFDropdown() after we have the location access key
+    // we call injectCFDropdown() in getLocationAccessKey()
   });
 }
 
-function injectCFDropdown() {
+async function injectCFDropdown() {
+  if (isForm) {
+    console.log("Form detected. Waiting for builder to load...");
+    await sleep(7500);
+  }
+  console.log("Injecting dropdown...");
   let element = document.querySelector(appElement);
   const newDiv = document.createElement("div");
   newDiv.id = "cfDropdown";
@@ -355,10 +360,6 @@ async function assembleCFHTML() {
           data.customFields[i].placeholder.replace("  ", ""),
         );
       }
-    }
-    if (isForm) {
-      console.log("Form detected. Waiting for builder to load...");
-      await sleep(7500);
     }
     injectCFDropdown();
   } catch (error) {
