@@ -1,12 +1,13 @@
-let pbScript_ver = 16;
+let pbScript_ver = 17;
 // The Kairos Cloud Page Builder script
 // What does it do?
-// - Adds a copy/paste menu for custom fields in the page builder
+// - Adds a copy/paste menu for custom fields in the page/form builder
 // Loads in from:
 // - https://kairoscloud.github.io/main/settingsScript.js
-// Runs on page:
+// Runs on pages:
 // - https://app.kairoscloud.io/location/*/page-builder/*
-// - (Jostens only)
+// - https://app.kairoscloud.io/v2/location/*/form-builder-v2/*
+// - (Jostens + Kairos Cloud only)
 
 let pbScript_id = "pageBuilderScript"; // autoload form id later
 let pbScript_hash = hash(document.currentScript.textContent).substring(4); // last 4 hex digits of hash
@@ -40,14 +41,21 @@ function main_pageBuilder() {
 
   console.log("Page builder script running!");
 
-  waitForElement("#funnelBuilderApp", false, async function (element) {
+  let isForm = false;
+  appElement = "#funnelBuilderApp";
+  if (window.location.href.includes("form-builder-v2")) {
+    isForm = true;
+    appElement = "#form-builder-app";
+  }
+
+  waitForElement(appElement, false, async function (element) {
     await sleep(5100); // wait for the page to load
     await getLocationAccessKey(thisLocation);
   });
 }
 
 function injectCFDropdown() {
-  let element = document.querySelector("#funnelBuilderApp");
+  let element = document.querySelector(appElement);
   const newDiv = document.createElement("div");
   newDiv.id = "cfDropdown";
   newDiv.style.position = "absolute";
