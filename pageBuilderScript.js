@@ -1,4 +1,4 @@
-let pbScript_ver = 21;
+let pbScript_ver = 22;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page/form builder
@@ -368,10 +368,10 @@ async function assembleCFHTML() {
   }
 }
 
-async function getLocationAccessKey(locID) {
-  loc = locID;
+async function getLocationAccessKey(loc) {
   if (loc == "yfyIrXrm61r57rx3ex4N") {
-    loc = "agency";
+    injectCFDropdown();
+    return;
   }
   console.log("Getting location access key: " + loc);
   firestore // grab the location access key from Firebase
