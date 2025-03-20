@@ -45,7 +45,7 @@ function main_pageBuilder() {
   appElement = "#funnelBuilderApp";
   if (window.location.href.includes("form-builder-v2")) {
     isForm = true;
-    appElement = "#form-builder-app";
+    appElement = "#formBuilderApp";
   }
 
   waitForElement(appElement, false, async function (element) {
