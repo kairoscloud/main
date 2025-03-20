@@ -1,4 +1,4 @@
-let pbScript_ver = 22;
+let pbScript_ver = 23;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page/form builder
@@ -25,8 +25,8 @@ let thisLocation = window.location.href.split("/")[4];
 if (thisLocation == "location") {
   thisLocation = window.location.href.split("/")[5];
 }
-main_pageBuilder();
-function main_pageBuilder() {
+main_pageBuilderScript();
+function main_pageBuilderScript() {
   // this is just protocol as defined by the script loader
   // it's not necessary for the functionality of the rest of the script
   // it's just a way to keep track of the script's status
