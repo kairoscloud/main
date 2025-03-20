@@ -355,6 +355,9 @@ async function assembleCFHTML() {
         );
       }
     }
+    if (isForm) {
+      await sleep(3000);
+    }
     injectCFDropdown();
   } catch (error) {
     console.error(error);
