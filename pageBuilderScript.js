@@ -1,4 +1,4 @@
-let pbScript_ver = 17;
+let pbScript_ver = 18;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page/form builder
@@ -51,6 +51,7 @@ function main_pageBuilder() {
   waitForElement(appElement, false, async function (element) {
     await sleep(5100); // wait for the page to load
     await getLocationAccessKey(thisLocation);
+    // we call injectCFDropdown() after we have the location access key
   });
 }
 
@@ -356,7 +357,8 @@ async function assembleCFHTML() {
       }
     }
     if (isForm) {
-      await sleep(3000);
+      console.log("Form detected. Waiting for builder to load...");
+      await sleep(7500);
     }
     injectCFDropdown();
   } catch (error) {
