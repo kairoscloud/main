@@ -56,10 +56,6 @@ function main_pageBuilder() {
 }
 
 async function injectCFDropdown() {
-  if (isForm) {
-    console.log("Form detected. Waiting for builder to load...");
-    await sleep(7500);
-  }
   console.log("Injecting dropdown...");
   let element = document.querySelector(appElement);
   const newDiv = document.createElement("div");
@@ -336,6 +332,7 @@ function waitForElement(query, continuous, callback) {
 }
 
 async function assembleCFHTML() {
+  console.log("Assembling custom fields...");
   const url =
     "https://services.leadconnectorhq.com/locations/" +
     thisLocation +
@@ -361,6 +358,7 @@ async function assembleCFHTML() {
         );
       }
     }
+    console.log("injecting...");
     injectCFDropdown();
   } catch (error) {
     console.error(error);
@@ -368,6 +366,7 @@ async function assembleCFHTML() {
 }
 
 async function getLocationAccessKey(loc) {
+  console.log("Getting location access key...");
   firestore // grab the location access key from Firebase
     .collection("tokens")
     .get()
@@ -375,6 +374,7 @@ async function getLocationAccessKey(loc) {
       querySnapshot.forEach((doc) => {
         if (doc.id == loc) {
           locationAccessKey = doc.data().locationAccessToken;
+          console.log("Found!");
           assembleCFHTML();
           return;
         }
