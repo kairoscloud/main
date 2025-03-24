@@ -1,4 +1,4 @@
-let pbScript_ver = 23;
+let pbScript_ver = 24;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page/form builder
@@ -353,6 +353,7 @@ async function assembleCFHTML() {
     const response = await fetch(url, options);
     const data = await response.json();
     console.log(data);
+    otherOptions = ""; // reset the otherOptions, because sometimes customFields get added twice because of page changes, yet script stays loaded
     for (let i = 0; i < data.customFields.length; i++) {
       if (data.customFields[i].placeholder.includes("  ")) {
         addOption(
