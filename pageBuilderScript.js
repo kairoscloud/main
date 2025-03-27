@@ -1,4 +1,4 @@
-let pbScript_ver = 24;
+let pbScript_ver = 25;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page/form builder
@@ -147,95 +147,16 @@ async function injectCFDropdown() {
           <span class="chevron"></span>
         </div>
         <div class="dropdown-content">
-          <div class="option">
-            <span>Campaign Name</span>
-            <button class="copy-btn" data-value="[[campaign_name]]">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-            </button>
-          </div>
 
-          <div class="option">
-            <span>Jostens Website Link</span>
-            <button class="copy-btn" data-value="[[jostens_website_link]]">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-            </button>
-          </div>
+          ${option("School Name", "[[school_name]]")}
+          ${option("School Location", "[[school_location]]")}
+          ${option("School Mascot", "[[school_mascot]]")}
+          ${option("School Logo Link", "[[school_logo_link]]")}
+          ${option("Jostens Website Link", "[[jostens_website_link]]")}
+          ${option("Landing Page 1", "[[landing_page_1]]")}
+          ${option("Landing Page 2", "[[landing_page_2]]")}
+          ${option("Order Due Date", "[[order_due_date]]")}
 
-          <div class="option">
-            <span>Landing Page 1</span>
-            <button class="copy-btn" data-value="[[landing_page_1]]">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-            </button>
-          </div>
-
-            <div class="option">
-              <span>Landing Page 2</span>
-              <button class="copy-btn" data-value="[[landing_page_2]]">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-              </button>
-            </div>
-
-            <div class="option">
-              <span>Last Updated</span>
-              <button class="copy-btn" data-value="[[last_updated]]">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-              </button>
-            </div>
-
-            <div class="option">
-              <span>Order Due Date</span>
-              <button class="copy-btn" data-value="[[order_due_date]]">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-              </button>
-            </div>
-
-            <div class="option">
-              <span>School Location</span>
-              <button class="copy-btn" data-value="[[school_location]]">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-              </button>
-            </div>
-
-            <div class="option">
-              <span>School Logo Link</span>
-              <button class="copy-btn" data-value="[[school_logo_link]]">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-              </button>
-            </div>
-
-            <div class="option">
-              <span>School Name</span>
-              <button class="copy-btn" data-value="[[school_name]]">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-              </button>
-            </div>
 
             <div class="divider">
                 <span style="font-size: 9pt; color: #b4b4b4">My Custom Fields</span>
@@ -391,10 +312,14 @@ async function getLocationAccessKey(loc) {
 }
 
 function addOption(name, placeholder) {
-  otherOptions += `
+  otherOptions += option(name, placeholder);
+}
+
+function option(name, data) {
+  return `
     <div class="option">
-      <span>${placeholder}</span>
-      <button class="copy-btn" data-value="${name}">
+      <span>${name}</span>
+      <button class="copy-btn" data-value="${data}">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
