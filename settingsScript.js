@@ -1,4 +1,4 @@
-let sScript_ver = 5;
+let sScript_ver = 6;
 // The Kairos Cloud settings script
 // What does it do?
 // - Removes some AI garbage features from the settings menu
@@ -17,8 +17,8 @@ active[sScript_id] = Date.now();
 // all variables will be reset when main is called again
 
 // called on initialization or restart
-main_settings();
-function main_settings() {
+main_settingsScript();
+function main_settingsScript() {
   // this is just protocol as defined by the script loader
   // it's not necessary for the functionality of the rest of the script
   // it's just a way to keep track of the script's status
