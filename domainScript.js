@@ -1,4 +1,4 @@
-let dScript_ver = 3;
+let dScript_ver = 4;
 // The Kairos Cloud domain page script
 // What does it do?
 // - Listens for when users add a new domain, since the GHL API doesn't support this
@@ -72,7 +72,11 @@ function waitForElement(query, continuous, callback) {
   }
 }
 
-function processDomains(domainListContainer) {
+async function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function processDomains(domainListContainer) {
   let domainsList = [];
   // domain elements look like this
   // for-loop for each of the element's children
@@ -85,6 +89,7 @@ function processDomains(domainListContainer) {
   }
 
   //select all elements with .n-tag.n-tag--round.hl-default.inline-block
+  await sleep(5000);
   let subDomainHoverList = document.querySelectorAll(
     ".n-tag.n-tag--round.hl-default.inline-block",
   );
@@ -94,7 +99,7 @@ function processDomains(domainListContainer) {
     // simulate hover for each
     element.dispatchEvent(new Event("mouseenter", { bubbles: true }));
     // wait 1s
-    await new Promise((r) => setTimeout(r, 1000));
+    await sleep(1000);
     // select all elements with .n-tag.n-tag--round.hl-default.inline-block
     let subDomainList = document.querySelectorAll(".hl-text-sm-normal");
     for (let subDomain of subDomainList) {
