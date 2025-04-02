@@ -1,4 +1,4 @@
-let dScript_ver = 16;
+let dScript_ver = 17;
 // The Kairos Cloud domain page script
 // What does it do?
 // - Listens for when users add a new domain, since the GHL API doesn't support this
@@ -261,7 +261,7 @@ function addStyle() {
   let style = document.createElement("style");
   style.id = "tempStyle";
   style.innerHTML = `
-    .v-binder-follower-content {
+    .n-popover .n-popover-shared .n-tooltip .n-popover-shared--show-arrow {
       display: none
     }
   `;
