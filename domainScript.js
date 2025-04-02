@@ -92,7 +92,7 @@ async function processDomains(domainListContainer) {
   }
 
   //select all elements with .n-tag.n-tag--round.hl-default.inline-block
-  await sleep(3500); // important that this stays here, because the tooltip list will appear if it isn't
+  await sleep(4000); // important that this stays here, because the tooltip list will appear if it isn't
   console.log("Acquiring subdomains...");
   let subDomainHoverList = document.querySelectorAll(
     ".n-tag.n-tag--round.hl-default.inline-block",
@@ -218,20 +218,15 @@ async function addButton() {
   `;
 
   toolBar.insertBefore(buttonContainer, toolBar.firstChild);
-
-  await sleep(500);
-
-  let refreshButton = document.getElementById("refreshButton");
-
-  refreshButton.addEventListener("mousedown", function () {
-    this.style.backgroundColor = "#ececec";
-  });
-  refreshButton.addEventListener("mouseup", function () {
-    this.style.backgroundColor = "white";
   });
 }
 
 function refresh() {
+  let refreshButton = document.getElementById("refreshButton");
+  refreshButton.backgroundColor = "#ececec";
+  setTimeout(() => {
+    refreshButton.backgroundColor = "white";
+  }, 1000);
   processDomains(document.querySelector('[data-testid="domain-list-content"]'));
 }
 
