@@ -1,4 +1,4 @@
-let dScript_ver = 8;
+let dScript_ver = 9;
 // The Kairos Cloud domain page script
 // What does it do?
 // - Listens for when users add a new domain, since the GHL API doesn't support this
@@ -37,6 +37,7 @@ function main_domains() {
     true,
     function (element) {
       processDomains(element);
+      addButton();
     },
   );
 
@@ -176,4 +177,27 @@ async function addDomainToList(newDomains) {
       }
     }
   });
+}
+
+function addButton() {
+  let toolBar = document.querySelectorAll(
+    ".flex.items-center.justify-end.-mb-\\[68px\\]",
+  )[0];
+  // insert as first child
+  let buttonContainer = document.createElement("div");
+  buttonContainer.innerHTML = `
+    <button class="n-button n-button--default-type n-button--medium-type"
+            style="border: 1px solid rgb(229, 231, 235); margin-right: 5px"
+            onclick="refresh()">
+              <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="96" height="96" viewBox="0,0,256,256" style="width: 90%; height: 90%">
+              <g fill="#2d2d2d" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(10.66667,10.66667)"><path d="M2,2l2.93945,2.93945c-1.81318,1.80876 -2.93945,4.30325 -2.93945,7.06055c0,5.514 4.486,10 10,10c5.514,0 10,-4.486 10,-10c0,-5.514 -4.486,-10 -10,-10v2c4.411,0 8,3.589 8,8c0,4.411 -3.589,8 -8,8c-4.411,0 -8,-3.589 -8,-8c0,-2.20599 0.90048,-4.20272 2.34961,-5.65039l2.65039,2.65039v-7z"></path></g></g>
+              </svg>
+            </button>
+  `;
+
+  toolBar.insertBefore(buttonContainer, toolBar.firstChild);
+}
+
+function refresh() {
+  processDomains(document.querySelector('[data-testid="domain-list-content"]'));
 }
