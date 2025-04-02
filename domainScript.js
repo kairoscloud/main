@@ -199,7 +199,7 @@ async function addButton() {
   let buttonContainer = document.createElement("div");
   buttonContainer.innerHTML = `
     <style>
-    #refreshButton:active, #refreshButton:focus {
+    #refreshButton:active {
     opacity: 0.5;
     }
     </style>
