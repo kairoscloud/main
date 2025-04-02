@@ -1,4 +1,4 @@
-let dScript_ver = 19;
+let dScript_ver = 20;
 // The Kairos Cloud domain page script
 // What does it do?
 // - Listens for when users add a new domain, since the GHL API doesn't support this
@@ -25,6 +25,7 @@ function main_domains() {
   // it's not necessary for the functionality of the rest of the script
   // it's just a way to keep track of the script's status
   let activeUpdateIntv = setInterval(() => {
+    locationID = window.location.pathname.split("/")[3];
     active[dScript_id] = Date.now();
     if (stop[dScript_id]) {
       clearInterval(activeUpdateIntv);
@@ -36,7 +37,7 @@ function main_domains() {
     '[data-testid="domain-list-content"]',
     false,
     function (element) {
-      processDomains(element);
+      //processDomains(element); // un-comment if we want auto-scraping when the page is loaded
       addButton();
     },
   );
@@ -91,7 +92,7 @@ async function processDomains(domainListContainer) {
   }
 
   //select all elements with .n-tag.n-tag--round.hl-default.inline-block
-  await sleep(2000);
+  // await sleep(1100);
   console.log("Acquiring subdomains...");
   let subDomainHoverList = document.querySelectorAll(
     ".n-tag.n-tag--round.hl-default.inline-block",
@@ -136,6 +137,8 @@ async function processDomains(domainListContainer) {
     let asDomain = asList[i];
     // replace any "\n+..." with ""
     let asDomainName = asDomain.innerText.replace(/\n.*/, "");
+    // replace any "+.." with ""
+    asDomainName = asDomainName.replace(/\+.*/, "");
     domainsList.push(asDomainName);
   }
 
@@ -194,8 +197,14 @@ function addButton() {
   // insert as first child
   let buttonContainer = document.createElement("div");
   buttonContainer.innerHTML = `
+    <style>
+    #refreshButton:active {
+      background-color: #ececec;
+    }
+    </style>
     <button class="n-button n-button--default-type n-button--medium-type"
             style="border: 1px solid rgb(229, 231, 235); margin-right: 5px"
+            id="refreshButton"
             onclick="refresh()"
             onmouseover="showTooltip(event)"
             onmousemove="positionTooltip(event)"
