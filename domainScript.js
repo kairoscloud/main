@@ -1,4 +1,4 @@
-let dScript_ver = 24;
+let dScript_ver = 25;
 // The Kairos Cloud domain page script
 // What does it do?
 // - Listens for when users add a new domain, since the GHL API doesn't support this
@@ -92,7 +92,7 @@ async function processDomains(domainListContainer) {
   }
 
   //select all elements with .n-tag.n-tag--round.hl-default.inline-block
-  await sleep(3500);
+  await sleep(3500); // important that this stays here, because the tooltip list will appear if it isn't
   console.log("Acquiring subdomains...");
   let subDomainHoverList = document.querySelectorAll(
     ".n-tag.n-tag--round.hl-default.inline-block",
@@ -199,7 +199,7 @@ function addButton() {
   let buttonContainer = document.createElement("div");
   buttonContainer.innerHTML = `
     <style>
-    #refreshButton:active {
+    #refreshButton:active, #refreshButton:focus {
       background-color: #ececec;
     }
     </style>
@@ -228,8 +228,7 @@ let tooltip;
 
 function createTooltip() {
   tooltip = document.createElement("div");
-  tooltip.textContent =
-    "Check for new domains that can be used in your campaigns";
+  tooltip.textContent = "Check for new domains to use in campaigns";
   Object.assign(tooltip.style, {
     position: "fixed",
     background: "rgba(50, 50, 50, 0.9)",
