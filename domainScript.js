@@ -1,4 +1,4 @@
-let dScript_ver = 17;
+let dScript_ver = 18;
 // The Kairos Cloud domain page script
 // What does it do?
 // - Listens for when users add a new domain, since the GHL API doesn't support this
@@ -134,7 +134,8 @@ async function processDomains(domainListContainer) {
 
   for (let i = 0; i < asList.length; i++) {
     let asDomain = asList[i];
-    let asDomainName = asDomain.innerText.replace(" \n+1", "");
+    // replace any "\n+..." with ""
+    let asDomainName = asDomain.innerText.replace(/\n.*/, "");
     domainsList.push(asDomainName);
   }
 
@@ -262,7 +263,7 @@ function addStyle() {
   style.id = "tempStyle";
   style.innerHTML = `
     .n-popover .n-popover-shared .n-tooltip .n-popover-shared--show-arrow {
-      display: none
+      display: none;
     }
   `;
   document.head.appendChild(style);
