@@ -1,4 +1,4 @@
-let dScript_ver = 13;
+let dScript_ver = 14;
 // The Kairos Cloud domain page script
 // What does it do?
 // - Listens for when users add a new domain, since the GHL API doesn't support this
@@ -108,7 +108,7 @@ async function processDomains(domainListContainer) {
       new Event("mouseenter", { bubbles: true }),
     );
     // wait 1s
-    // await sleep(1000);
+    await sleep(1000);
     // select all elements with .n-tag.n-tag--round.hl-default.inline-block
     let subDomainList = document.querySelectorAll(".hl-text-sm-normal");
     console.log(subDomainList);
