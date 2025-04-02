@@ -1,4 +1,4 @@
-let dScript_ver = 11;
+let dScript_ver = 12;
 // The Kairos Cloud domain page script
 // What does it do?
 // - Listens for when users add a new domain, since the GHL API doesn't support this
@@ -118,6 +118,9 @@ async function processDomains(domainListContainer) {
       let subDomainName = subDomain.innerText;
       domainsList.push(subDomainName);
     }
+    subDomainHoverList[i].dispatchEvent(
+      new Event("mouseleave", { bubbles: true }),
+    );
   }
 
   // get the already-shown subdomains
@@ -199,7 +202,6 @@ function addButton() {
             </button>
 
             <script>
-              (function() {
                   let tooltip;
 
                   function createTooltip() {
@@ -241,7 +243,6 @@ function addButton() {
                   window.showTooltip = showTooltip;
                   window.positionTooltip = positionTooltip;
                   window.hideTooltip = hideTooltip;
-              })();
             </script>
   `;
 
