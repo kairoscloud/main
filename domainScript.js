@@ -1,4 +1,4 @@
-let dScript_ver = 12;
+let dScript_ver = 13;
 // The Kairos Cloud domain page script
 // What does it do?
 // - Listens for when users add a new domain, since the GHL API doesn't support this
@@ -200,50 +200,6 @@ function addButton() {
               <g fill="#2d2d2d" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(10.66667,10.66667)"><path d="M2,2l2.93945,2.93945c-1.81318,1.80876 -2.93945,4.30325 -2.93945,7.06055c0,5.514 4.486,10 10,10c5.514,0 10,-4.486 10,-10c0,-5.514 -4.486,-10 -10,-10v2c4.411,0 8,3.589 8,8c0,4.411 -3.589,8 -8,8c-4.411,0 -8,-3.589 -8,-8c0,-2.20599 0.90048,-4.20272 2.34961,-5.65039l2.65039,2.65039v-7z"></path></g></g>
               </svg>
             </button>
-
-            <script>
-                  let tooltip;
-
-                  function createTooltip() {
-                      tooltip = document.createElement("div");
-                      tooltip.textContent = "Check for new domains that can be used in your campaigns";
-                      Object.assign(tooltip.style, {
-                          position: "fixed",
-                          background: "rgba(50, 50, 50, 0.9)",
-                          color: "#fff",
-                          padding: "6px 10px",
-                          borderRadius: "6px",
-                          fontSize: "14px",
-                          pointerEvents: "none",
-                          whiteSpace: "nowrap",
-                          transform: "translate(-50%, -120%)",
-                          transition: "opacity 0.15s ease",
-                          opacity: "0",
-                          zIndex: "999"
-                      });
-                      document.body.appendChild(tooltip);
-                  }
-
-                  function showTooltip(event) {
-                      if (!tooltip) createTooltip();
-                      tooltip.style.opacity = "1";
-                      positionTooltip(event);
-                  }
-
-                  function positionTooltip(event) {
-                      if (!tooltip) return;
-                      tooltip.style.left = event.clientX + "px";
-                      tooltip.style.top = (event.clientY - 10) + "px";
-                  }
-
-                  function hideTooltip() {
-                      if (tooltip) tooltip.style.opacity = "0";
-                  }
-
-                  window.showTooltip = showTooltip;
-                  window.positionTooltip = positionTooltip;
-                  window.hideTooltip = hideTooltip;
-            </script>
   `;
 
   toolBar.insertBefore(buttonContainer, toolBar.firstChild);
@@ -252,3 +208,46 @@ function addButton() {
 function refresh() {
   processDomains(document.querySelector('[data-testid="domain-list-content"]'));
 }
+
+let tooltip;
+
+function createTooltip() {
+  tooltip = document.createElement("div");
+  tooltip.textContent =
+    "Check for new domains that can be used in your campaigns";
+  Object.assign(tooltip.style, {
+    position: "fixed",
+    background: "rgba(50, 50, 50, 0.9)",
+    color: "#fff",
+    padding: "6px 10px",
+    borderRadius: "6px",
+    fontSize: "14px",
+    pointerEvents: "none",
+    whiteSpace: "nowrap",
+    transform: "translate(-50%, -120%)",
+    transition: "opacity 0.15s ease",
+    opacity: "0",
+    zIndex: "999",
+  });
+  document.body.appendChild(tooltip);
+}
+
+function showTooltip(event) {
+  if (!tooltip) createTooltip();
+  tooltip.style.opacity = "1";
+  positionTooltip(event);
+}
+
+function positionTooltip(event) {
+  if (!tooltip) return;
+  tooltip.style.left = event.clientX + "px";
+  tooltip.style.top = event.clientY - 10 + "px";
+}
+
+function hideTooltip() {
+  if (tooltip) tooltip.style.opacity = "0";
+}
+
+window.showTooltip = showTooltip;
+window.positionTooltip = positionTooltip;
+window.hideTooltip = hideTooltip;
