@@ -1,4 +1,4 @@
-let dScript_ver = 28;
+let dScript_ver = 29;
 // The Kairos Cloud domain page script
 // What does it do?
 // - Listens for when users add a new domain, since the GHL API doesn't support this
@@ -205,7 +205,7 @@ async function addButton() {
     </style>
     <button class="n-button n-button--default-type n-button--medium-type"
             style="border: 1px solid rgb(229, 231, 235); margin-right: 5px"
-            id="drefreshButton"
+            id="refreshButton"
             onclick="refresh()"
             onmouseover="showTooltip(event)"
             onmousemove="positionTooltip(event)"
