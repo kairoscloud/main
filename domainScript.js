@@ -1,4 +1,4 @@
-let dScript_ver = 27;
+let dScript_ver = 28;
 // The Kairos Cloud domain page script
 // What does it do?
 // - Listens for when users add a new domain, since the GHL API doesn't support this
@@ -200,7 +200,7 @@ async function addButton() {
   buttonContainer.innerHTML = `
     <style>
     #refreshButton:active, #refreshButton:focus {
-      background-color: #ececec;
+    opacity: 0.5;
     }
     </style>
     <button class="n-button n-button--default-type n-button--medium-type"
@@ -221,11 +221,6 @@ async function addButton() {
 }
 
 function refresh() {
-  let refreshButton = document.getElementById("drefreshButton");
-  refreshButton.backgroundColor = "#ececec";
-  setTimeout(() => {
-    refreshButton.backgroundColor = "white";
-  }, 1000);
   processDomains(document.querySelector('[data-testid="domain-list-content"]'));
 }
 
