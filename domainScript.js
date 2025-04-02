@@ -205,7 +205,7 @@ async function addButton() {
     </style>
     <button class="n-button n-button--default-type n-button--medium-type"
             style="border: 1px solid rgb(229, 231, 235); margin-right: 5px"
-            id="refreshButton"
+            id="drefreshButton"
             onclick="refresh()"
             onmouseover="showTooltip(event)"
             onmousemove="positionTooltip(event)"
@@ -221,7 +221,7 @@ async function addButton() {
 }
 
 function refresh() {
-  let refreshButton = document.getElementById("refreshButton");
+  let refreshButton = document.getElementById("drefreshButton");
   refreshButton.backgroundColor = "#ececec";
   setTimeout(() => {
     refreshButton.backgroundColor = "white";
