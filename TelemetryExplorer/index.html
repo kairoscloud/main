@@ -131,11 +131,28 @@
         <div class="column" id="leftColumn">
             <div id="queryBuilder">
                 <textarea spellcheck="false" id="queryText">
-firestore.collection("telemetry")
-  .where("browserName", "==", "Chrome")</textarea
+browserName == "Chrome"
+browserVersion > 125</textarea
                 >
             </div>
             <div id="searchButtonContainer">
+                <input
+                    type="number"
+                    id="limitInput"
+                    style="
+                        background-color: #f5f5f5;
+                        border: 1px solid #ddd;
+                        padding: 8px 12px;
+                        border-radius: 4px;
+                        font-size: 16px;
+                        outline: none;
+                        box-shadow: none;
+                        -webkit-appearance: none;
+                        margin-top: 5px;
+                        width: 150px;
+                    "
+                    placeholder="Search depth"
+                />
                 <button class="saveNew" onclick="search()">Search</button>
             </div>
             <div id="listView">
@@ -159,6 +176,7 @@ firestore.collection("telemetry")
 <script>
     let docs = [];
     let docIDs = [];
+    // uncomment to enable auth when live
     if (window.location.href.includes("?authenticated")) {
         console.log("Authenticated");
         let currentURL = window.location.href; // Get current URL
@@ -169,27 +187,56 @@ firestore.collection("telemetry")
         window.location.href =
             "https://kairoscloud.github.io/main/TelemetryExplorer/login/";
     }
-    search();
-    function search() {
+
+    console.log("Docs: ", docs);
+    //search();
+    async function search() {
         docs = [];
         docIDs = [];
         let query = document.getElementById("queryText").value;
-        let evalQuery =
-            query +
-            `
-        .get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                docs.push(doc.data());
-                docIDs.push(doc.id);
+        let limit = document.getElementById("limitInput").value;
+        if (limit == "") {
+            limit = 10;
+        }
+        firestore
+            .collection("telemetry")
+            .limit(limit)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    let docID = doc.id;
+                    let data = doc.data();
+                    let browserName = data.browserName;
+                    let browserVersion = data.browserVersion;
+                    let colorDepth = data.colorDepth;
+                    let consoleLog = data.consoleLog;
+                    let cookiesEnabled = data.cookiesEnabled;
+                    let deviceMemory = data.deviceMemory;
+                    let hardwareConcurrency = data.hardwareConcurrency;
+                    let lastUpdated = data.lastUpdated;
+                    let locationID = data.locationID;
+                    let platform = data.platform;
+                    let referrer = data.referrer;
+                    let screenResolution = data.screenResolution;
+                    let startingURL = data.startingURL;
+                    let timezone = data.timezone;
+                    let userAgent = data.userAgent;
+                    let userName = data.userName;
+                    let windowSize = data.windowSize;
+
+                    console.log(data);
+
+                    if (eval(query)) {
+                        docs.push(doc.data());
+                        docIDs.push(doc.id);
+                    }
+                });
+                renderDocs();
             });
-            renderDocs();
-        });`;
-        console.log(evalQuery);
-        eval(evalQuery);
     }
 
     function renderDocs() {
+        console.log("Rendering docs");
         let resultsContainer = document.getElementById("resultsContainer");
         resultsContainer.innerHTML = "";
         docs.forEach((doc) => {
