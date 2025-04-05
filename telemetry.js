@@ -12,8 +12,6 @@
 
 console.log("Telemetry loaded!");
 
-let foundUsername = "Could not find username";
-
 const browserInfo = getBrowserInfo();
 
 // create a unique telemetryID
@@ -25,6 +23,8 @@ let screenResolution = `${window.screen.width}x${window.screen.height}`;
 let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 let colorDepth = window.screen.colorDepth;
 let currentDay = telemetryGetCurrentDay();
+// get parameter "ref" from <script> embedded in HTML
+let ref = new URLSearchParams(window.location.search).get("ref");
 
 window.telemetryID =
   browserName +
@@ -55,7 +55,7 @@ const userTelemetryData = {
   cookiesEnabled: navigator.cookieEnabled,
   screenResolution: `${window.screen.width}x${window.screen.height}`,
   windowSize: `${window.innerWidth}x${window.innerHeight}`,
-  referrer: document.referrer || "No referrer",
+  referrer: ref || "No referrer",
   startingURL: window.location.href,
   timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   colorDepth: window.screen.colorDepth,
@@ -126,8 +126,10 @@ let telemetryInterval = setInterval(() => {
     telemetryDocRef.update({
       lastUpdated: Date.now(),
       consoleLog: formatLogStack(),
-      locationID: window.location.href.split("/")[5] || "No location ID",
-      userName: foundUsername,
+      locationID:
+        window.location.href.split("/")[5] ||
+        new URLsearchParams(window.location.href).get("locationID") ||
+        "locationID not specified",
     });
   } catch (error) {
     console.log(
@@ -144,17 +146,17 @@ function formatLogStack() {
       Date.now() +
       ")",
   );
-  window.logStack.push("Current URL: " + window.location.href);
-  window.logStack.push("Active scripts:");
-  let scriptsList = "";
-  for (let script of document.scripts) {
-    let scriptSrc = script.src.split("/")[script.src.split("/").length - 1];
-    if (scriptSrc.includes("?")) {
-      scriptSrc = scriptSrc.split("?")[0]; // remove the randomly generated ID for cache-busting
-    }
-    scriptsList += scriptSrc + ", ";
-  }
-  window.logStack.push(scriptsList);
+  // window.logStack.push("Current URL: " + window.location.href);
+  // window.logStack.push("Active scripts:");
+  // let scriptsList = "";
+  // for (let script of document.scripts) {
+  //   let scriptSrc = script.src.split("/")[script.src.split("/").length - 1];
+  //   if (scriptSrc.includes("?")) {
+  //     scriptSrc = scriptSrc.split("?")[0]; // remove the randomly generated ID for cache-busting
+  //   }
+  //   scriptsList += scriptSrc + ", ";
+  // }
+  // window.logStack.push(scriptsList);
   // instead of all global variables, just log the ones that are relevant / we've made
   // window.logStack.push("Global variables:");
   // for (let variable in window) {
@@ -163,45 +165,4 @@ function formatLogStack() {
   //   }
   // }
   return window.logStack.join(" ##NL## "); // our specialized newline enumerator, since \n doesn't work in Firestore
-}
-
-if (!window.location.href.includes("https://app.kairoscloud.io/v2/preview")) {
-  globalWaitForElement(
-    "#app > div:nth-child(1) > div.flex.v2-collapse.sidebar-v2-location.pmd-app." +
-      window.location.href.split("/")[5] +
-      ".flex.v2-collapse.sidebar-v2-location > div.error-alert > header > div.container-fluid > div.hl_header--controls > div.hl_header--dropdown.dropdown.--no-caret.show > div > div.mx-4.my-1.user-info-card > div > div.inline-block.w-56.px-2.py-1.text-sm.break-all.dark\\:text-white > div.text-gray-900",
-    false,
-    function (element) {
-      foundUsername = element.innerText;
-    },
-  );
-}
-
-function globalWaitForElement(query, continuous, callback) {
-  console.log("Listening for element '" + query + "'...");
-  const observer = new MutationObserver(() => {
-    const element = document.querySelector(query);
-    // if exists, and if not already modified
-    if (element && !element.hasAttribute("cScriptModified")) {
-      element.setAttribute("cScriptModified", true); // mark as modified
-      if (!continuous) {
-        observer.disconnect();
-      }
-      console.log("Found element '" + query + "'");
-      callback(element); // call the callback function with found element as arg
-    }
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
-
-  // Initial check in case the element is already present
-  const element = document.querySelector(query);
-  if (element && !element.hasAttribute("cScriptModified")) {
-    element.setAttribute("cScriptModified", true);
-    if (!continuous) {
-      observer.disconnect();
-    }
-    console.log("Found element '" + query + "'");
-    callback(element);
-  }
 }
