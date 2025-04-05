@@ -20,7 +20,8 @@ let timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 let colorDepth = window.screen.colorDepth;
 let currentDay = telemetryGetCurrentDay();
 // get parameter "ref" from <script> embedded in HTML
-let ref = new URLSearchParams(window.location.search).get("ref");
+const currentScript = document.currentScript;
+let ref = currentScript.dataset.ref;
 
 window.telemetryID =
   ref +
