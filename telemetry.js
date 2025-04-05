@@ -4,10 +4,6 @@
 //   - It creates an entry in firebase (if not already exists), with a unique telemetry ID
 //   - It populates the entry with every single piece of data it can get from the browser
 //  Every 2 minutes:
-//    - Logs all global variables
-//    - Logs timestamp
-//    - Logs all currently-active scripts + versions
-//    - Logs the current URL
 //    - Pushes the logStack to Firebase, after turning it into a string and separating it by newlines
 
 console.log("Telemetry loaded!");
@@ -27,6 +23,8 @@ let currentDay = telemetryGetCurrentDay();
 let ref = new URLSearchParams(window.location.search).get("ref");
 
 window.telemetryID =
+  ref +
+  "-" +
   browserName +
   browserVersion +
   "-" +
