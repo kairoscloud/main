@@ -280,7 +280,7 @@ async function appearInfo(type, text, expandedText, textHash) {
   if (type == "error") {
     infoMessageExpanded.innerHTML += `
       <div style="margin-top: 10px; display: flex; justify-content: space-between">
-        <button class="errorButton" id="reportButton" style="right: 120px" onclick="reportError('${textHash}')">Report</button>
+        <button class="errorButton" id="reportButton" style="right: 90px" onclick="reportError('${textHash}')">Report</button>
         <button class="errorButton" id="copyButton" style="right: 0" onclick="copyToClipboard('${text + " " + expandedText}')">Copy</button>
       </div>`;
   }
