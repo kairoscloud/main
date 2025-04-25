@@ -356,6 +356,8 @@ function ourScript(stackTrace) {
     stackTrace.includes("ghl-customize") ||
     stackTrace.includes("ghl_customize") ||
     stackTrace.includes("extendly") ||
+    stackTrace.includes("mycrmsupport") ||
+    stackTrace.includes("leadconnectorhq") ||
     stackTrace.includes("initiator.js")
   );
 }
