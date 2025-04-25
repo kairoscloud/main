@@ -2,7 +2,7 @@
 // Why? Instead of creating a firebase object whenever we need it (ex. to grab an API key), we just create it once and reuse it
 // Having multiple firebase objects in the global scope has lead to many issues
 // Plus, we need firebase globally anyways to push all the telemetry data
-// We try-catch to avoid any conflicting instances (ex loaded in an iframe somewhere)
+// We try-catch to avoid any conflicting instances (ex. loaded in an iframe somewhere)
 
 try {
   const firebaseConfig = {
@@ -25,7 +25,7 @@ try {
 // all API calls will use this global variable
 try {
   // capitalize to indicate global scope
-  window.GlobalLocationID = window.location.href.split("/")[5]; // URL might not contain location ID, hence the try-catch
+  window.GlobalLocationID = getGlobalLocationID(); // URL might not contain location ID, hence the try-catch
   window.GlobalLocationAccessKey = "";
   const tokensDocRef = firestore.collection("tokens").doc(GlobalLocationID);
   tokensDocRef.get().then((doc) => {
@@ -35,4 +35,25 @@ try {
   });
 } catch (error) {
   console.warn("Could not get location access key: " + error.message);
+}
+
+function getGlobalLocationID() {
+  let locationID = window.location.href.split("/")[5];
+  if (locationID.length != 20) {
+    locationID = window.location.href.split("/")[4];
+  }
+  if (locationID.length != 20) {
+    locationID = window.location.href.split("/")[3];
+  }
+  if (locationID.length != 20) {
+    locationID = window.location.href.split("/")[3];
+  }
+  const urlParams = new URLSearchParams(window.location.search);
+  if (locationID.length != 20) {
+    locationID = urlParams.get("location");
+  }
+  if (locationID.length != 20) {
+    locationID = urlParams.get("locationID");
+  }
+  return locationID;
 }
