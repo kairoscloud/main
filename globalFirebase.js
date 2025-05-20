@@ -1,20 +1,16 @@
-// This puts a single firebase object in the global scope
-// Why? Instead of creating a firebase object whenever we need it (ex. to grab an API key), we just create it once and reuse it
-// Having multiple firebase objects in the global scope has lead to many issues
-// Plus, we need firebase globally anyways to push all the telemetry data
-// We try-catch to avoid any conflicting instances (ex. loaded in an iframe somewhere)
+// This does the following:
+// - Initializes Firebase
+// - Gets the locationID
+// - Gets that location's token
+// - Gets the GHL developer token
+// - Makes all of those afforementioned things global
+// This is core (!) to all of our scripts; be it session-embedded in GHL, or a standalone app like Campaigns or QR Codes. They all embed this script
 
 try {
-  const firebaseConfig = {
-    apiKey: "AIzaSyAkvl6HKgup1AofIrUU_Q7b4RlvhI2QTpc",
-    authDomain: "kairos-test-eedd6.firebaseapp.com",
-    projectId: "kairos-test-eedd6",
-    storageBucket: "kairos-test-eedd6.appspot.com",
-    messagingSenderId: "34445244935",
-    appId: "1:34445244935:web:b4ed7e9be70c16251d88a2",
-    measurementId: "G-M1BXTKSG3B",
-  };
-  window.firebase.initializeApp(firebaseConfig);
+  const conf_public =
+    "ewogICAgImFwaUtleSI6ICJBSXphU3lBa3ZsNkhLZ3VwMWFvZklyVVVfUTdiNFJsdmhJMlFUcGMiLAogICAgImF1dGhEb21haW4iOiAia2Fpcm9zLXRlc3QtZWVkZDYuZmlyZWJhcHAuY29tIiwKICAgICJwcm9qZWN0SWQiOiAia2Fpcm9zLXRlc3QtZWVkZDYiLAogICAgInN0b3JhZ2VCdWNrZXQiOiAia2Fpcm9zLXRlc3QtZWVkZDYuYXBwc3BvdC5jb20iLAogICAgIm1lc3NhbmdpbmdTZW5kZXJJZCI6ICIzNDQ0NTI0NDkzNSIsCiAgICAiYXBwSWQiOiAiMTozNDQ0NTI0NDkzNTp3ZWI6YjRlZDdlOWJlNzBjMTYyNTFkODhhMiIsCiAgICAibWVhc3VyZW1lbnRJZCI6ICJHLU0xQlhUS1NHM0IiCn0=";
+  const conf_dec = JSON.parse(atob(conf_public));
+  window.firebase.initializeApp(conf_dec);
   window.firestore = firebase.firestore();
 } catch (error) {
   console.warn("Could not initialize Firebase: " + error.message);
@@ -30,7 +26,7 @@ try {
   const tokensDocRef = firestore.collection("tokens").doc(GlobalLocationID);
   tokensDocRef.get().then((doc) => {
     if (doc.exists) {
-      GlobalLocationAccessKey = doc.data().locationAccessToken;
+      window.GlobalLocationAccessKey = doc.data().locationAccessToken;
     }
   });
 } catch (error) {
