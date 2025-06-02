@@ -1,4 +1,4 @@
-let cdScript_ver = 2;
+let cdScript_ver = 3;
 // The Kairos Cloud Campaign Details Script
 // What does it do?
 // - Adds some prompts to settings -> phone numbers -> trust center. Basically to speed-up the A2P verification/trust process for new users
@@ -44,76 +44,152 @@ function main_cdScript() {
   (function () {
     "use strict";
 
+    const csvInput = `
+  ,Use Case Description,Sample Message #1,Sample Message #2,How do lead/contacts consent to receive messages?,Opt-in Message
+  Churches,"This campaign sends church event reminders, announcements, and notification messages to attendees of Coopersville Reformed Church who have opted-in to receive SMS from us. Our privacy policy can be found here (https://privacy.coopersvillereformed.com).","Hi John! This is Jackson from Coopersville Reformed Church. We wanted to remind you about our Easter services this Sunday at 8 AM, 9:30 AM, and 11 AM. Please reach out to (616) 625-0878 if you have any questions. Reply STOP to unsubscribe.",Hey Heather! This is Jackson from Coopersville Reformed Church. Thank you for signing up for the Women's Bible Study that meets on Tuesdays at 6pm. Would you like to learn about some of our other events? Visit here (https://coopersvillereformed.com/calendar) to learn more. Reply STOP to unsubscribe.,End users opt-in through a form on our website (https://coopersvillereformed.com/weekly-newsletter-sign-up) and filling in their details. Users check a box at the bottom of the form (https://storage.googleapis.com/msgsndr/fl8IRctskkM4pZ3fecNm/media/6836565100e93082f37094b2.png) to receive notifications & announcement messages from Coopersville Reformed Church in order to provide their consent and to confirm they have read our privacy policy (https://privacy.coopersvillereformed.com). Additionally end users can also text START to (616) 625-0878.,You have successfully opted-in to receive notification and announcement SMS from Coopersville Reformed Church. Please reply STOP if you need to Opt-out in the future.
+  Jostens,"This campaign will be used by our Jostens sales team to reach out to families who are ordering High School supplies for their students, including caps & gowns, class rings, letterman jackets, and more. Our privacy policy can be found here (https://jostens.co/privacy-policy).","Hi John! This is [INSERT NAME] from Jostens. It’s time to order graduation products for your Senior! Please take a moment and click the link below to watch a few short videos to learn about the ordering process! Click here (https://jostens.co/freestate) for more info. Reply STOP to unsubscribe.",Hi Jane! This is [INSERT NAME] from Jostens. It’s time to start thinking about class rings for your Student! Please be watching your texts and email for more info in the days to come. Text or call me anytime with questions at [INSERT PHONE]. Reply STOP to unsubscribe.,"End users opt-in through a form on our website (https://us.jostens.co/contact-form) or by personally providing us with their contact details after reviewing the consent language on our website and privacy policy (https://jostens.co/privacy-policy). New contacts check a box at the bottom of the form (https://storage.googleapis.com/msgsndr/yfyIrXrm61r57rx3ex4N/media/683ddc204da9cd94ad14f830.png) to receive order notifications & promotional messages from Jostens when providing their contact details online, in-person, or otherwise. Additionally end users can also text START to [INSERT PHONE].",You have successfully opted-in to receive notification and promotional SMS from Jostens. Please reply STOP if you need to Opt-out in the future.
+  Prompts,I'm reaching out for an update on the status of my A2P Campaign Registration for Brand SID #. I submitted this quite some time ago. We're eager to begin sending text messages. Any help would be appreciated. Thank you!,I'm reaching out for help diagnosing my A2P Campaign Registration for Brand SID #. We have submitted multiple attempts and keep being rejected. Could you review our recent submissions and help with what we're missing? We've reviewed Twilio's documentation on this and tried to be as thorough as possible. We're eager to begin sending text messages. Any help would be appreciated. Thank you!,,,
+  `;
+
+    // Constants for CSV column header keys used in the templates object
+    const CSV_COLUMN_KEYS = {
+      USE_CASE_DESCRIPTION: "Use Case Description",
+      SAMPLE_MESSAGE_1: "Sample Message #1",
+      SAMPLE_MESSAGE_2: "Sample Message #2",
+      HOW_LEADS_CONSENT: "How do lead/contacts consent to receive messages?",
+      OPT_IN_MESSAGE: "Opt-in Message",
+    };
+
+    function parseCsvToTemplates(csvString) {
+      const lines = csvString.trim().split("\n");
+      if (lines.length < 2) return {}; // Not enough data (header + at least one data row)
+
+      const rawHeaders = lines[0].split(",");
+      const contentHeaders = rawHeaders.slice(1).map((h) => h.trim()); // Actual content headers
+      const templates = {};
+
+      for (let i = 1; i < lines.length; i++) {
+        const line = lines[i];
+        let values = [];
+        let inQuotes = false;
+        let currentValue = "";
+
+        for (let j = 0; j < line.length; j++) {
+          const char = line[j];
+          if (char === '"') {
+            if (inQuotes && j + 1 < line.length && line[j + 1] === '"') {
+              currentValue += '"'; // Escaped quote
+              j++; // Skip next quote
+            } else {
+              inQuotes = !inQuotes;
+            }
+          } else if (char === "," && !inQuotes) {
+            values.push(currentValue);
+            currentValue = "";
+          } else {
+            currentValue += char;
+          }
+        }
+        values.push(currentValue); // Add the last value
+
+        // Remove surrounding quotes from parsed values and unescape double quotes
+        values = values.map((val) => {
+          let processedVal = val.trim();
+          if (processedVal.startsWith('"') && processedVal.endsWith('"')) {
+            processedVal = processedVal.substring(1, processedVal.length - 1);
+          }
+          return processedVal.replace(/""/g, '"'); // Unescape "" to "
+        });
+
+        const scenarioKey = values[0];
+        if (!scenarioKey) continue;
+
+        templates[scenarioKey] = {};
+        contentHeaders.forEach((header, index) => {
+          templates[scenarioKey][header] = values[index + 1] || ""; // Default to empty string if undefined
+        });
+      }
+      return templates;
+    }
+
+    const ALL_APP_TEMPLATES = parseCsvToTemplates(csvInput);
+
+    let activeScenarioKey = "";
+    // Default to Jostens if the specific Church URL part is not found.
+    if (window.location.href.includes("fl8IRctskkM4pZ3fecNm")) {
+      activeScenarioKey = "Churches";
+    } else {
+      activeScenarioKey = "Jostens";
+    }
+
+    const currentScenarioTemplates = ALL_APP_TEMPLATES[activeScenarioKey];
+
+    if (!currentScenarioTemplates) {
+      console.error(
+        `Templates for scenario "${activeScenarioKey}" not found. Check CSV data and scenario detection.`,
+      );
+      return; // Stop script execution if templates are missing
+    }
+
     const SELECTORS = {
-      // --- Campaign Details Page Selectors (Adapted to New HTML) ---
       campaignUseCaseLabel:
-        "#FormMessagingUsecase > div > div.n-form-item > label > span.n-form-item-label__text", // Adjusted
+        "#FormMessagingUsecase > div > div.n-form-item > label > span.n-form-item-label__text",
       useCaseDescriptionContainer: "#ExampleUsecaseDescription",
       sampleMessage1Container: "#ExampleSampleMessage1",
       sampleMessage2Container: "#ExampleSampleMessage2",
-      // Textareas (if direct manipulation is intended, though popups are for copying)
-      // useCaseDescriptionTextarea: "#InputUsecaseDescription textarea",
-      // sampleMessage1Textarea: "#InputMessage1 textarea",
-      // sampleMessage2Textarea: "#InputMessage2 textarea",
-
-      // --- Next Page (User Consent) Selectors (Assumed based on original, might need adjustment for new HTML if that part also changed) ---
       contactConsentLabel:
-        "#FormContactInfo > div > div.forced-gap-1.relative.flex.flex-col > div > label > span.n-form-item-label__text", // This ID might change in the new structure. The new HTML shows #LayoutA2PWizardStepPane which likely reloads content.
-      userConsentContainer: "#ExampleUserConsent", // Assuming this ID will appear on the next step
-      optInMessageContainer: "#ExampleOptInMessage", // Assuming this ID will appear on the next step
-      // userConsentTextarea: "#InputHowLeadsConsent textarea", // Guessed, might need adjustment
-      // optInMessageTextarea: "#InputOptInMessage textarea",  // Guessed, might need adjustment
+        "#FormContactInfo > div > div.forced-gap-1.relative.flex.flex-col > div > label > span.n-form-item-label__text",
+      userConsentContainer: "#ExampleUserConsent",
+      optInMessageContainer: "#ExampleOptInMessage",
     };
 
-    const POPUP_DATA_CAMPAIGN_DETAILS = [
+    // Dynamically build POPUP_DATA arrays based on the active scenario's templates
+    let DYNAMIC_POPUP_DATA_CAMPAIGN_DETAILS = [
       {
         id: "useCaseDescription",
         triggerContainerSelector: SELECTORS.useCaseDescriptionContainer,
         title: "Use Case Description",
-        text: "This campaign will be used by our Jostens sales team to reach out to families who are ordering High School supplies for their students, including caps & gowns, class rings, letterman jackets, and more.",
+        text: currentScenarioTemplates[CSV_COLUMN_KEYS.USE_CASE_DESCRIPTION],
         copyText:
-          "This campaign will be used by our Jostens sales team to reach out to families who are ordering High School supplies for their students, including caps & gowns, class rings, letterman jackets, and more.",
+          currentScenarioTemplates[CSV_COLUMN_KEYS.USE_CASE_DESCRIPTION],
       },
       {
         id: "sampleMessage1",
         triggerContainerSelector: SELECTORS.sampleMessage1Container,
         title: "Sample Message #1 Examples",
-        text: "Hi John! This is [insert name] from Jostens. It’s time to order graduation products for your Senior! Please take a moment and click the link below to watch a few short videos to learn about the ordering process! Click here: jostens.co/freestate. Reply STOP to unsubscribe.",
-        copyText:
-          "Hi John! This is [insert name] from Jostens. It’s time to order graduation products for your Senior! Please take a moment and click the link below to watch a few short videos to learn about the ordering process! Click here: jostens.co/freestate. Reply STOP to unsubscribe.",
+        text: currentScenarioTemplates[CSV_COLUMN_KEYS.SAMPLE_MESSAGE_1],
+        copyText: currentScenarioTemplates[CSV_COLUMN_KEYS.SAMPLE_MESSAGE_1],
       },
       {
         id: "sampleMessage2",
         triggerContainerSelector: SELECTORS.sampleMessage2Container,
         title: "Sample Message #2 Examples",
-        text: "Hi Jane! This is [insert name] from Jostens. It’s time to start thinking about class rings for your Student! Please be watching your texts and email for more info in the days to come. Text or call me anytime with questions at [insert phone]. Reply STOP to unsubscribe.",
-        copyText:
-          "Hi Jane! This is [insert name] from Jostens. It’s time to start thinking about class rings for your Student! Please be watching your texts and email for more info in the days to come. Text or call me anytime with questions at [insert phone]. Reply STOP to unsubscribe.",
+        text: currentScenarioTemplates[CSV_COLUMN_KEYS.SAMPLE_MESSAGE_2],
+        copyText: currentScenarioTemplates[CSV_COLUMN_KEYS.SAMPLE_MESSAGE_2],
       },
-    ];
+    ].filter((item) => item.text && item.text.trim() !== ""); // Filter out items with empty text
 
-    const POPUP_DATA_USER_CONSENT = [
+    let DYNAMIC_POPUP_DATA_USER_CONSENT = [
       {
         id: "exampleUserConsent",
         triggerContainerSelector: SELECTORS.userConsentContainer,
         title: "User Consent Examples",
-        text: "End users opt-in through a form on our website (jostens.co/contact-form) or by personally providing us with their contact details after reviewing the consent language on our website. New contacts agree to receive order notifications & promotional messages from us when providing their contact details online, in-person, or otherwise. Additionally end users can also text START to [insert phone].",
-        copyText:
-          "End users opt-in through a form on our website (jostens.co/contact-form) or by personally providing us with their contact details after reviewing the consent language on our website. New contacts agree to receive order notifications & promotional messages from us when providing their contact details online, in-person, or otherwise. Additionally end users can also text START to [insert phone].",
+        text: currentScenarioTemplates[CSV_COLUMN_KEYS.HOW_LEADS_CONSENT],
+        copyText: currentScenarioTemplates[CSV_COLUMN_KEYS.HOW_LEADS_CONSENT],
       },
       {
         id: "exampleOptIn",
         triggerContainerSelector: SELECTORS.optInMessageContainer,
         title: "Opt-In Message Examples",
-        text: "You have successfully opted-in to receive notification and promotional SMS from Jostens. Please reply STOP if you need to Opt-out in the future.",
-        copyText:
-          "You have successfully opted-in to receive notification and promotional SMS from Jostens. Please reply STOP if you need to Opt-out in the future.",
+        text: currentScenarioTemplates[CSV_COLUMN_KEYS.OPT_IN_MESSAGE],
+        copyText: currentScenarioTemplates[CSV_COLUMN_KEYS.OPT_IN_MESSAGE],
       },
-    ];
+    ].filter((item) => item.text && item.text.trim() !== ""); // Filter out items with empty text
 
+    // --- Rest of the original script logic (popup creation, event handlers, etc.) ---
     let popupInsertable = null;
     let clickableBackground = null;
-    let clickableBackground2 = null; // For the second page, as per original logic
+    let clickableBackground2 = null;
 
     function waitForElement(
       selector,
@@ -149,7 +225,6 @@ function main_cdScript() {
     }
 
     function createPopupHtml(title, contentText, copyTextValue) {
-      // Using a unique data attribute for the copy button to avoid ID clashes
       const uniqueCopyId = `copy-btn-${Math.random().toString(36).substr(2, 9)}`;
       return `
               <div class="v-binder-follower-content" style="--v-target-width: 108px; --v-target-height: 20px; --v-offset-left: 0px; --v-offset-top: 0px; transform: translateX(0px) translateY(0px) translateX(-100%); transform-origin: right top;">
@@ -160,7 +235,7 @@ function main_cdScript() {
                       <div class="n-popover__content">
                           <div class="flex flex-col gap-3">
                               <div class="flex items-start gap-3 rounded-lg border border-solid border-gray-300 bg-gray-50 p-3">
-                                  <div class="text-gray-600 hl-text-sm-regular">${contentText}</div>
+                                  <div class="text-gray-600 hl-text-sm-regular" style="white-space: pre-wrap;">${contentText}</div>
                                   <div class="custom-hidden items-center justify-start group-hover:flex" data-copy-button-id="${uniqueCopyId}" data-copy-text="${escape(copyTextValue)}" style="cursor:pointer;">
                                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="h-4 w-4 cursor-pointer text-gray-700 outline-0 hover:text-primary-600">
                                           <path stroke-linecap="round" stroke-linejoin="round" d="M16 16v2.8c0 1.12 0 1.68-.218 2.108a2 2 0 01-.874.874C14.48 22 13.92 22 12.8 22H5.2c-1.12 0-1.68 0-2.108-.218a2 2 0 01-.874-.874C2 20.48 2 19.92 2 18.8v-7.6c0-1.12 0-1.68.218-2.108a2 2 0 01.874-.874C3.52 8 4.08 8 5.2 8H8m3.2 8h7.6c1.12 0 1.68 0 2.108-.218a2 2 0 00.874-.874C22 14.48 22 13.92 22 12.8V5.2c0-1.12 0-1.68-.218-2.108a2 2 0 00-.874-.874C20.48 2 19.92 2 18.8 2h-7.6c-1.12 0-1.68 0-2.108.218a2 2 0 00-.874.874C8 3.52 8 4.08 8 5.2v7.6c0 1.12 0 1.68.218 2.108a2 2 0 00.874.874C9.52 16 10.08 16 11.2 16z"></path>
@@ -178,7 +253,7 @@ function main_cdScript() {
       if (!document.getElementById("popupInsertableGlobal")) {
         popupInsertable = document.createElement("div");
         popupInsertable.className = "v-binder-follower-container";
-        popupInsertable.id = "popupInsertableGlobal"; // Use a distinct ID
+        popupInsertable.id = "popupInsertableGlobal";
         popupInsertable.style.zIndex = "2001";
         document.body.appendChild(popupInsertable);
       } else {
@@ -196,7 +271,7 @@ function main_cdScript() {
                   left: 0;
                   width: 100%;
                   height: 100%;
-                  background-color: transparent; /* Or rgba(0,0,0,0.1) for slight dimming */
+                  background-color: transparent;
                   z-index: 2000;`;
         document.body.appendChild(bgElement);
       }
@@ -218,12 +293,15 @@ function main_cdScript() {
         console.error("Popup insertable container not found or created.");
         return;
       }
-      // Clear previous popups for this context if any, to prevent duplicates
       currentPopupInsertable
         .querySelectorAll(`[data-popup-for="${backgroundIdToUse}"]`)
         .forEach((p) => p.remove());
 
       popupDataArray.forEach((item) => {
+        if (!item.text || item.text.trim() === "") {
+          // Extra check, though filtering is done earlier
+          return;
+        }
         const triggerContainer = document.querySelector(
           item.triggerContainerSelector,
         );
@@ -247,7 +325,7 @@ function main_cdScript() {
           popupElement.id = `${item.id}Popup`;
           popupElement.style.display = "none";
           popupElement.style.zIndex = "2002";
-          popupElement.setAttribute("data-popup-for", backgroundIdToUse); // Mark popup for current context
+          popupElement.setAttribute("data-popup-for", backgroundIdToUse);
           popupElement.innerHTML = createPopupHtml(
             item.title,
             item.text,
@@ -255,7 +333,6 @@ function main_cdScript() {
           );
           currentPopupInsertable.appendChild(popupElement);
 
-          // Attach event listener for the copy button
           const copyButton = popupElement.querySelector(`[data-copy-text]`);
           if (copyButton) {
             copyButton.addEventListener("click", (e) => {
@@ -275,7 +352,7 @@ function main_cdScript() {
     }
 
     function showPopup(popupId, triggerElementSelector, backgroundIdToUse) {
-      hideAllPopups(backgroundIdToUse); // Hide popups associated with the current background
+      hideAllPopups(backgroundIdToUse);
 
       const popupElement = document.getElementById(`${popupId}Popup`);
       const triggerElement = document.querySelector(triggerElementSelector);
@@ -287,25 +364,27 @@ function main_cdScript() {
           ".v-binder-follower-content",
         );
 
-        // Adjust positioning: typically popups appear below and aligned to the right of the trigger.
-        // The original transform `translateX(-100%)` makes it align to the right edge.
-        // `translateY` to move it below the trigger.
-        let x = rect.right; // Align to the right edge of the trigger
-        let y = rect.bottom + 5; // 5px below the trigger
-
-        // This is a simplification. The original has more complex transforms based on v-placement.
-        // For simplicity, we'll use a common positioning logic here.
-        // If different popups need different alignments (top-end, bottom-end), this needs to be more sophisticated.
+        let x = rect.right;
+        let y = rect.bottom + 5;
         let transformOrigin = "right top";
         let translateYTransform = `translateY(${y}px)`;
 
-        // Example: if popup is supposed to be above (like sampleMessage1Popup in original)
         if (popupId.includes("sampleMessage")) {
-          // A bit of a hack, better to store placement in POPUP_DATA
-          y = rect.top - 5; // 5px above the trigger
-          translateYTransform = `translateY(${y}px) translateY(-100%)`; // Move above and then shift by its own height
+          y = rect.top - 5;
+          translateYTransform = `translateY(${y}px) translateY(-100%)`;
           transformOrigin = "right bottom";
         }
+
+        // Position the popup relative to the viewport, then apply transforms
+        // The popupElement itself is appended to popupInsertable (often body or similar)
+        // So, its initial position is not relative to triggerElement.
+        // The v-binder-follower-content is what gets transformed.
+        // We set left/top for the popupElement to align with triggerElement.
+        // Then adjust transform on followerContent.
+
+        popupElement.style.position = "absolute"; // or 'fixed' if popupInsertable is body
+        popupElement.style.left = "0px"; // Use transform for positioning
+        popupElement.style.top = "0px"; // Use transform for positioning
 
         if (followerContent) {
           followerContent.style.transform = `translateX(${x}px) ${translateYTransform} translateX(-100%)`;
@@ -325,7 +404,6 @@ function main_cdScript() {
     }
 
     function hideAllPopups(backgroundIdToFilterBy = null) {
-      // Hide popups associated with a specific background, or all if no filter
       const popupsToHide = popupInsertable
         ? backgroundIdToFilterBy
           ? popupInsertable.querySelectorAll(
@@ -334,11 +412,11 @@ function main_cdScript() {
           : popupInsertable.children
         : [];
 
-      for (let popup of popupsToHide) {
-        if (popup.style) popup.style.display = "none";
+      for (let i = 0; i < popupsToHide.length; i++) {
+        // Use standard for loop for HTMLCollection
+        if (popupsToHide[i].style) popupsToHide[i].style.display = "none";
       }
 
-      // Hide the specific background or all if no filter
       if (backgroundIdToFilterBy) {
         const bg = document.getElementById(backgroundIdToFilterBy);
         if (bg) bg.style.display = "none";
@@ -348,8 +426,6 @@ function main_cdScript() {
       }
     }
 
-    // Made globally accessible for the dynamically created copy buttons if needed,
-    // but preferably called via event listener as implemented in setupPageExamples.
     window.copyToClipboard = function (text, backgroundIdToHide) {
       navigator.clipboard
         .writeText(text)
@@ -365,19 +441,27 @@ function main_cdScript() {
     function initCampaignDetailsPageListeners() {
       console.log("Listening for campaign details page elements...");
       waitForElement(SELECTORS.campaignUseCaseLabel, (labelElement) => {
-        // Removed .jostens check as it's not in the new HTML. Add equivalent if needed.
-        // if (document.querySelector(SELECTORS.jostensElement)) { // Example if needed
-        if (labelElement.innerText.trim() == "Campaign Use case") {
+        if (labelElement.innerText.trim() === "Campaign Use case") {
+          // Exact match
           labelElement.innerText = "Campaign Use case "; // Add space
 
-          setupPageExamples(POPUP_DATA_CAMPAIGN_DETAILS, "clickableBackground");
+          // Use the dynamically generated popup data
+          if (DYNAMIC_POPUP_DATA_CAMPAIGN_DETAILS.length > 0) {
+            setupPageExamples(
+              DYNAMIC_POPUP_DATA_CAMPAIGN_DETAILS,
+              "clickableBackground",
+            );
+          } else {
+            console.log(
+              "No campaign detail examples to show for this scenario.",
+            );
+          }
 
           console.log(
             "Campaign details page processed. Listening for next page elements...",
           );
-          initNextPageListeners(); // Start listening for the next page
+          initNextPageListeners();
         }
-        // }
       });
     }
 
@@ -386,25 +470,31 @@ function main_cdScript() {
         SELECTORS.contactConsentLabel,
         (labelElement) => {
           if (
-            labelElement.innerHTML.trim() ==
+            labelElement.innerHTML.trim() === // Use innerHTML if it might contain entities
             "How do lead/contacts consent to receive messages?"
           ) {
             labelElement.innerHTML =
-              "How do lead/contacts consent to receive messages? "; // Add space
+              "How do lead/contacts consent to receive messages? ";
 
-            setupPageExamples(POPUP_DATA_USER_CONSENT, "clickableBackground2");
-
+            // Use the dynamically generated popup data
+            if (DYNAMIC_POPUP_DATA_USER_CONSENT.length > 0) {
+              setupPageExamples(
+                DYNAMIC_POPUP_DATA_USER_CONSENT,
+                "clickableBackground2",
+              );
+            } else {
+              console.log(
+                "No user consent examples to show for this scenario.",
+              );
+            }
             console.log("Next page (User Consent) processed.");
-            // If there's a third page/step, initiate listeners for it here.
-            // No more intervals to clear for this specific step once processed.
           }
         },
         30000,
         3000,
-      ); // Increased timeout, check every 3s for next page
+      );
     }
 
-    // Start the process
     initCampaignDetailsPageListeners();
   })();
 }
