@@ -36,15 +36,16 @@ try {
 function getGlobalLocationID() {
   const urlParams = new URLSearchParams(window.location.search);
   let locationSources = [
-    window.location.href.split("/")[5],
-    window.location.href.split("/")[4],
-    window.location.href.split("/")[3],
     urlParams.get("location"),
     urlParams.get("locationID"),
+    window.location.href.split("/")[3],
+    window.location.href.split("/")[4],
+    window.location.href.split("/")[5],
   ];
 
   for (let i = 0; i < locationSources.length; i++) {
-    if (locationSources[i].length == 20) {
+    // if not undefined and has a length of 20 characters
+    if (locationSources[i] && locationSources[i].length == 20) {
       return locationSources[i];
     }
   }
