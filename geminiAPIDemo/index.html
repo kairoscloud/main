@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Cool stuff with Gemini</title>
+        <style>
+            /* Reset margins and padding */
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            html,
+            body {
+                height: 100%;
+            }
+
+            .container {
+                align-items: center;
+                width: 650px;
+                margin: auto;
+                margin-top: 15%;
+                font-family: Arial, sans-serif;
+                font-size: 13pt;
+                color: #1f1f1f;
+                /* background-color: #f0f0f0; */
+            }
+
+            .promptBox {
+                width: 100%;
+                height: 130px;
+                padding: 10px;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+                font-size: 13pt;
+                color: #e3e3e3;
+                /* border: 1px solid #ccc; */
+                background-color: #1f1f1f;
+                border-radius: 5px;
+                /* make not resizable, also remove any decoration upon focus */
+                resize: none;
+                outline: none;
+                margin-top: 10px;
+                border: none;
+            }
+
+            .submit {
+                width: 85px;
+                height: 40px;
+                font-family: Arial, sans-serif;
+                font-size: 13pt;
+                color: #e3e3e3;
+                background-color: #1f1f1f;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+            .submit:hover {
+                background-color: #333;
+            }
+
+            .submit:active {
+                background-color: #555;
+            }
+
+            .responseBox {
+                width: 100%;
+                height: 40px;
+                padding: 10px;
+                box-sizing: border-box;
+                font-family: monospace, monospace;
+                font-size: 13pt;
+                color: #e3e3e3;
+                /* border: 1px solid #ccc; */
+                background-color: #1f1f1f;
+                border-radius: 5px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                overflow-y: auto; /* Allow scrolling if content overflows */
+            }
+
+            .literal {
+                font-family: monospace, monospace;
+                color: #6d6d6d;
+                background-color: #e8e8e8;
+                padding: 2px 4px;
+                border-radius: 3px;
+            }
+
+            .whitespace {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            After doing a lot of unit testing with Gemini, I've realized that AI
+            can be much more than a development tool.
+            <div class="whitespace" />
+            Along with our subscription to Gemini, we get an API key to
+            <span class="literal">gemini-1.5-flash</span>. It isn't the most
+            advanced, but as the name hints, it is very quick. And cheap.
+            <div class="whitespace" />
+            I spent some time toying around with it, and I think there's a lot
+            of legitimate use cases for it.
+            <textarea class="promptBox" id="promoptBox1">
+Extract the date from this string. Give your response in MM-DD-YYYY format. Don't include ANYTHING else besides the date. The current date is ${CURRENT_DATE}.
+
+"The order due date is next week Tuesday, the 17th."
+</textarea
+            >
+            <button class="submit" onclick="aiWrapper(1)">Submit</button>
+            <div class="responseBox" id="responseBox1"></div>
+            The key is to make it give a short response. That saves time, and
+            tokens. Here's another example.
+            <textarea class="promptBox" id="promoptBox2">
+Take a look at this console.log output. Is there something going wrong here? Sould someone be notified about this? If so, respond TRUE. If not, respond FALSE. Don't include anything else besides the answer.
+
+[01:19 AM][ERROR][at getForms (https://app.kairoscloud.io/v2/preview/J9IFpQAELIgdJrzag1m5:946:17)]: TypeError: Cannot read properties of undefined (reading 'length') [End error]"
+(string)
+[06:28 AM][WARNING][at D.T [as _logHandler] (https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js:1:6571)]: [2025-04-05T10:28:01.682Z] @firebase/firestore: Firestore (8.10.0): Connection WebChannel transport errored: [object Object] [End warning]
+</textarea
+            >
+            <button class="submit" onclick="aiWrapper(2)">Submit</button>
+            <div class="responseBox" id="responseBox2"></div>
+            And after that, we run some logic like
+            <span class="literal"
+                >if (output == true), sendErrorReport(telemetryData)</span
+            >.
+            <div class="whitespace" />
+            Or, if we ever wanted to do a "pinned campaigns" feature on the
+            Campaign Manager page...
+            <textarea class="promptBox" id="promoptBox3">
+Here's a list of campaigns, enumerated by a number. Reorder the campaigns by what you think should be highest priority, as numbers, separated by commas. Don't include anything else besides that in your response. The current date is ${CURRENT_DATE}.
+
+1. ON Ring. Order due date: 2025-04-05. NumContacts: 101. Last updated: Mon, Oct 7, 2024, 10:08 AM
+2. Maryville Jacket. Order due date: 2025-03-07. NumContacts: 128. Last updated: Sun, Oct 6, 2024, 2:51 PM
+3. McLouth Grad. Order due date: 2025-04-01. NumContacts: 50. Last updated: Tue, Apr 1, 2025, 12:50 PM
+4. Crossroads Grad. Order due date: 2025-04-11. NumContacts: 250. Last updated: Thu, Sep 19, 2024, 5:19 PM
+5. Olathe Xmas. Order due date: 2025-04-15. NumContacts: 24. Last updated: Thu, Sep 19, 2024, 5:21 PM
+</textarea
+            >
+            <button class="submit" onclick="aiWrapper(3)">Submit</button>
+            <div class="responseBox" id="responseBox3"></div>
+            I think there's a lot of behind-the-scenes magic we could do here.
+            The standard approach (shoving an AI chat widget down the user's
+            throat) is cumbersome, intrusive, and annoying. I don't think
+            there's much merit in the way companies are currently doing it. But
+            using it subtly and behind-the-scenes, like this, could be useful.
+            <div class="whitespace" />
+            Anyways, just another tool we can add to our toolbox of things we're
+            capable of! Let me know what you think.
+        </div>
+    </body>
+
+    <script>
+        function aiWrapper(id) {
+            const promptBox = document.getElementById(`promoptBox${id}`);
+            const responseBox = document.getElementById(`responseBox${id}`);
+            const prompt = promptBox.value
+                .trim()
+                .replaceAll("${CURRENT_DATE}", new Date().toString());
+
+            if (!prompt) {
+                responseBox.textContent = "Please enter a prompt.";
+                return;
+            }
+
+            responseBox.textContent = "...";
+
+            ai(prompt)
+                .then((response) => {
+                    if (response) {
+                        responseBox.textContent = response;
+                    } else {
+                        responseBox.textContent =
+                            "No valid response from AI. Please try again.";
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error in AI call:", error);
+                    responseBox.textContent =
+                        "An error occurred while processing your request.";
+                });
+        }
+
+        async function ai(prompt) {
+            let ek =
+                "UVVsNllWTjVRV2gyUlhSVE9XRm5RMFpaZVdsZk5UaHVNM0ZmVEU1RFptNWtTV1ZCYlcxTg==";
+            const gk = atob(atob(ek));
+            const model = "gemini-1.5-flash";
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${gk}`;
+            const requestBody = {
+                contents: [
+                    {
+                        parts: [
+                            {
+                                text: prompt,
+                            },
+                        ],
+                    },
+                ],
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(requestBody),
+                });
+
+                if (!response.ok) {
+                    const errorBody = await response.text(); // Get more details from the error response
+                    throw new Error(
+                        `HTTP error! status: ${response.status}, body: ${errorBody}`,
+                    );
+                }
+
+                // Parse the JSON response from the API
+                const data = await response.json();
+
+                // --- Extract and Return the Text ---
+                // Use optional chaining (?.) for safe access to nested properties
+                const textResponse =
+                    data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                if (textResponse) {
+                    return textResponse.trim(); // Return the cleaned-up text
+                } else {
+                    // Handle cases where the response structure is unexpected
+                    console.error(
+                        "Could not find text in the API response:",
+                        data,
+                    );
+                    return null;
+                }
+            } catch (error) {
+                // Log any errors that occur during the fetch operation
+                console.error("An error occurred while calling the AI:", error);
+                return null; // Return null to indicate failure
+            }
+        }
+    </script>
+</html>
