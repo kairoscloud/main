@@ -1,4 +1,4 @@
-let pbScript_ver = 25;
+let pbScript_ver = 26;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page/form builder
@@ -312,7 +312,16 @@ async function getLocationAccessKey(loc) {
 }
 
 function addOption(name, placeholder) {
-  otherOptions += option(name, placeholder);
+  // pad placeholder with [[ and ]], if not already
+  // as per this bug: https://app.asana.com/1/1207162866191761/inbox/1207304581280289/item/1210584886920236/story/1210584886920237
+  let modifiedPlaceholder = placeholder;
+  if (!modifiedPlaceholder.startsWith("[[")) {
+    modifiedPlaceholder = "[[" + modifiedPlaceholder;
+  }
+  if (!modifiedPlaceholder.endsWith("]]")) {
+    modifiedPlaceholder = modifiedPlaceholder + "]]";
+  }
+  otherOptions += option(name, modifiedPlaceholder);
 }
 
 function option(name, data) {
