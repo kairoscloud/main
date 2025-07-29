@@ -1,4 +1,4 @@
-let pbScript_ver = 27;
+let pbScript_ver = 28;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page/form builder
@@ -331,7 +331,7 @@ function option(name, data) {
   return `
     <div class="option">
       <span>${name}</span>
-      <button class="copy-btn" data-value="${data}">
+      <button class="copy-btn" data-value="${data.toLowerCase().replaceAll(" ", "_")}">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
