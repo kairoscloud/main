@@ -314,19 +314,18 @@ async function getLocationAccessKey(loc) {
 function addOption(name, placeholder) {
   // pad placeholder with [[ and ]], if not already
   // as per this bug: https://app.asana.com/1/1207162866191761/inbox/1207304581280289/item/1210584886920236/story/1210584886920237
-  let modifiedPlaceholder = placeholder;
+  let modifiedPlaceholder = placeholder.toLowerCase().replaceAll(" ", "_");
+
+  if (modifiedPlaceholder.endsWith("_")) {
+    // trim the underscore off the end
+    modifiedPlaceholder = modifiedPlaceholder.slice(0, -1);
+  }
+
   if (!modifiedPlaceholder.startsWith("[[")) {
     modifiedPlaceholder = "[[" + modifiedPlaceholder;
   }
   if (!modifiedPlaceholder.endsWith("]]")) {
     modifiedPlaceholder = modifiedPlaceholder + "]]";
-  }
-
-  modifiedPlaceholder = modifiedPlaceholder.toLowerCase().replaceAll(" ", "_");
-
-  if (modifiedPlaceholder.endsWith("_")) {
-    // trim the underscore off the end
-    modifiedPlaceholder = modifiedPlaceholder.slice(0, -1);
   }
 
   otherOptions += option(name, modifiedPlaceholder);
