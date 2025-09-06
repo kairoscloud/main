@@ -1,4 +1,4 @@
-let pbScript_ver = 29;
+let pbScript_ver = 30;
 // The Kairos Cloud Page Builder script
 // What does it do?
 // - Adds a copy/paste menu for custom fields in the page/form builder
@@ -321,12 +321,13 @@ function addOption(name, placeholder) {
   if (!modifiedPlaceholder.endsWith("]]")) {
     modifiedPlaceholder = modifiedPlaceholder + "]]";
   }
+
+  modifiedPlaceholder = modifiedPlaceholder.toLowerCase().replaceAll(" ", "_");
+
   if (modifiedPlaceholder.endsWith("_")) {
     // trim the underscore off the end
     modifiedPlaceholder = modifiedPlaceholder.slice(0, -1);
   }
-
-  modifiedPlaceholder = modifiedPlaceholder.toLowerCase().replaceAll(" ", "_");
 
   otherOptions += option(name, modifiedPlaceholder);
 }
