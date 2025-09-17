@@ -1,36 +1,30 @@
-// Start series of functions
-ghlToken();
-
-// Get GHL token
-async function ghlToken() {
-    const errors = [];
-    const tokens = {};
+// Wrap everything and export a factory that accepts deps
+(function () {
+  function createRemoteLib({ http }) {
     const url = 'https://getghltoken-xxvu4qktma-uc.a.run.app/';
-    try {
-        const ghlToken = await customRequest.get(url);
-        tokens.ghl = ghlToken.data.ghlToken;
-        console.log("ghlToken:", JSON.stringify(tokens.ghl));
-        outputFunc(errors, tokens);
-    } catch (error) {
-        console.log("ghlToken:", error);
-        errors.push({
-            ghlToken: error
-        });
-        outputFunc(errors);
-    }
-}
 
-// Compile user info for workflow output
-async function outputFunc(errors, tokens) {
-    if (errors.length === 0) {
-        output = {
-            errors: errors.length,
-            tokens: tokens
-        }
-    } else {
-        output = {
-            errors: errors.length,
-            error_messages: JSON.stringify(errors)
-        }
+    async function ghlToken() {
+      const errors = [];
+      const tokens = {};
+      try {
+        const resp = await http.get(url);
+        tokens.ghl = resp.data.ghlToken;
+        return { errors, tokens };
+      } catch (err) {
+        errors.push({ ghlToken: String(err) });
+        return { errors, error_messages: JSON.stringify(errors) };
+      }
     }
-}
+
+    async function run() {
+      const r = await ghlToken();
+      if (r.errors?.length) return { success: false, ...r };
+      return { success: true, ...r };
+    }
+
+    return { run };
+  }
+
+  // expose a factory on the global
+  globalThis.RemoteLibFactory = { createRemoteLib };
+})();
