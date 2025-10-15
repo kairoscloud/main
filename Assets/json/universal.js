@@ -20,6 +20,7 @@
 
     // determine if RGS
     let rgsLocs = [
+      "u0xYynqb9PEFkuewCh4F", // Master
       "OXIzfj0fBydG4MMeurhu", // RGS - Michigan
       "dLOpvKeO7lGMVObMumBt", // RGS - Tennessee
       "7tz3dScxJNSM7K40v3Mu", // RGS - North Carolina
