@@ -20,13 +20,12 @@
 
     // determine if RGS
     let rgsLocs = [
-      "u0xYynqb9PEFkuewCh4F", // Master
-      "XgBRlgIvbiQlLizRgnjG", // RGS - Michigan
-      "C1tx0XoUFC059waavPpS", // RGS - Tennessee
-      "quhFQFjcH6lgEWr4iVEZ", // RGS - North Carolina
-      "OF1PbONIvKzsdABpQsw5", // RGS - South Carolina
-      "AxefNwIpctQjPRWP9yEy", // RGS - North Florida
-      "SIgSwKWxh7r13r3tmPc6", // RGS - South Florida
+      "OXIzfj0fBydG4MMeurhu", // RGS - Michigan
+      "dLOpvKeO7lGMVObMumBt", // RGS - Tennessee
+      "7tz3dScxJNSM7K40v3Mu", // RGS - North Carolina
+      "4UeJWV7KmDuCHyDDOGMC", // RGS - South Carolina
+      "CKKMn7gB07xkzoRba2Zf", // RGS - North Florida
+      "mk8gnVRVUDIyTKfbagR5", // RGS - South Florida
     ];
     return rgsLocs.includes(locationID);
   }
