@@ -1,41 +1,6 @@
 (async () => {
-  function isRGS() {
-    const urlParams = new URLSearchParams(window.location.search);
-    let locationID;
-    let locationSources = [
-      urlParams.get("location"),
-      urlParams.get("locationID"),
-      window.location.href.split("/")[3],
-      window.location.href.split("/")[4],
-      window.location.href.split("/")[5],
-    ];
-
-    for (let i = 0; i < locationSources.length; i++) {
-      // if not undefined and has a length of 20 characters
-      if (locationSources[i] && locationSources[i].length == 20) {
-        locationID = locationSources[i];
-        break;
-      }
-    }
-
-    // determine if RGS
-    let rgsLocs = [
-      "u0xYynqb9PEFkuewCh4F", // Master
-      "OXIzfj0fBydG4MMeurhu", // RGS - Michigan
-      "dLOpvKeO7lGMVObMumBt", // RGS - Tennessee
-      "7tz3dScxJNSM7K40v3Mu", // RGS - North Carolina
-      "4UeJWV7KmDuCHyDDOGMC", // RGS - South Carolina
-      "CKKMn7gB07xkzoRba2Zf", // RGS - North Florida
-      "mk8gnVRVUDIyTKfbagR5", // RGS - South Florida
-    ];
-    return rgsLocs.includes(locationID);
-  }
-
-  // fetch from https://kairoscloud.github.io/main/Assets/json/universal-config.json or /rgs-config.json for RGS locations
-  let configFile = isRGS() ? "rgs-config.json" : "universal-config.json";
-  console.log("ConfigFile: " + configFile);
   let cfRes = await fetch(
-    "https://kairoscloud.github.io/main/Assets/json/" + configFile,
+    "https://kairoscloud.github.io/main/Assets/json/universal-config.json",
   );
   let cfData = await cfRes.json();
   var agency_id = "1x762kiz4";
