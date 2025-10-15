@@ -1,8 +1,9 @@
 (async () => {
   // fetch from https://kairoscloud.github.io/main/Assets/json/universal-config.json
   // set it as customizer_config and preview config
+  let configFile = window.location.href.includes("#demo-group") ? "demo-config.json" : "universal-config.json";
   let cfRes = await fetch(
-    "https://kairoscloud.github.io/main/Assets/json/universal-config.json",
+    "https://kairoscloud.github.io/main/Assets/json/" + configFile,
   );
   let cfData = await cfRes.json();
   var agency_id = "1x762kiz4";
