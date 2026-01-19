@@ -1,206 +1,225 @@
-document.write(`
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.2/ace.min.js"></script>
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-  background: #ffffff;
-  color: #333;
-  padding: 20px;
-}
+  // 1. Define the Default JSON Data
+  // We format this as a string so it can be inserted into the editor
+  const defaultJson = JSON.stringify({
+    type: 'ContactTagUpdate',
+    locationId: 'owNEzpbrfBjp4weSARXD',
+    versionId: '65d907b2cca7ce7d6cbd8dae',
+    appId: '65d907b2cca7ce7d6cbd8dae',
+    id: 'r8r3HUYCrFlp8OmmuPpW',
+    firstName: 'Mauricio',
+    lastName: 'Jara',
+    email: 'maujaraar7@gmail.com',
+    additionalEmails: [],
+    phone: '+18038395112',
+    additionalPhones: [],
+    source: 'jostens alerts',
+    tags: ['manteno high school', 'student'],
+    country: 'US',
+    dateAdded: '2025-09-10T13:12:14.480Z',
+    customFields: [],
+    timezone: 'America/New_York',
+    timestamp: '2026-01-19T00:08:04.764Z',
+    webhookId: '665e4b20-c56c-4c62-b60a-f17c4021a73a',
+  }, null, 2); // Indented with 2 spaces
 
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-}
+  // 2. Define Styles and HTML Structure
+  const styles = `
+    <style>
+      :root {
+        --bg-color: #ffffff;
+        --border-color: #d1d5db;
+        --text-color: #374151;
+        --header-text: #111827;
+        --btn-bg: #f3f4f6;
+        --btn-hover: #e5e7eb;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 40px;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+      }
+      h1 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: var(--header-text);
+        font-weight: 500;
+      }
+      .workspace {
+        display: flex;
+        gap: 20px;
+        flex: 1;
+        min-height: 0; /* Important for flex child scrolling */
+      }
+      .panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .panel-header {
+        background-color: #f9fafb;
+        padding: 10px 15px;
+        border-bottom: 1px solid var(--border-color);
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--header-text);
+      }
+      #editor {
+        flex: 1;
+        font-size: 14px;
+      }
+      #response-container {
+        flex: 1;
+        padding: 0;
+        margin: 0;
+        overflow: auto;
+        background-color: #ffffff;
+        position: relative;
+      }
+      #response-output {
+        padding: 15px;
+        margin: 0;
+        font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+        font-size: 13px;
+        white-space: pre-wrap;
+        color: var(--text-color);
+      }
+      .controls {
+        margin-top: 20px;
+        display: flex;
+        justify-content: flex-start;
+      }
+      #send-btn {
+        background-color: var(--btn-bg);
+        border: 1px solid var(--border-color);
+        color: var(--header-text);
+        padding: 10px 24px;
+        font-size: 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background 0.2s;
+        font-weight: 500;
+      }
+      #send-btn:hover {
+        background-color: var(--btn-hover);
+      }
+      #send-btn:active {
+        background-color: #d1d5db;
+      }
+      .status-line {
+        margin-bottom: 10px;
+        font-weight: bold;
+        color: #000;
+      }
+    </style>
+  `;
 
-h1 {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
-}
+  const html = `
+    ${styles}
+    <h1>Webhook Endpoint Tester</h1>
+    <div class="workspace">
+      <!-- Left Panel: Request Body -->
+      <div class="panel">
+        <div class="panel-header">Request Body (JSON)</div>
+        <div id="editor"></div>
+      </div>
 
-.panels {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-}
-
-.panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.panel-title {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 8px;
-  color: #666;
-}
-
-#editor {
-  height: 500px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-#response {
-  height: 500px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 12px;
-  background: #fafafa;
-  overflow-y: auto;
-  font-family: 'Courier New', monospace;
-  font-size: 13px;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  color: #333;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
-}
-
-#sendBtn {
-  padding: 12px 40px;
-  font-size: 15px;
-  font-weight: 500;
-  background: #333;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-#sendBtn:hover {
-  background: #555;
-}
-
-#sendBtn:active {
-  background: #222;
-}
-
-#sendBtn:disabled {
-  background: #999;
-  cursor: not-allowed;
-}
-</style>
-
-<div class="container">
-  <h1>Endpoint Tester</h1>
-  <div class="panels">
-    <div class="panel">
-      <div class="panel-title">Request Body</div>
-      <div id="editor"></div>
+      <!-- Right Panel: Response -->
+      <div class="panel">
+        <div class="panel-header">Response</div>
+        <div id="response-container">
+            <pre id="response-output">Ready to send...</pre>
+        </div>
+      </div>
     </div>
-    <div class="panel">
-      <div class="panel-title">Response</div>
-      <div id="response">Response will appear here...</div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <button id="send-btn">Send POST Request</button>
     </div>
-  </div>
-  <div class="button-container">
-    <button id="sendBtn">Send Request</button>
-  </div>
-</div>
-`);
+  `;
 
-const defaultJson = {
-  type: "ContactTagUpdate",
-  locationId: "owNEzpbrfBjp4weSARXD",
-  versionId: "65d907b2cca7ce7d6cbd8dae",
-  appId: "65d907b2cca7ce7d6cbd8dae",
-  id: "r8r3HUYCrFlp8OmmuPpW",
-  firstName: "Mauricio",
-  lastName: "Jara",
-  email: "maujaraar7@gmail.com",
-  additionalEmails: [],
-  phone: "+18038395112",
-  additionalPhones: [],
-  source: "jostens alerts",
-  tags: ["manteno high school", "student"],
-  country: "US",
-  dateAdded: "2025-09-10T13:12:14.480Z",
-  customFields: [],
-  timezone: "America/New_York",
-  timestamp: "2026-01-19T00:08:04.764Z",
-  webhookId: "665e4b20-c56c-4c62-b60a-f17c4021a73a",
-};
+  // 3. Write HTML to Document
+  document.write(html);
 
-const editor = ace.edit("editor");
-editor.setTheme("ace/theme/chrome");
-editor.session.setMode("ace/mode/json");
-editor.setValue(JSON.stringify(defaultJson, null, 2), -1);
-editor.setOptions({
-  fontSize: "13px",
-  showPrintMargin: false,
-  highlightActiveLine: true,
-  showGutter: true,
-});
+  // 4. Load Ace Editor Script Dynamically
+  const aceScript = document.createElement('script');
+  aceScript.src = "https://cdnjs.cloudflare.com/ajax/libs/ace/1.32.3/ace.js";
+  aceScript.onload = initApp; // Run initApp when script loads
+  document.head.appendChild(aceScript);
 
-const responseDiv = document.getElementById("response");
-const sendBtn = document.getElementById("sendBtn");
+  // 5. Main Logic (Runs after Ace loads)
+  function initApp() {
+    // Initialize Ace Editor
+    const editor = ace.edit("editor");
+    editor.setTheme("ace/theme/chrome"); // Light/Neutral theme
+    editor.session.setMode("ace/mode/json");
+    editor.setValue(defaultJson, -1); // -1 moves cursor to start
+    editor.setShowPrintMargin(false);
 
-sendBtn.addEventListener("click", async () => {
-  const requestBody = editor.getValue();
+    // Get Elements
+    const btn = document.getElementById('send-btn');
+    const output = document.getElementById('response-output');
+    const targetUrl = 'https://handletagwebhook.jacob-9f8.workers.dev/';
 
-  try {
-    JSON.parse(requestBody);
-  } catch (e) {
-    responseDiv.textContent =
-      "Error: Invalid JSON in request body\n\n" + e.message;
-    return;
-  }
+    // Handle Click
+    btn.addEventListener('click', async () => {
+      // UI Loading State
+      btn.textContent = 'Sending...';
+      btn.disabled = true;
+      output.textContent = 'Sending request...';
 
-  sendBtn.disabled = true;
-  sendBtn.textContent = "Sending...";
-  responseDiv.textContent = "Sending request...";
+      const requestBody = editor.getValue();
 
-  try {
-    const startTime = Date.now();
-    const response = await fetch(
-      "https://handletagwebhook.jacob-9f8.workers.dev/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: requestBody,
-      },
-    );
+      // Validate JSON locally before sending
+      try {
+        JSON.parse(requestBody);
+      } catch (e) {
+        output.textContent = "Error: Invalid JSON in request body.\n" + e.message;
+        resetButton();
+        return;
+      }
 
-    const duration = Date.now() - startTime;
-    const responseText = await response.text();
+      try {
+        const response = await fetch(targetUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: requestBody
+        });
 
-    let output = `Status: ${response.status} ${response.statusText}\n`;
-    output += `Duration: ${duration}ms\n`;
-    output += `\nHeaders:\n`;
-    response.headers.forEach((value, key) => {
-      output += `  ${key}: ${value}\n`;
+        const statusText = `Status: ${response.status} ${response.statusText}\n\n`;
+        let responseText = await response.text();
+
+        // Try to pretty print JSON response if possible
+        try {
+          const jsonRes = JSON.parse(responseText);
+          responseText = JSON.stringify(jsonRes, null, 2);
+        } catch (e) {
+          // Response wasn't JSON, keep as text
+        }
+
+        output.textContent = statusText + responseText;
+
+      } catch (error) {
+        output.textContent = "Network Error:\n" + error.message + "\n\n(Check console for CORS details if the server does not allow browser requests)";
+      } finally {
+        resetButton();
+      }
     });
-    output += `\nBody:\n`;
 
-    try {
-      const jsonResponse = JSON.parse(responseText);
-      output += JSON.stringify(jsonResponse, null, 2);
-    } catch {
-      output += responseText;
+    function resetButton() {
+      btn.textContent = 'Send POST Request';
+      btn.disabled = false;
     }
-
-    responseDiv.textContent = output;
-  } catch (error) {
-    responseDiv.textContent = "Error: " + error.message;
-  } finally {
-    sendBtn.disabled = false;
-    sendBtn.textContent = "Send Request";
   }
-});
