@@ -161,7 +161,7 @@
   function initApp() {
     // Initialize Ace Editor
     const editor = ace.edit("editor");
-    editor.setTheme("ace/theme/chrome"); // Light/Neutral theme
+    editor.setTheme("ace/theme/chaos");; // Light/Neutral theme
     editor.session.setMode("ace/mode/json");
     editor.setValue(defaultJson, -1); // -1 moves cursor to start
     editor.setShowPrintMargin(false);
