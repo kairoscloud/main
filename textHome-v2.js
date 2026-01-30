@@ -7,6 +7,64 @@ console.log("Campaign ID: " + campaignID);
 let button = document.querySelector(".btn.btn-dark.button-element");
 button.addEventListener("click", processClick);
 
+init();
+async function init() {
+  console.log("Fetching campaign data...");
+  let response = await fetch(
+    `https://getcampaign.jacob-9f8.workers.dev/?locationID=${locationID}&campaignID=${campaignID}`,
+  );
+  window.campaignData = await response.json();
+  let data = window.campaignData;
+  console.log("Fetched campaign data:", data);
+
+  // find-replace all instances of [[custom_field]] in the DOM HTML with their corresponding campaign data. Use this key:
+  // [[school_name]] -> schoolName
+  // [[school_location]] -> schoolLocation
+  // [[school_mascot]] -> mascot
+  // [[school_logo_link]] -> schoolLogoLink
+  // [[jostens_website_link]] -> jostensWebsiteLink
+  // [[landing_page_1]] -> landingPage1
+  // [[landing_page_2]] -> landingPage2
+  // [[order_due_date]] -> orderDueDate
+  // [[campaign_name]] -> name
+  let replacements = {
+    "[[school_name]]": data.schoolName,
+    "[[school_location]]": data.schoolLocation,
+    "[[mascot]]": data.mascot,
+    "[[school_logo_link]]": data.schoolLogo,
+    "[[jostens_website_link]]": data.jostensWebsiteLink,
+    "[[landing_page_1]]": data.landingPage1,
+    "[[landing_page_2]]": data.landingPage2,
+    "[[order_due_date]]": data.orderDueDate,
+    "[[campaign_name]]": data.name,
+  };
+  // replace all instances of these in the DOM with their campaign data
+  let elements = document.getElementsByTagName("*");
+  for (let element of elements) {
+    // Check and replace in attributes (e.g. links, images)
+    for (let attr of element.attributes) {
+      if (attr.value.includes("[[") || attr.value.includes("%5B%5B")) {
+        let val = attr.value.replace(/%5B%5B/g, "[[").replace(/%5D%5D/g, "]]");
+        for (let [key, value] of Object.entries(replacements)) {
+          val = val.split(key).join(value || "");
+        }
+        attr.value = val;
+      }
+    }
+
+    // Check and replace in text nodes
+    for (let node of element.childNodes) {
+      if (node.nodeType === 3 && node.nodeValue.includes("[[")) {
+        let text = node.nodeValue;
+        for (let [key, value] of Object.entries(replacements)) {
+          text = text.split(key).join(value || "");
+        }
+        node.nodeValue = text;
+      }
+    }
+  }
+}
+
 async function processClick() {
   if (!document.getElementsByName("terms_and_conditions")[0]?.checked) {
     return;
@@ -20,13 +78,7 @@ async function processClick() {
     document.getElementsByName("phone")[0]?.value,
   );
 
-  // fetch this: https://getcampaign.jacob-9f8.workers.dev/?locationID=owNEzpbrfBjp4weSARXD&campaignID=7583dd9a464
-
-  let response = await fetch(
-    `https://getcampaign.jacob-9f8.workers.dev/?locationID=${locationID}&campaignID=${campaignID}`,
-  );
-  let data = await response.json();
-  console.log("Fetched campaign data:", data);
+  let data = window.campaignData;
 
   let campaignName = data.name;
   let orderDueDate = data.orderDueDate;
