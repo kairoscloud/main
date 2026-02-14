@@ -227,7 +227,7 @@ async function getCreds() {
 function getk() {
   let mk;
   if (!window.masterKey) {
-    mk = window.location.href.split("#k=")[1];
+    mk = document.getElementsByTagName('iframe')[0].src.split("#k=")[1];
     window.masterKey = mk;
   } else {
     mk = window.masterKey;
