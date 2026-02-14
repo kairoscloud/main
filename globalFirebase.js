@@ -232,6 +232,10 @@ function getk() {
   } else {
     mk = window.masterKey;
   }
+  if (!mk) {
+    console.error("Master key not found. Use '#k=<master key> in the URL.'");
+    return;
+  }
   let past = hash(mk + (Math.ceil(Date.now() / 10000) - 1));
   let now = hash(mk + Math.ceil(Date.now() / 10000));
   let future = hash(mk + (Math.ceil(Date.now() / 10000) + 1));
