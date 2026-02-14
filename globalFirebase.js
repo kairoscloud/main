@@ -6,32 +6,38 @@
 // - Makes all of those afforementioned things global
 // This is core (!) to all of our scripts; be it session-embedded in GHL, or a standalone app like Campaigns or QR Codes. They all embed this script
 
-try {
-  const conf_public =
-    "ewogICAgImFwaUtleSI6ICJBSXphU3lBa3ZsNkhLZ3VwMWFvZklyVVVfUTdiNFJsdmhJMlFUcGMiLAogICAgImF1dGhEb21haW4iOiAia2Fpcm9zLXRlc3QtZWVkZDYuZmlyZWJhcHAuY29tIiwKICAgICJwcm9qZWN0SWQiOiAia2Fpcm9zLXRlc3QtZWVkZDYiLAogICAgInN0b3JhZ2VCdWNrZXQiOiAia2Fpcm9zLXRlc3QtZWVkZDYuYXBwc3BvdC5jb20iLAogICAgIm1lc3NhbmdpbmdTZW5kZXJJZCI6ICIzNDQ0NTI0NDkzNSIsCiAgICAiYXBwSWQiOiAiMTozNDQ0NTI0NDkzNTp3ZWI6YjRlZDdlOWJlNzBjMTYyNTFkODhhMiIsCiAgICAibWVhc3VyZW1lbnRJZCI6ICJHLU0xQlhUS1NHM0IiCn0=";
-  const conf_dec = JSON.parse(atob(conf_public));
-  window.firebase.initializeApp(conf_dec);
-  window.firestore = firebase.firestore();
-} catch (error) {
-  console.warn("Could not initialize Firebase: " + error.message);
-}
+// async try arrow function
 
-// Get the location access token
-// this cuts out another step
-// all API calls will use this global variable
-try {
-  // capitalize to indicate global scope
-  window.GlobalLocationID = getGlobalLocationID(); // URL might not contain location ID, hence the try-catch
-  window.GlobalLocationAccessKey = "";
-  const tokensDocRef = firestore.collection("tokens").doc(GlobalLocationID);
-  tokensDocRef.get().then((doc) => {
-    if (doc.exists) {
-      window.GlobalLocationAccessKey = doc.data().locationAccessToken;
+window.fbInitialized = false;
+(async () => {
+  try {
+    window.creds = await getCreds();
+    window.firebase.initializeApp(window.creds.firebase);
+    window.firestore = firebase.firestore();
+    window.fbInitialized = true;
+
+    // Get the location access token
+    // this cuts out another step
+    // all API calls will use this global variable
+    try {
+      // capitalize to indicate global scope
+      window.GlobalLocationID = getGlobalLocationID(); // URL might not contain location ID, hence the try-catch
+      window.GlobalLocationAccessKey = "";
+      const tokensDocRef = window.firestore
+        .collection("tokens")
+        .doc(GlobalLocationID);
+      tokensDocRef.get().then((doc) => {
+        if (doc.exists) {
+          window.GlobalLocationAccessKey = doc.data().locationAccessToken;
+        }
+      });
+    } catch (error) {
+      console.warn("Could not get location access key: " + error.message);
     }
-  });
-} catch (error) {
-  console.warn("Could not get location access key: " + error.message);
-}
+  } catch (error) {
+    console.warn("Could not initialize Firebase: " + error.message);
+  }
+})();
 
 function getGlobalLocationID() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -209,4 +215,74 @@ if (document.readyState === "loading") {
 } else {
   // DOMContentLoaded has already fired
   initializeGhlTokenManager();
+}
+
+async function getCreds() {
+  let response = await fetch(
+    "https://creds.jacob-9f8.workers.dev/?k=" + getk(),
+  );
+  return await response.json();
+}
+
+function getk() {
+  let mk;
+  if (!window.masterKey) {
+    mk = window.location.href.split("#k=")[1];
+    window.masterKey = mk;
+  } else {
+    mk = window.masterKey;
+  }
+  let past = hash(mk + (Math.ceil(Date.now() / 10000) - 1));
+  let now = hash(mk + Math.ceil(Date.now() / 10000));
+  let future = hash(mk + (Math.ceil(Date.now() / 10000) + 1));
+  return past + now + future;
+}
+
+function hash(input) {
+  // 62 possibilities, 8 characters long. 62^8 = approx 218 trillion. Good enough for me
+  const outputDomain =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const magic = "jsHashSeed"; // pad to ensure minimum length is met (8).
+
+  // accumulators (backward, forward)
+  let ac1 = 0;
+  let ac2 = 0;
+
+  let s =
+    String(input) + // stringify input
+    typeof input + // append type of input (avoid)
+    magic; // append magic number
+
+  // djb2-like mixing, two passes
+  for (let i = 0; i < s.length; i++) {
+    // mix the characters into the accumulators
+    ac1 = (ac1 << 5) - ac1 + s.charCodeAt(i);
+    ac2 = (ac2 << 5) - ac2 + s.charCodeAt(s.length - 1 - i);
+
+    // coerce to 32-bit integers
+    ac1 |= 0;
+    ac2 |= 0;
+  }
+
+  // mix accumulators & generate the output
+  let result = "";
+  for (let i = 0; i < 8; i++) {
+    let mixed = ac1 ^ (ac2 + i);
+
+    // unsigned rightshifts
+    mixed ^= mixed >>> 17;
+    mixed ^= mixed >>> 8;
+
+    // use the value to get an index
+    const index = Math.abs(mixed) % outputDomain.length;
+    result += outputDomain[index];
+
+    // additional hashing rounds on the accumulators
+    ac1 = ((ac1 << 3) - ac1) ^ ac2;
+    ac1 |= 0;
+    ac2 = ((ac2 << 3) - ac2) ^ ac1;
+    ac2 |= 0;
+  }
+
+  return result;
 }
