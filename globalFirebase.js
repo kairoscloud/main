@@ -236,10 +236,11 @@ function getk() {
     console.error("Master key not found. Use '#k=<master key> in the URL.'");
     return;
   }
-  let past = hash(mk + (Math.ceil(Date.now() / 10000) - 1));
-  let now = hash(mk + Math.ceil(Date.now() / 10000));
-  let future = hash(mk + (Math.ceil(Date.now() / 10000) + 1));
-  return past + now + future;
+  let now = Math.ceil(Date.now() / 10000);
+  let past = hash(mk + (now - 1));
+  let present = hash(mk + now);
+  let future = hash(mk + (now + 1));
+  return past + present + future;
 }
 
 function hash(input) {
